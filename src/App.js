@@ -1,24 +1,24 @@
-import './App.css';
-import Header from './Header';
-import Sidebar from './Sidebar';
-import Feed from './Feed';
-
+import "./App.css";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import Feed from "./Feed";
+import Notices from "./Notices";
 
 function App() {
   return (
     <div className="app">
-        {/* header */}
-        <Header />
-        <div className='app__body'>
-          {/* leftsidebar */}
-          <Sidebar />
-          <Feed />
-        
+      {/* header */}
+      <Header />
+      <div className="app__body">
+        {/* leftsidebar */}
+        <Sidebar />
+        <Feed />
+        {/*Notices */}
+        <Notices />
+
         {/* main */}
         {/* right sidebar */}
-        </div>
-        
-
+      </div>
     </div>
   );
 }

@@ -9,7 +9,7 @@ function App() {
     <div className="app">
         {/* header */}
         <Header />
-        <div className='app__body'>
+        <div className='app__body '>
           {/* leftsidebar */}
           <Sidebar />
           <Feed />

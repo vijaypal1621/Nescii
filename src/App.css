@@ -4,3 +4,6 @@
 body {
   --nescii : #16a596;
 }
+.app__body{
+  display: flex;
+}

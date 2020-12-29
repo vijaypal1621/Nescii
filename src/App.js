@@ -7,13 +7,14 @@ import Notices from "./Notices";
 function App() {
   return (
     <div className="app">
-        {/* header */}
-        <Header />
-        <div className='app__body '>
-          {/* leftsidebar */}
-          <Sidebar />
-          <Feed />
+      {/* header */}
+      <Header />
+      <div className="app__body ">
+        {/* leftsidebar */}
+        <Sidebar />
+        <Feed />
         {/* main */}
+        <Notices />
         {/* right sidebar */}
       </div>
     </div>

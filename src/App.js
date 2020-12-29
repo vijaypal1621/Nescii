@@ -13,6 +13,7 @@ function App() {
           {/* leftsidebar */}
           <Sidebar />
           <Feed />
+          <Notices />
         {/* main */}
         {/* right sidebar */}
       </div>

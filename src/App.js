@@ -1,8 +1,8 @@
-import './App.css';
-import Header from './Header';
-import Sidebar from './Sidebar';
-import Feed from './Feed';
-
+import "./App.css";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import Feed from "./Feed";
+import Notices from "./Notices";
 
 function App() {
   return (
@@ -13,12 +13,9 @@ function App() {
           {/* leftsidebar */}
           <Sidebar />
           <Feed />
-        
         {/* main */}
         {/* right sidebar */}
-        </div>
-        
-
+      </div>
     </div>
   );
 }

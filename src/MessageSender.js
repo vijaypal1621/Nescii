@@ -36,20 +36,6 @@ function MessageSender() {
           <h3>Article</h3>
         </div>
       </div>
-
-      <div className="messageSender__option">
-        <PlayCircleFilledIcon style={{ color: "red" }} />
-        <h3>Live Video</h3>
-      </div>
-
-      <div className="messageSender__option">
-        <EventIcon style={{ color: "orange" }} />
-        <h3>Feeling Activity</h3>
-      </div>
-      <div className="messageSender__option">
-        <DescriptionIcon style={{ color: "orange" }} />
-        <h3>Feeling Activity</h3>
-      </div>
     </div>
   );
 }

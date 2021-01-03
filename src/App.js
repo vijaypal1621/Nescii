@@ -1,6 +1,7 @@
 import "./App.css";
 import Header from "./Header";
 import Home from './Home';
+import Society from './Society';
 
 function App() {
   return (
@@ -8,7 +9,8 @@ function App() {
         {/* header */}
         <Header />
         <div className='app__body '>
-          <Home />
+          {/* <Home /> */}
+          <Society />
 
 
 

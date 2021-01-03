@@ -1,8 +1,6 @@
 import "./App.css";
 import Header from "./Header";
-import Sidebar from "./Sidebar";
-import Feed from "./Feed";
-import Notices from "./Notices";
+import Home from './Home';
 
 function App() {
   return (
@@ -10,13 +8,12 @@ function App() {
         {/* header */}
         <Header />
         <div className='app__body '>
-          {/* leftsidebar */}
-          <Sidebar />
-          <Feed />
-          <Notices />
-        {/* main */}
-        {/* right sidebar */}
+          <Home />
+
+
+
       </div>
+        
     </div>
   );
 }

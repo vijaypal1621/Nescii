@@ -3,7 +3,7 @@
     align-items: center;
 }
 .sidebarOption:hover {
-    background-color: greenyellow;
+    background-color: #74c7b8;
     cursor: pointer;
 }
 .sidebarOption > img{

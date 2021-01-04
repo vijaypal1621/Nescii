@@ -1,40 +1,17 @@
 import "./App.css";
 import Header from "./Header";
-<<<<<<< HEAD
-import Sidebar from "./Sidebar";
-import Feed from "./Feed";
-import Notices from "./Notices";
-=======
-import Home from './Home';
-import Society from './Society';
->>>>>>> d915217c2c101812921b027dab1ff4736f2372ab
+import Home from "./Home";
+import Society from "./Society";
 
 function App() {
   return (
     <div className="app">
-<<<<<<< HEAD
       {/* header */}
       <Header />
       <div className="app__body ">
-        {/* leftsidebar */}
-        <Sidebar />
-        <Feed />
-        {/* main */}
-        <Notices />
-        {/* right sidebar */}
+        {/* <Home /> */}
+        <Society />
       </div>
-=======
-        {/* header */}
-        <Header />
-        <div className='app__body '>
-          {/* <Home /> */}
-          <Society />
-
-
-
-      </div>
-        
->>>>>>> d915217c2c101812921b027dab1ff4736f2372ab
     </div>
   );
 }

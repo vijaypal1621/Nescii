@@ -1,6 +1,16 @@
 import cheerioModule from "cheerio";
 import React from "react";
 
+function RenderNotice({ notice }) {
+  return (
+    <div>
+      <p>{notice.date}</p>
+      <h1>{notice.title}</h1>
+      <p>{notice.publisher}</p>
+    </div>
+  );
+}
+
 function Notices() {
   const proxyurl = "https://cors-anywhere.herokuapp.com/";
   const url = "https://www.imsnsit.org/imsnsit/notifications.php";
@@ -25,7 +35,21 @@ function Notices() {
     })
     .catch(() => console.log("Can’t access " + url + " response."));
   console.log(notices);
-  return <h1>Notices</h1>;
+
+  const noticesList = notices.map((notice) => {
+    return (
+      <li>
+        <RenderNotice notice={notice} />
+      </li>
+    );
+  });
+
+  return (
+    <div>
+      <h1>Notices</h1>
+      <ul>{noticesList}</ul>
+    </div>
+  );
 }
 
 export default Notices;

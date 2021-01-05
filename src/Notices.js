@@ -1,55 +1,112 @@
 import cheerioModule from "cheerio";
-import React from "react";
+import React, { Component } from "react";
+import {
+  Button,
+  Divider,
+  Link,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 
-function RenderNotice({ notice }) {
-  return (
-    <div>
-      <p>{notice.date}</p>
-      <h1>{notice.title}</h1>
-      <p>{notice.publisher}</p>
-    </div>
-  );
+const RenderNotice = ({ notice }) => {
+  if (notice) {
+    return (
+      <Paper
+        elevation={2}
+        style={{ marginBottom: "1rem", backgroundColor: "#FFFAF0" }}
+      >
+        <ListItem alignItems="flex-start">
+          <ListItemText
+            primary={<Link href={notice.url}>{notice.title}</Link>}
+            secondary={
+              <>
+                {notice.date} <br />
+                <Typography
+                  component="span"
+                  variant="body2"
+                  color="textPrimary"
+                >
+                  {notice.publisher}
+                </Typography>
+              </>
+            }
+          ></ListItemText>
+        </ListItem>
+        <Divider variant="middle" component="li" />
+      </Paper>
+    );
+  } else {
+    return <div></div>;
+  }
+};
+
+function DisplayNotices({ notices }) {
+  return notices.slice(0, 5).map((notice) => {
+    return <RenderNotice notice={notice} />;
+  });
 }
 
-function Notices() {
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";
-  const url = "https://www.imsnsit.org/imsnsit/notifications.php";
-  const notices = [];
-  fetch(proxyurl + url)
-    .then((response) => response.text())
-    .then((html) => {
-      const $ = cheerioModule.load(html);
-      $("tr")
-        .slice(4)
-        .each((index, notice) => {
-          if (notice.children.length !== 1) {
-            const noticeObject = {
-              url: $(notice).find("a").attr("href"),
-              date: notice.firstChild.firstChild.firstChild.data.trim(),
-              publisher: $(notice).find("b").text(),
-              title: $(notice).find("a").text(),
-            };
-            notices.push(noticeObject);
-          }
-        });
-    })
-    .catch(() => console.log("Can’t access " + url + " response."));
-  console.log(notices);
+class Notices extends Component {
+  constructor() {
+    super();
+    this.state = { notices: [] };
+  }
 
-  const noticesList = notices.map((notice) => {
+  componentDidMount() {
+    const noticesArray = [];
+    fetch(
+      "https://cors-anywhere.herokuapp.com/https://www.imsnsit.org/imsnsit/notifications.php"
+    )
+      .then((response) => response.text())
+      .then((html) => {
+        const $ = cheerioModule.load(html);
+        $("tr")
+          .slice(4)
+          .each((index, notice) => {
+            if (notice.children.length !== 1) {
+              const noticeObject = {
+                url: $(notice).find("a").attr("href"),
+                date: notice.firstChild.firstChild.firstChild.data.trim(),
+                publisher: $(notice).find("b").text(),
+                title: $(notice).find("a").text(),
+              };
+              noticesArray.push(noticeObject);
+            }
+          });
+        return noticesArray;
+      })
+      .then((notices) => this.setState({ notices: notices }))
+      .catch(() =>
+        console.log(
+          "Can’t access https://www.imsnsit.org/imsnsit/notifications.php response."
+        )
+      );
+  }
+
+  render() {
     return (
-      <li>
-        <RenderNotice notice={notice} />
-      </li>
+      <div>
+        <h1>
+          <center>Notices</center>
+        </h1>
+        <List component="ul">
+          <DisplayNotices notices={this.state.notices} />
+        </List>
+        <Button variant="contained" centerRipple={true}>
+          <Link
+            href="https://www.imsnsit.org/imsnsit/notifications.php"
+            color="inherit"
+            variant="button"
+          >
+            See More
+          </Link>
+        </Button>
+      </div>
     );
-  });
-
-  return (
-    <div>
-      <h1>Notices</h1>
-      <ul>{noticesList}</ul>
-    </div>
-  );
+  }
 }
 
 export default Notices;

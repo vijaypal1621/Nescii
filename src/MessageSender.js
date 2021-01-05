@@ -1,6 +1,5 @@
 import React from "react";
 import "./MessageSender.css";
-import BorderColorSharpIcon from "@material-ui/icons/BorderColorSharp";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import EventIcon from "@material-ui/icons/Event";

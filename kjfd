@@ -1,0 +1,33 @@
+[33mc0d0c5e[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m Events section completed
+[33m6204bbf[m Event comp styled and positoned
+[33m4954c2a[m Events comp structured and styled
+[33m00ad07e[m Notice section styled
+[33m0b970bc[m Merge pull request #2 from aaryanrajsarda/master
+[33mcaacf01[m Notices Updated, Tooltips added in Header
+[33m5b55627[m Widgets comp added
+[33m2f1fb4e[m structural changes
+[33m15a2ec6[m Structural Changes
+[33m49ea2a6[m notices update
+[33md915217[m Society name changes statically
+[33mbd57c72[m SocietySidebar comp structured
+[33mc3e261c[m structure of society page added
+[33mc094c24[m home page is confined in Home comp
+[33m618769f[m messageSender
+[33m65e6b28[m Notices comp added
+[33mdc0ebea[m notices
+[33m9cde761[m Notices (#1)
+[33m4286752[m Merge branch 'master' into master
+[33mc3826ad[m new files added to gitignore
+[33m7d892b2[m new test-post added
+[33m61d3815[m Notices
+[33mabb65f8[m Sidebar__profile positioning updated
+[33mae08929[m Post comp styling and structure done
+[33mc4ffbdf[m positioning issue of feed solved
+[33me191c4b[m issue in positioning
+[33m35ed8ab[m MessageSender Comp of Feed Comp styling completed
+[33mc6ab650[m Feed component added
+[33m09cc557[m Sidebar Styling updated
+[33m822faa2[m Sidebar component added
+[33m3de364f[m Header Component updated
+[33m5dc6b41[m initial setup
+[33m36345b6[m Initialize project using Create React App

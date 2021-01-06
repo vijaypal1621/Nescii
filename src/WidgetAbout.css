@@ -1,0 +1,10 @@
+.about{
+    background-color: floralwhite;
+    border: 2px solid black;
+    padding: 10px;
+    margin-top: 30px;
+    border-radius: 10px;
+}
+.about > h2{
+    text-align: center;
+}

@@ -1,4 +1,5 @@
 .widgets{
     flex: 0.4;
-    justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
 }

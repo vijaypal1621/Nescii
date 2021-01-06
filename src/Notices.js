@@ -88,7 +88,7 @@ class Notices extends Component {
 
   render() {
     return (
-      <div>
+      <div className='notice'>
         <h1>
           <center>Notices</center>
         </h1>

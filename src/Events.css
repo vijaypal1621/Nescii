@@ -1,0 +1,6 @@
+.events{
+    flex: 0.4;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}

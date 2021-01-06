@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import SocietySidebar from './SocietySidebar';
 import MessageSender from './MessageSender';
@@ -17,6 +18,17 @@ function Society() {
             <Feed />
         </div>
     )
+=======
+import React from "react";
+import SocietySidebar from "./SocietySidebar";
+
+function Society() {
+  return (
+    <div className="society" style={{ display: "flex" }}>
+      <SocietySidebar />
+    </div>
+  );
+>>>>>>> 0b970bc7291de8efa1d5a019de5bd2c69971de0c
 }
 
 export default Society;

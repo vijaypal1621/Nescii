@@ -2,17 +2,22 @@ import "./App.css";
 import Header from "./Header";
 import Home from "./Home";
 import Society from "./Society";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 function App() {
   return (
-    <div className="app">
-      {/* header */}
-      <Header />
-      <div className="app__body ">
-        {/* <Home /> */}
-        <Society />
+    <BrowserRouter>
+      <div className="app">
+        <Header />
+        <div className="app__body ">
+          <Switch>
+            <Route path="/home" component={Home} />
+            <Route path="/societies" component={Society} />
+            <Redirect to="/home" />
+          </Switch>
+        </div>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 

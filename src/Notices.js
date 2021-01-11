@@ -20,7 +20,11 @@ const RenderNotice = ({ notice }) => {
       >
         <ListItem alignItems="flex-start">
           <ListItemText
-            primary={<Link href={notice.url}>{notice.title}</Link>}
+            primary={
+              <Link href={notice.url} target="_blank" rel="noopener">
+                {notice.title}
+              </Link>
+            }
             secondary={
               <>
                 {notice.date} <br />
@@ -88,7 +92,7 @@ class Notices extends Component {
 
   render() {
     return (
-      <div className='notice'>
+      <div className="notice">
         <h1>
           <center>Notices</center>
         </h1>
@@ -98,6 +102,8 @@ class Notices extends Component {
         <Button variant="contained" centerRipple={true}>
           <Link
             href="https://www.imsnsit.org/imsnsit/notifications.php"
+            target="_blank"
+            rel="noopener"
             color="inherit"
             variant="button"
           >

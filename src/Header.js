@@ -2,13 +2,20 @@ import React from "react";
 import "./Header.css";
 import SearchIcon from "@material-ui/icons/Search";
 import HomeIcon from "@material-ui/icons/Home";
-import { Avatar, IconButton, Tooltip } from "@material-ui/core";
+import {
+  Avatar,
+  BottomNavigation,
+  BottomNavigationAction,
+  IconButton,
+  Tooltip,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ForumIcon from "@material-ui/icons/Forum";
 import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import ApartmentIcon from "@material-ui/icons/Apartment";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   return (
@@ -23,17 +30,23 @@ function Header() {
       <div className="header__center">
         <div className="header__option header__option--active">
           <Tooltip title="Home">
-            <HomeIcon fontSize="large" />
+            <NavLink to="/home">
+              <HomeIcon fontSize="large" />
+            </NavLink>
           </Tooltip>
         </div>
         <div className="header__option">
           <Tooltip title="Societies">
-            <ApartmentIcon fontSize="large" />
+            <NavLink to="/societies">
+              <ApartmentIcon fontSize="large" />
+            </NavLink>
           </Tooltip>
         </div>
         <div className="header__option">
           <Tooltip title="Resources">
-            <AssignmentIcon fontSize="large" />
+            <NavLink to="/resources">
+              <AssignmentIcon fontSize="large" />
+            </NavLink>
           </Tooltip>
         </div>
       </div>

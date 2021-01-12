@@ -1,4 +1,11 @@
-import { IconButton, Modal, FormControl } from "@material-ui/core";
+import {
+  IconButton,
+  Modal,
+  FormControl,
+  TextField,
+  InputLabel,
+  Input,
+} from "@material-ui/core";
 import React from "react";
 import "./SocietySidebar.css";
 import SocietySidebarOption from "./SocietySidebarOption";
@@ -15,9 +22,28 @@ function SocietySidebar() {
 
   return (
     <>
-      <Modal open={open} onClose={handleClose}>
-        <div>
-          <form></form>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        style={{ display: "grid", placeItems: "center" }}
+      >
+        <div style={{ backgroundColor: "white", padding: "2rem" }}>
+          <form>
+            <FormControl>
+              <InputLabel htmlFor="name-of-society">Name</InputLabel>
+              <Input id="name-of-society" type="text" />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="logo-of-society">Logo</InputLabel>
+              <Input id="logo-of-society" type="image" />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="about-of-society" variant="outlined">
+                About
+              </InputLabel>
+              <Input id="about-of-society" />
+            </FormControl>
+          </form>
         </div>
       </Modal>
       <div className="society-sidebar">

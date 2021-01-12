@@ -6,5 +6,7 @@
 }
 .add__button{
     color: white;
-    margin-left: 100px;
+    margin-left: 75px;
+    border: 2px solid  whitesmoke;
+    border-radius: 10px;
 }

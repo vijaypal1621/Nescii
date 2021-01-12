@@ -23,8 +23,8 @@ function SocietySidebar() {
         </div>
       </Modal>
       <div className="society-sidebar">
-        <IconButton component="span" className="add__button">
-          <AddIcon  onClick={handleOpen} />
+        <IconButton component="span"  >
+          <AddIcon className="add__button" onClick={handleOpen} />
         </IconButton>
         <hr />
         <SocietySidebarOption

@@ -92,7 +92,7 @@ class Notices extends Component {
 
   render() {
     return (
-      <div className="notice">
+      <div className="notice" style={{ flex: 0.3 }}>
         <h1>
           <center>Notices</center>
         </h1>

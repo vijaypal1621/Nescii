@@ -47,9 +47,10 @@ function SocietySidebar() {
         </div>
       </Modal>
       <div className="society-sidebar">
-        <IconButton component="span">
+        <IconButton component="span" className="add__button">
           <AddIcon onClick={handleOpen} />
         </IconButton>
+        <hr />
         <SocietySidebarOption
           url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
           title="Ashwamedh"

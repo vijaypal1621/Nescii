@@ -4,3 +4,7 @@
     flex: 0.1;
     /* min-height: 89vh; */
 }
+.add__button{
+    color: white;
+    margin-left: 100px;
+}

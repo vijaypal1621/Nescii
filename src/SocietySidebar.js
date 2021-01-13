@@ -3,6 +3,8 @@ import React from "react";
 import "./SocietySidebar.css";
 import SocietySidebarOption from "./SocietySidebarOption";
 import AddIcon from "@material-ui/icons/Add";
+import MessageSender from './MessageSender';
+
 
 function SocietySidebar() {
   const [open, setOpen] = React.useState(false);
@@ -17,13 +19,15 @@ function SocietySidebar() {
     <>
       <Modal open={open} onClose={handleClose}>
         <div>
-          <form></form>
+          <form>
+          </form>
         </div>
       </Modal>
       <div className="society-sidebar">
-        <IconButton component="span">
-          <AddIcon onClick={handleOpen} />
+        <IconButton component="span"  >
+          <AddIcon className="add__button" onClick={handleOpen} />
         </IconButton>
+        <hr />
         <SocietySidebarOption
           url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
           title="Ashwamedh"

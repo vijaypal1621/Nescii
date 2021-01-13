@@ -1,12 +1,12 @@
 import React from "react";
-import "./MessageSender.css";
+import "./SocietyMessageSender.css";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
-// import EventIcon from "@material-ui/icons/Event";
-import DescriptionIcon from "@material-ui/icons/Description";
+import EventIcon from "@material-ui/icons/Event";
+// import DescriptionIcon from "@material-ui/icons/Description";
 import { Avatar } from "@material-ui/core";
 
-function MessageSender() {
+function SocietyMessageSender() {
   return (
     <div className="message">
       <div className="messageSender__top">
@@ -25,13 +25,14 @@ function MessageSender() {
           <PlayCircleFilledIcon style={{ color: "red" }} />
           <h3>Video</h3>
         </div>
+
         <div className="messageSender__option">
-          <DescriptionIcon style={{ color: "orange" }} />
-          <h3>Article</h3>
+          <EventIcon style={{ color: "orange" }} />
+          <h3>Event</h3>
         </div>
       </div>
     </div>
   );
 }
 
-export default MessageSender;
+export default SocietyMessageSender;

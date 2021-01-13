@@ -22,6 +22,7 @@ function Events() {
              title='Street Play' 
              timeline='24 march 2021' 
              place='Netaji Subhash University of technology' />
+             
 
             
         </div>

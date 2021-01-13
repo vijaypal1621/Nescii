@@ -37,9 +37,7 @@ function Header() {
                 setCurrent("home");
               }}
             >
-
-              <HomeIcon style={{color:" #16a596"}} fontSize="large" />
-
+              <HomeIcon style={{ color: " #16a596" }} fontSize="large" />
             </NavLink>
           </Tooltip>
         </div>
@@ -53,9 +51,7 @@ function Header() {
                 setCurrent("societies");
               }}
             >
-
-              <ApartmentIcon style={{color:" #16a596"}} fontSize="large" />
-
+              <ApartmentIcon style={{ color: " #16a596" }} fontSize="large" />
             </NavLink>
           </Tooltip>
         </div>
@@ -69,7 +65,7 @@ function Header() {
                 setCurrent("resources");
               }}
             >
-              <AssignmentIcon style={{color:" #16a596"}} fontSize="large" />
+              <AssignmentIcon style={{ color: " #16a596" }} fontSize="large" />
             </NavLink>
           </Tooltip>
         </div>

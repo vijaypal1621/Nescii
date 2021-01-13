@@ -1,30 +1,216 @@
-import { IconButton, Modal, FormControl } from "@material-ui/core";
-import React from "react";
+import {
+  IconButton,
+  Modal,
+  InputAdornment,
+  TextField,
+  InputLabel,
+  Button,
+} from "@material-ui/core";
+import React, { useState } from "react";
 import "./SocietySidebar.css";
 import SocietySidebarOption from "./SocietySidebarOption";
 import AddIcon from "@material-ui/icons/Add";
-import MessageSender from './MessageSender';
-
+import { AccountCircle, Facebook, Instagram } from "@material-ui/icons";
 
 function SocietySidebar() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const [name, setName] = useState("");
+  const [prez, setPrez] = useState("");
+  const [prof, setProf] = useState("");
+  const [description, setDescription] = useState("");
+  const [fb, setFb] = useState("");
+  const [insta, setInsta] = useState("");
+  const [logo, setLogo] = useState(null);
+  const [profSign, setProfSign] = useState(null);
+  const [prezSign, setPrezSign] = useState(null);
 
   return (
     <>
-      <Modal open={open} onClose={handleClose}>
-        <div>
-          <form>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        style={{
+          display: "grid",
+          placeItems: "center",
+          overflowY: "scroll",
+          marginTop: "3rem",
+          marginBottom: "3rem",
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "white",
+            padding: "2rem",
+          }}
+        >
+          <form
+            autoComplete="off"
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log(name, prez, prof, description);
+              handleClose();
+            }}
+          >
+            <div>
+              <h1>
+                <center>Hit Us Up!</center>
+              </h1>
+              <TextField
+                color="secondary"
+                fullWidth
+                id="name"
+                label="Name of the Society"
+                required
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+
+              <TextField
+                color="secondary"
+                margin="normal"
+                fullWidth
+                id="description"
+                multiline
+                label="Description"
+                helperText="Minimum 50 words"
+                required
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+              />
+
+              <TextField
+                color="secondary"
+                margin="normal"
+                fullWidth
+                id="prof"
+                label="Name of the Professor In-Charge"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  ),
+                }}
+                required
+                value={prof}
+                onChange={(e) => {
+                  setProf(e.target.value);
+                }}
+              />
+              <TextField
+                color="secondary"
+                margin="normal"
+                fullWidth
+                id="prez"
+                label="Name of the Society President"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  ),
+                }}
+                required
+                value={prez}
+                onChange={(e) => {
+                  setPrez(e.target.value);
+                }}
+              />
+              <br />
+              <br />
+              <InputLabel shrink htmlFor="logo">
+                Logo of the Society
+              </InputLabel>
+              <input
+                type="file"
+                id="logo"
+                accept="image/*"
+                required="true"
+                onChange={(e) => setLogo(e.target.files[0])}
+              ></input>
+              <br />
+              <br />
+              <InputLabel shrink htmlFor="signOfProf">
+                Signature of the Professor In-Charge
+              </InputLabel>
+              <input
+                type="file"
+                id="signOfProf"
+                accept="image/*"
+                required="true"
+                onChange={(e) => setProfSign(e.target.files[0])}
+              ></input>
+              <br />
+              <br />
+              <InputLabel shrink htmlFor="signOfPrez">
+                Signature of the Society President
+              </InputLabel>
+              <input
+                type="file"
+                id="signOfPrez"
+                accept="image/*"
+                required="true"
+                onChange={(e) => setPrezSign(e.target.files[0])}
+              ></input>
+              <TextField
+                color="secondary"
+                margin="normal"
+                fullWidth
+                id="fb"
+                label="Facebook Page URL"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Facebook />
+                    </InputAdornment>
+                  ),
+                }}
+                onChange={(e) => {
+                  setFb(e.target.value);
+                }}
+              />
+              <TextField
+                color="secondary"
+                margin="normal"
+                fullWidth
+                id="instagram"
+                label="Instagram Page URL"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Instagram />
+                    </InputAdornment>
+                  ),
+                }}
+                onChange={(e) => {
+                  setInsta(e.target.value);
+                }}
+              />
+              <center>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{ marginTop: "2rem" }}
+                >
+                  Submit
+                </Button>
+              </center>
+            </div>
           </form>
         </div>
       </Modal>
       <div className="society-sidebar">
-        <IconButton component="span"  >
+        <IconButton component="span">
           <AddIcon className="add__button" onClick={handleOpen} />
         </IconButton>
         <hr />

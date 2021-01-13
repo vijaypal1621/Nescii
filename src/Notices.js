@@ -99,17 +99,19 @@ class Notices extends Component {
         <List component="ul">
           <DisplayNotices notices={this.state.notices} />
         </List>
-        <Button variant="contained" centerRipple={true}>
-          <Link
-            href="https://www.imsnsit.org/imsnsit/notifications.php"
-            target="_blank"
-            rel="noopener"
-            color="inherit"
-            variant="button"
-          >
-            See More
-          </Link>
-        </Button>
+        <center>
+          <Button variant="contained" centerRipple={true}>
+            <Link
+              href="https://www.imsnsit.org/imsnsit/notifications.php"
+              target="_blank"
+              rel="noopener"
+              color="inherit"
+              variant="button"
+            >
+              See More
+            </Link>
+          </Button>
+        </center>
       </div>
     );
   }

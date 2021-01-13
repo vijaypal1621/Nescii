@@ -11,10 +11,7 @@ function SocietyMessageSender() {
     <div className="message">
       <div className="messageSender__top">
         <Avatar />
-        <form>
-          <input placeholder="What's on Your Mind?" />
-          <button type="submit">Hidden Submit</button>
-        </form>
+          <button>What's on Your Mind?</button>
       </div>
       <div className="messageSender__bottom">
         <div className="messageSender__option">

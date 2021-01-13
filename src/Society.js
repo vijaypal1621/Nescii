@@ -1,9 +1,11 @@
 import React from "react";
 import SocietySidebar from "./SocietySidebar";
+
 import Widgets from "./Widgets";
 import SocietyMessageSender from './SocietyMessageSender';
 import SocietyPost from './SocietyPost';
 import './Society.css';
+
 
 function Society() {
   return (
@@ -32,6 +34,7 @@ function Society() {
       
     </div>
   );
+
 
 }
 

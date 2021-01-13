@@ -5,6 +5,7 @@ import SocietySidebarOption from "./SocietySidebarOption";
 import AddIcon from "@material-ui/icons/Add";
 import MessageSender from './MessageSender';
 
+
 function SocietySidebar() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {

@@ -37,7 +37,9 @@ function Header() {
                 setCurrent("home");
               }}
             >
+
               <HomeIcon style={{color:" #16a596"}} fontSize="large" />
+
             </NavLink>
           </Tooltip>
         </div>
@@ -51,7 +53,9 @@ function Header() {
                 setCurrent("societies");
               }}
             >
+
               <ApartmentIcon style={{color:" #16a596"}} fontSize="large" />
+
             </NavLink>
           </Tooltip>
         </div>

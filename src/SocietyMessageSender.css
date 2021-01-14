@@ -56,6 +56,7 @@
 }
 .modal__input{
     border:none;
+    outline: 0;
 }
 .modal__profile{
     display: flex;

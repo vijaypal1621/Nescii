@@ -66,8 +66,8 @@ function SocietyMessageSender() {
         <Avatar />
         <h4 className="modal__title">....user....</h4>
       </div>
-      <div className="modal__input" style={{maxWidth: "100%",maxHeight:"200px" }}>
-        <textarea rows="10" cols="20" style={{width:"100%"}} placeholder="Whats on your mind?"/>
+      <div  style={{maxWidth: "100%",maxHeight:"200px" }}>
+        <textarea className="modal__input" rows="10" cols="20" style={{width:"100%"}} placeholder="Whats on your mind?"/>
       </div>
       <div className="messageSender__bottom">
         <div className="messageSender__option">

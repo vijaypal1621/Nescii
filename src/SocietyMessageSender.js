@@ -111,8 +111,9 @@ function SocietyMessageSender() {
           <h3>Photo</h3>
         </div>
         <div className="messageSender__option">
-          <PlayCircleFilledIcon style={{ color: "red" }} />
-          <h3>Video</h3>
+          {/* <PlayCircleFilledIcon style={{ color: "red" }} />
+          <h3>Video</h3> */}
+          <input type="file" alt="/" className="video__input"/>
         </div>
 
         <div className="messageSender__option">

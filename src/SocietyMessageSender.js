@@ -9,6 +9,9 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseRoundedIcon from '@material-ui/icons/CancelRounded';
 
+
+
+
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -66,8 +69,11 @@ function SocietyMessageSender() {
         <Avatar />
         <h4 className="modal__title">....user....</h4>
       </div>
-      <div  style={{maxWidth: "100%",maxHeight:"200px" }}>
-        <textarea className="modal__input" rows="10" cols="20" style={{width:"100%"}} placeholder="Whats on your mind?"/>
+      <div  style={{maxWidth: "100%",overflowX:"hidden", overflowY:"auto",maxHeight:"300px" }}>
+        <textarea className="modal__input" rows="5" cols="20" style={{width:"100%"}} placeholder="Whats on your mind?"/>
+        <div className='modal__input__photo'>
+        <img src="https://s.yimg.com/fz/api/res/1.2/lX1NI08tfA8zoS_91rRWrQ--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpdDtoPTE4MDtxPTgwO3c9MTgw/https://s.yimg.com/zb/imgv1/22245df6-eb54-33c3-b1ff-64f879f287bf/t_500x300" alt='heleo' />
+        </div>
       </div>
       <div className="messageSender__bottom">
         <div className="messageSender__option">
@@ -107,18 +113,21 @@ function SocietyMessageSender() {
       </div>
       <div className="messageSender__bottom">
         <div className="messageSender__option">
-          <InsertPhotoIcon style={{ color: "green" }} />
-          <h3>Photo</h3>
+          {/* <InsertPhotoIcon style={{ color: "green" }} />
+          <h3>Photo</h3> */}
+          <input accept="image/*" type="file" alt="/" className="video__input"/>
         </div>
         <div className="messageSender__option">
           {/* <PlayCircleFilledIcon style={{ color: "red" }} />
           <h3>Video</h3> */}
-          <input type="file" alt="/" className="video__input"/>
+          <input accept="video/*" type="file" alt="/" className="video__input"/>
         </div>
 
         <div className="messageSender__option">
-          <EventIcon style={{ color: "orange" }} />
-          <h3>Event</h3>
+          {/* <EventIcon style={{ color: "orange" }} />
+          <h3>Event</h3> */}
+          <input type="file" alt="/" className="video__input"/>
+
         </div>
       </div>
     </div>

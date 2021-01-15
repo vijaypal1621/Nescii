@@ -98,5 +98,13 @@ justify-content: space-between;
   /* border-radius: 20px; */
   /* background-size: 60px 60px; */
 }
+.modal__input__photo{
+    width: 80%;
+    margin: auto;
+}
+.modal__input__photo > img {
+    object-fit: cover;
+    width: 100%;
+}
 
 

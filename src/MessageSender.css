@@ -37,7 +37,7 @@
     justify-content: space-evenly;
 }
 .messageSender__option {
-    padding: 20px;
+    /* padding: 20px; */
     display: flex;
     align-items: center;
     color: gray;
@@ -49,6 +49,7 @@
     cursor: pointer;
 }
 .messageSender__option:hover {
-    background-color: #eff2f5;
+    /* background-color: #eff2f5; */
     border-radius: 20px;
+    cursor: pointer;
 }

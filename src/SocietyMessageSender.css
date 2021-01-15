@@ -39,7 +39,7 @@
     justify-content: space-evenly;
 }
 .messageSender__option {
-    padding: 20px;
+    /* padding: 20px; */
     display: flex;
     align-items: center;
     color: gray;
@@ -51,11 +51,13 @@
     cursor: pointer;
 }
 .messageSender__option:hover {
-    background-color: #eff2f5;
+    /* background-color: #eff2f5; */
     border-radius: 20px;
+    cursor: pointer;
 }
 .modal__input{
     border:none;
+    outline: 0;
 }
 .modal__profile{
     display: flex;
@@ -80,6 +82,21 @@ justify-content: space-between;
     background-color: #16a596;
     color: whitesmoke;
 }
-
+.video__input{
+    /* display: inline-block; */
+  width: 63%;
+  padding: 50px 0 0 0;
+  height: 10px;
+  /* overflow: hidden; */
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  outline: 0px;
+  /* background-color: cadetblue; */
+  background: url('./video__input.png') ;
+  /* border-radius: 20px; */
+  /* background-size: 60px 60px; */
+}
 
 

@@ -3,6 +3,7 @@ import "./SocietyMessageSender.css";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import EventIcon from "@material-ui/icons/Event";
+import { Check } from "@material-ui/icons";
 // import DescriptionIcon from "@material-ui/icons/Description";
 import { Avatar, Button, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
@@ -43,6 +44,7 @@ function SocietyMessageSender() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+  const [photo, setPhoto] = React.useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -50,6 +52,26 @@ function SocietyMessageSender() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handlePhotoOpen = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setPhoto(e.target.result);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+    setOpen(true);
+  };
+
+  const RemoveSelectedFile = () => {
+    const x = document.getElementById("photoInput");
+    x.value = "";
+  };
+
+  const handlePhotoClose = () => {
+    setPhoto(null);
+    RemoveSelectedFile();
   };
 
   const body = (
@@ -65,14 +87,31 @@ function SocietyMessageSender() {
         <Avatar />
         <h4 className="modal__title">....user....</h4>
       </div>
-      <div style={{ maxWidth: "100%", maxHeight: "200px" }}>
+      <div
+        style={{
+          maxWidth: "100%",
+          overflowX: "hidden",
+          overflowY: "auto",
+          maxHeight: "300px",
+        }}
+      >
         <textarea
           className="modal__input"
-          rows="10"
+          rows="5"
           cols="20"
           style={{ width: "100%" }}
           placeholder="Whats on your mind?"
         />
+        <div className="modal__input__photo">
+          <Button
+            style={{ position: "absolute", color: "white" }}
+            className="modal__input__photo__button"
+            onClick={handlePhotoClose}
+          >
+            <CloseRoundedIcon />
+          </Button>
+          <img src={photo} alt="" />
+        </div>
       </div>
       <div className="messageSender__bottom">
         <div className="messageSender__option">
@@ -125,7 +164,11 @@ function SocietyMessageSender() {
             type="file"
           />
           <label htmlFor="postImage" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
+            <IconButton
+              color="primary"
+              component="div"
+              onClick={handlePhotoOpen}
+            >
               <InsertPhotoIcon style={{ color: "green" }} />
             </IconButton>
             <h3 style={{ margin: "11px" }}>Photo</h3>
@@ -148,8 +191,9 @@ function SocietyMessageSender() {
         </div>
 
         <div className="messageSender__option">
-          <EventIcon style={{ color: "orange" }} />
-          <h3>Event</h3>
+          {/* <EventIcon style={{ color: "orange" }} />
+          <h3>Event</h3> */}
+          <input type="file" alt="/" className="video__input" />
         </div>
       </div>
     </div>

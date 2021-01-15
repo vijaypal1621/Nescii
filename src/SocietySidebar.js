@@ -210,7 +210,7 @@ function SocietySidebar() {
         </div>
       </Modal>
       <div className="society-sidebar">
-        <IconButton component="span">
+        <IconButton style={{ marginLeft: "35%" }}>
           <AddIcon className="add__button" onClick={handleOpen} />
         </IconButton>
         <hr />

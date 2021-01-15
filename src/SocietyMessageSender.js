@@ -8,6 +8,7 @@ import { Avatar,Button } from "@material-ui/core";
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseRoundedIcon from '@material-ui/icons/CancelRounded';
+import { Check } from "@material-ui/icons";
 
 
 
@@ -69,8 +70,17 @@ function SocietyMessageSender() {
     setOpen(true);
 
   }
+
+  const RemoveSelectedFile= ()=>{
+    const x=document.getElementById('photoInput');
+    x.value='';
+    
+  }
+
   const handlePhotoClose = () =>{
     setPhoto(null);
+    RemoveSelectedFile();  
+    
   }
 
   const body = (
@@ -133,7 +143,7 @@ function SocietyMessageSender() {
         <div className="messageSender__option">
           {/* <InsertPhotoIcon style={{ color: "green" }} />
           <h3>Photo</h3> */}
-          <input accept="image/*" type="file"  onChange={handlePhotoOpen} alt="/" className="video__input"/>
+          <input accept="image/*" type="file" id="photoInput"  onChange={handlePhotoOpen} alt="/" className="video__input"/>
         </div>
         <div className="messageSender__option">
           {/* <PlayCircleFilledIcon style={{ color: "red" }} />

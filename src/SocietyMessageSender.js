@@ -49,6 +49,7 @@ function SocietyMessageSender() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+  const [photo,setPhoto]= React.useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -57,6 +58,17 @@ function SocietyMessageSender() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setPhoto(e.target.result);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+    setOpen(true);
+
+  }
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -72,7 +84,9 @@ function SocietyMessageSender() {
       <div  style={{maxWidth: "100%",overflowX:"hidden", overflowY:"auto",maxHeight:"300px" }}>
         <textarea className="modal__input" rows="5" cols="20" style={{width:"100%"}} placeholder="Whats on your mind?"/>
         <div className='modal__input__photo'>
-        <img src="https://s.yimg.com/fz/api/res/1.2/lX1NI08tfA8zoS_91rRWrQ--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpdDtoPTE4MDtxPTgwO3c9MTgw/https://s.yimg.com/zb/imgv1/22245df6-eb54-33c3-b1ff-64f879f287bf/t_500x300" alt='heleo' />
+        {/* <img src="https://s.yimg.com/fz/api/res/1.2/lX1NI08tfA8zoS_91rRWrQ--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpdDtoPTE4MDtxPTgwO3c9MTgw/https://s.yimg.com/zb/imgv1/22245df6-eb54-33c3-b1ff-64f879f287bf/t_500x300" alt='heleo' /> */}
+        <img src={photo} alt='heleo' />
+        
         </div>
       </div>
       <div className="messageSender__bottom">
@@ -115,7 +129,7 @@ function SocietyMessageSender() {
         <div className="messageSender__option">
           {/* <InsertPhotoIcon style={{ color: "green" }} />
           <h3>Photo</h3> */}
-          <input accept="image/*" type="file" alt="/" className="video__input"/>
+          <input accept="image/*" type="file"  onChange={handleChange} alt="/" className="video__input"/>
         </div>
         <div className="messageSender__option">
           {/* <PlayCircleFilledIcon style={{ color: "red" }} />

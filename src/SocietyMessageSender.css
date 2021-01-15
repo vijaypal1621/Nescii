@@ -105,6 +105,11 @@ justify-content: space-between;
 .modal__input__photo > img {
     object-fit: cover;
     width: 100%;
+
+}
+.modal__input__photo__button{
+    position: absolute;
+    right: 72px;
 }
 
 

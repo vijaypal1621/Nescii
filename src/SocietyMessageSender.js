@@ -98,7 +98,8 @@ function SocietyMessageSender() {
         <textarea className="modal__input" rows="5" cols="20" style={{width:"100%"}} placeholder="Whats on your mind?"/>
         <div className='modal__input__photo'>
         <Button style={{position:"absolute", color:"white"}}className="modal__input__photo__button" onClick={handlePhotoClose}><CloseRoundedIcon/></Button>
-        <img src={photo} alt='heleo' />
+        <img src={photo} alt='' />
+        
         
         
         </div>
@@ -143,12 +144,12 @@ function SocietyMessageSender() {
         <div className="messageSender__option">
           {/* <InsertPhotoIcon style={{ color: "green" }} />
           <h3>Photo</h3> */}
-          <input accept="image/*" type="file" id="photoInput"  onChange={handlePhotoOpen} alt="/" className="video__input"/>
+          <input accept="image/*" type="file" id="photoInput"  onChange={handlePhotoOpen} alt="/" className="photo__input"/>
         </div>
         <div className="messageSender__option">
           {/* <PlayCircleFilledIcon style={{ color: "red" }} />
           <h3>Video</h3> */}
-          <input accept="video/*" type="file" alt="/" className="video__input"/>
+          <input accept="video/*" type="file" alt="/" onChange={handlePhotoOpen} className="video__input"/>
         </div>
 
         <div className="messageSender__option">

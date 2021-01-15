@@ -164,11 +164,7 @@ function SocietyMessageSender() {
             type="file"
           />
           <label htmlFor="postImage" style={{ display: "inline-flex" }}>
-            <IconButton
-              color="primary"
-              component="div"
-              onClick={handlePhotoOpen}
-            >
+            <IconButton color="primary" component="div">
               <InsertPhotoIcon style={{ color: "green" }} />
             </IconButton>
             <h3 style={{ margin: "11px" }}>Photo</h3>

@@ -8,7 +8,7 @@ import { Avatar,Button } from "@material-ui/core";
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseRoundedIcon from '@material-ui/icons/CancelRounded';
-import { Check } from "@material-ui/icons";
+
 
 
 
@@ -51,6 +51,7 @@ function SocietyMessageSender() {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [photo,setPhoto]= React.useState(null);
+  const [video,setVideo]= React.useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -83,6 +84,14 @@ function SocietyMessageSender() {
     
   }
 
+  const handleVideoOpen = (e) => {
+    setVideo(URL.createObjectURL(e.target.files[0]));
+    setOpen(true);
+    console.log(video);
+  };
+
+
+
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <div className="modal__top">
@@ -99,6 +108,13 @@ function SocietyMessageSender() {
         <div className='modal__input__photo'>
         <Button style={{position:"absolute", color:"white"}}className="modal__input__photo__button" onClick={handlePhotoClose}><CloseRoundedIcon/></Button>
         <img src={photo} alt='' />
+        {video != null ? (
+                            <video width="320" height="240" controls>
+                            <source src={video.blob} type="video/mp4"/>
+                          </video>
+                        ) : (
+                          ""
+                        )}
         
         
         
@@ -149,7 +165,8 @@ function SocietyMessageSender() {
         <div className="messageSender__option">
           {/* <PlayCircleFilledIcon style={{ color: "red" }} />
           <h3>Video</h3> */}
-          <input accept="video/*" type="file" alt="/" onChange={handlePhotoOpen} className="video__input"/>
+          <input accept="video/*" type="file" alt="/" onChange={handleVideoOpen} className="video__input"/>
+          
         </div>
 
         <div className="messageSender__option">

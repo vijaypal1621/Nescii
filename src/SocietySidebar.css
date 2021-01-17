@@ -1,12 +1,14 @@
-.society-sidebar{
-    background-color: cadetblue;
-    min-width: 220px;
-    flex: 0.1;
-    /* min-height: 89vh; */
+.society-sidebar {
+  background-color: cadetblue;
+  min-width: 220px;
+  flex: 0.1;
+  /* min-height: 89vh; */
 }
-.add__button{
-    color: white;
-    margin-left: 75px;
-    border: 2px solid  whitesmoke;
-    border-radius: 10px;
+.add__button {
+  color: white;
+  border: 2px solid whitesmoke;
+  border-radius: 10px;
+}
+.add__button:hover {
+  opacity: 1;
 }

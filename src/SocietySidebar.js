@@ -27,8 +27,7 @@ function SocietySidebar() {
   const [fb, setFb] = useState("");
   const [insta, setInsta] = useState("");
   const [logo, setLogo] = useState(null);
-  const [profSign, setProfSign] = useState(null);
-  const [prezSign, setPrezSign] = useState(null);
+  const [adminLetter, setAdminLetter] = useState(null);
 
   return (
     <>
@@ -53,7 +52,16 @@ function SocietySidebar() {
             autoComplete="off"
             onSubmit={(e) => {
               e.preventDefault();
-              console.log(name, prez, prof, description);
+              console.log(
+                name,
+                prez,
+                prof,
+                description,
+                fb,
+                insta,
+                logo,
+                adminLetter
+              );
               handleClose();
             }}
           >
@@ -140,28 +148,18 @@ function SocietySidebar() {
               ></input>
               <br />
               <br />
-              <InputLabel shrink htmlFor="signOfProf">
-                Signature of the Professor In-Charge
+              <InputLabel shrink htmlFor="adminLetter">
+                Admin Letter
               </InputLabel>
               <input
                 type="file"
-                id="signOfProf"
+                id="adminLetter"
                 accept="image/*"
                 required="true"
-                onChange={(e) => setProfSign(e.target.files[0])}
+                onChange={(e) => setAdminLetter(e.target.files[0])}
               ></input>
               <br />
               <br />
-              <InputLabel shrink htmlFor="signOfPrez">
-                Signature of the Society President
-              </InputLabel>
-              <input
-                type="file"
-                id="signOfPrez"
-                accept="image/*"
-                required="true"
-                onChange={(e) => setPrezSign(e.target.files[0])}
-              ></input>
               <TextField
                 color="secondary"
                 margin="normal"

@@ -73,7 +73,7 @@ function Header() {
       <div className="header__right">
         <div className="header__info">
           <Avatar />
-          <h4>Vijay Pal</h4>
+          <h4>Aaryan Raj Sarda</h4>
         </div>
         <IconButton>
           <AddIcon />

@@ -44,7 +44,8 @@ function SocietyMessageSender() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  const [photo, setPhoto] = React.useState(null);
+  const [photo,setPhoto]= React.useState(null);
+  const [video,setVideo]= React.useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -65,14 +66,24 @@ function SocietyMessageSender() {
   };
 
   const RemoveSelectedFile = () => {
-    const x = document.getElementById("photoInput");
-    x.value = "";
+    const x = document.getElementById("postImage");
+    console.log(x.value);
+    x.value = '';
+    console.log(x.value);
   };
 
   const handlePhotoClose = () => {
     setPhoto(null);
     RemoveSelectedFile();
   };
+
+  const handleVideoOpen = (e) => {
+    setVideo(URL.createObjectURL(e.target.files[0]));
+    setOpen(true);
+    console.log(video);
+  };
+
+
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -87,30 +98,21 @@ function SocietyMessageSender() {
         <Avatar />
         <h4 className="modal__title">....user....</h4>
       </div>
-      <div
-        style={{
-          maxWidth: "100%",
-          overflowX: "hidden",
-          overflowY: "auto",
-          maxHeight: "300px",
-        }}
-      >
-        <textarea
-          className="modal__input"
-          rows="5"
-          cols="20"
-          style={{ width: "100%" }}
-          placeholder="Whats on your mind?"
-        />
-        <div className="modal__input__photo">
-          <Button
-            style={{ position: "absolute", color: "white" }}
-            className="modal__input__photo__button"
-            onClick={handlePhotoClose}
-          >
-            <CloseRoundedIcon />
-          </Button>
-          <img src={photo} alt="" />
+      <div  style={{maxWidth: "100%",overflowX:"hidden", overflowY:"auto",maxHeight:"300px" }}>
+        <textarea className="modal__input" rows="5" cols="20" style={{width:"100%"}} placeholder="Whats on your mind?"/>
+        <div className='modal__input__photo'>
+        <Button style={{position:"absolute", color:"white"}}className="modal__input__photo__button" onClick={handlePhotoClose}><CloseRoundedIcon/></Button>
+        <img src={photo} alt='' />
+        {video != null ? (
+                            <video width="320" height="240" controls>
+                            <source src={video.blob} type="video/mp4"/>
+                          </video>
+                        ) : (
+                          ""
+                        )}
+        
+        
+        
         </div>
       </div>
       <div className="messageSender__bottom">
@@ -162,6 +164,7 @@ function SocietyMessageSender() {
             id="postImage"
             multiple
             type="file"
+            onChange={handlePhotoOpen}
           />
           <label htmlFor="postImage" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">
@@ -171,12 +174,20 @@ function SocietyMessageSender() {
           </label>
         </div>
         <div className="messageSender__option">
+{/* 
+
+          {/* <PlayCircleFilledIcon style={{ color: "red" }} />
+          <h3>Video</h3> */}
+          {/* <input accept="video/*" type="file" alt="/"  className="video__input"/>
+           */} 
+
           <input
             accept="video/*"
             className={classes.input}
             id="postVideo"
             multiple
             type="file"
+            onChange={handleVideoOpen}
           />
           <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">

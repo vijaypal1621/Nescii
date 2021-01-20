@@ -45,7 +45,7 @@ function SocietyMessageSender() {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [photo,setPhoto]= React.useState(null);
-  const [video,setVideo]= React.useState(null);
+  // const [video,setVideo]= React.useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -77,11 +77,14 @@ function SocietyMessageSender() {
     RemoveSelectedFile();
   };
 
-  const handleVideoOpen = (e) => {
-    setVideo(URL.createObjectURL(e.target.files[0]));
-    setOpen(true);
-    console.log(video);
-  };
+
+
+  // const handleVideoOpen = (event) => {
+  
+  // var source = document.getElementById('video_here');
+  // source[0].src = URL.createObjectURL(event.files[0]);
+  // source.parent()[0].load();
+  // };
 
 
 
@@ -103,13 +106,15 @@ function SocietyMessageSender() {
         <div className='modal__input__photo'>
         <Button style={{position:"absolute", color:"white"}}className="modal__input__photo__button" onClick={handlePhotoClose}><CloseRoundedIcon/></Button>
         <img src={photo} alt='' />
-        {video != null ? (
-                            <video width="320" height="240" controls>
-                            <source src={video.blob} type="video/mp4"/>
-                          </video>
-                        ) : (
+        {/* {video != null ? ( */}
+                      
+                      <video width="400" controls>
+                        <source src="mov_bbb.mp4" id="video_here" />
+                          Your browser does not support HTML5 video.
+                      </video>
+                        {/* ) : (
                           ""
-                        )}
+                        )} */}
         
         
         
@@ -164,7 +169,7 @@ function SocietyMessageSender() {
             id="postImage"
             multiple
             type="file"
-            onChange={handlePhotoOpen}
+            onChange={()=>handlePhotoOpen()}
           />
           <label htmlFor="postImage" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">
@@ -187,7 +192,8 @@ function SocietyMessageSender() {
             id="postVideo"
             multiple
             type="file"
-            onChange={handleVideoOpen}
+            name="file[]"
+            // onChange={handleVideoOpen}
           />
           <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">

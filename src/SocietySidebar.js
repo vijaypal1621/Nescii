@@ -26,7 +26,7 @@ function SocietySidebar() {
   const [channels ,setChannels] = useState([]);
 
   useEffect(() => {
-    // run this code ONCE when sidebar component loads
+    // run this code ONCE when society sidebar component loads
    db.collection('societies').onSnapshot((snapshot) => (
        setChannels(
            snapshot.docs.map( doc =>({

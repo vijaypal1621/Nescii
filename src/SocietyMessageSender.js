@@ -45,7 +45,7 @@ function SocietyMessageSender() {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [photo,setPhoto]= React.useState(null);
-  // const [video,setVideo]= React.useState(null);
+  const [video,setVideo]= React.useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -106,15 +106,13 @@ function SocietyMessageSender() {
         <div className='modal__input__photo'>
         <Button style={{position:"absolute", color:"white"}}className="modal__input__photo__button" onClick={handlePhotoClose}><CloseRoundedIcon/></Button>
         <img src={photo} alt='' />
-        {/* {video != null ? ( */}
+        {video != null ? (
                       
                       <video width="400" controls>
                         <source src="mov_bbb.mp4" id="video_here" />
                           Your browser does not support HTML5 video.
                       </video>
-                        {/* ) : (
-                          ""
-                        )} */}
+        ):(<> </>) }
         
         
         
@@ -169,7 +167,7 @@ function SocietyMessageSender() {
             id="postImage"
             multiple
             type="file"
-            onChange={()=>handlePhotoOpen()}
+            onChange={handlePhotoOpen}
           />
           <label htmlFor="postImage" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">
@@ -193,7 +191,7 @@ function SocietyMessageSender() {
             multiple
             type="file"
             name="file[]"
-            // onChange={handleVideoOpen}
+            onChange={handlePhotoOpen}
           />
           <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">

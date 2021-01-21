@@ -2,11 +2,11 @@ import React from 'react';
 import './Widgets.css';
 import Events from './Events';
 import WidgetAbout from './WidgetAbout';
-function Widgets() {
+function Widgets({society}) {
     return (
         <div className='widgets'>
             <Events />
-            <WidgetAbout />
+            <WidgetAbout society={society}/>
         </div>
     )
 }

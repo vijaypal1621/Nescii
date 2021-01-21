@@ -16,7 +16,7 @@ function Society() {
                 <SocietyChat/>
               </Route>
               <Route path="/">
-                <SocietyChat/>
+                <h1>hello</h1>
               </Route>
             </Switch>
           </Router>

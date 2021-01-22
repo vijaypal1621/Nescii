@@ -6,11 +6,12 @@ import {
   InputLabel,
   Button,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SocietySidebar.css";
 import SocietySidebarOption from "./SocietySidebarOption";
 import AddIcon from "@material-ui/icons/Add";
 import { AccountCircle, Facebook, Instagram } from "@material-ui/icons";
+import db from "./firebase";
 
 function SocietySidebar() {
   const [open, setOpen] = useState(false);
@@ -27,7 +28,22 @@ function SocietySidebar() {
   const [fb, setFb] = useState("");
   const [insta, setInsta] = useState("");
   const [logo, setLogo] = useState(null);
-  const [adminLetter, setAdminLetter] = useState(null);
+  const [profSign, setProfSign] = useState(null);
+  const [prezSign, setPrezSign] = useState(null);
+  const [channels, setChannels] = useState([]);
+
+  useEffect(() => {
+    // run this code ONCE when society sidebar component loads
+    db.collection("societies").onSnapshot((snapshot) =>
+      setChannels(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          title: doc.data().title,
+          imageURL: doc.data().imageURL,
+        }))
+      )
+    );
+  }, []); //whenever name inside the "[]" changes
 
   return (
     <>
@@ -212,7 +228,15 @@ function SocietySidebar() {
           <AddIcon className="add__button" onClick={handleOpen} />
         </IconButton>
         <hr />
-        <SocietySidebarOption
+        {channels.map((channel) => (
+          <SocietySidebarOption
+            title={channel.title}
+            id={channel.id}
+            url={channel.imageURL}
+          />
+        ))}
+
+        {/* <SocietySidebarOption
           url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
           title="Ashwamedh"
         />
@@ -256,7 +280,7 @@ function SocietySidebar() {
           url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
           title="Quiz Club"
         />
-        <hr />
+        <hr /> */}
       </div>
     </>
   );

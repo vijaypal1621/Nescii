@@ -1,10 +1,17 @@
-import {IconButton,Modal,InputAdornment,TextField,InputLabel,Button} from "@material-ui/core";
-import React, { useState,useEffect } from "react";
+import {
+  IconButton,
+  Modal,
+  InputAdornment,
+  TextField,
+  InputLabel,
+  Button,
+} from "@material-ui/core";
+import React, { useState, useEffect } from "react";
 import "./SocietySidebar.css";
 import SocietySidebarOption from "./SocietySidebarOption";
 import AddIcon from "@material-ui/icons/Add";
 import { AccountCircle, Facebook, Instagram } from "@material-ui/icons";
-import db from './firebase';
+import db from "./firebase";
 
 function SocietySidebar() {
   const [open, setOpen] = useState(false);
@@ -21,27 +28,21 @@ function SocietySidebar() {
   const [fb, setFb] = useState("");
   const [insta, setInsta] = useState("");
   const [logo, setLogo] = useState(null);
-  const [profSign, setProfSign] = useState(null);
-  const [prezSign, setPrezSign] = useState(null);
-  const [channels ,setChannels] = useState([]);
+  const [adminLetter, setAdminLetter] = useState(null);
+  const [channels, setChannels] = useState([]);
 
   useEffect(() => {
     // run this code ONCE when society sidebar component loads
-   db.collection('societies').onSnapshot((snapshot) => (
-       setChannels(
-           snapshot.docs.map( doc =>({
-               id: doc.id,
-               title:doc.data().title,
-               imageURL:doc.data().imageURL,
-           })
-           )
-       )
-
-   ))
-   
-}, []) //whenever name inside the "[]" changes
-
-
+    db.collection("societies").onSnapshot((snapshot) =>
+      setChannels(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          title: doc.data().title,
+          imageURL: doc.data().imageURL,
+        }))
+      )
+    );
+  }, []); //whenever name inside the "[]" changes
 
   return (
     <>
@@ -66,7 +67,16 @@ function SocietySidebar() {
             autoComplete="off"
             onSubmit={(e) => {
               e.preventDefault();
-              console.log(name, prez, prof, description);
+              console.log(
+                name,
+                prez,
+                prof,
+                description,
+                fb,
+                insta,
+                logo,
+                adminLetter
+              );
               handleClose();
             }}
           >
@@ -153,28 +163,18 @@ function SocietySidebar() {
               ></input>
               <br />
               <br />
-              <InputLabel shrink htmlFor="signOfProf">
-                Signature of the Professor In-Charge
+              <InputLabel shrink htmlFor="adminLetter">
+                Admin Letter
               </InputLabel>
               <input
                 type="file"
-                id="signOfProf"
+                id="adminLetter"
                 accept="image/*"
                 required="true"
-                onChange={(e) => setProfSign(e.target.files[0])}
+                onChange={(e) => setAdminLetter(e.target.files[0])}
               ></input>
               <br />
               <br />
-              <InputLabel shrink htmlFor="signOfPrez">
-                Signature of the Society President
-              </InputLabel>
-              <input
-                type="file"
-                id="signOfPrez"
-                accept="image/*"
-                required="true"
-                onChange={(e) => setPrezSign(e.target.files[0])}
-              ></input>
               <TextField
                 color="secondary"
                 margin="normal"
@@ -227,10 +227,13 @@ function SocietySidebar() {
           <AddIcon className="add__button" onClick={handleOpen} />
         </IconButton>
         <hr />
-        {channels.map(channel => (
-                <SocietySidebarOption title={channel.title} id={channel.id} url={channel.imageURL} />
-             ) )}
-
+        {channels.map((channel) => (
+          <SocietySidebarOption
+            title={channel.title}
+            id={channel.id}
+            url={channel.imageURL}
+          />
+        ))}
 
         {/* <SocietySidebarOption
           url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"

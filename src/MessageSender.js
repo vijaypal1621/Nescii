@@ -8,7 +8,6 @@ import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 
-
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -38,16 +37,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-
 function MessageSender() {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  const [photo,setPhoto]= React.useState(null);
-  const [video,setVideo]= React.useState(null);
+  const [photo, setPhoto] = React.useState(null);
+  const [video, setVideo] = React.useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -70,7 +66,7 @@ function MessageSender() {
   const RemoveSelectedFile = () => {
     const x = document.getElementById("postImage");
     console.log(x.value);
-    x.value = '';
+    x.value = "";
     console.log(x.value);
   };
 
@@ -79,16 +75,12 @@ function MessageSender() {
     RemoveSelectedFile();
   };
 
-
-
   // const handleVideoOpen = (event) => {
-  
+
   // var source = document.getElementById('video_here');
   // source[0].src = URL.createObjectURL(event.files[0]);
   // source.parent()[0].load();
   // };
-
-
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -103,21 +95,38 @@ function MessageSender() {
         <Avatar />
         <h4 className="modal__title">....user....</h4>
       </div>
-      <div  style={{maxWidth: "100%",overflowX:"hidden", overflowY:"auto",maxHeight:"300px" }}>
-        <textarea className="modal__input" rows="5" cols="20" style={{width:"100%"}} placeholder="Whats on your mind?"/>
-        <div className='modal__input__photo'>
-        <Button style={{position:"absolute", color:"white"}}className="modal__input__photo__button" onClick={handlePhotoClose}><CloseRoundedIcon/></Button>
-        <img src={photo} alt='' />
-        {video != null ? (
-                      
-                      <video width="400" controls>
-                        <source src="mov_bbb.mp4" id="video_here" />
-                          Your browser does not support HTML5 video.
-                      </video>
-        ):(<> </>) }
-        
-        
-        
+      <div
+        style={{
+          maxWidth: "100%",
+          overflowX: "hidden",
+          overflowY: "auto",
+          maxHeight: "300px",
+        }}
+      >
+        <textarea
+          className="modal__input"
+          rows="5"
+          cols="20"
+          style={{ width: "100%" }}
+          placeholder="Whats on your mind?"
+        />
+        <div className="modal__input__photo">
+          <Button
+            style={{ position: "absolute", color: "white" }}
+            className="modal__input__photo__button"
+            onClick={handlePhotoClose}
+          >
+            <CloseRoundedIcon />
+          </Button>
+          <img src={photo} alt="" />
+          {video != null ? (
+            <video width="400" controls>
+              <source src="mov_bbb.mp4" id="video_here" />
+              Your browser does not support HTML5 video.
+            </video>
+          ) : (
+            <> </>
+          )}
         </div>
       </div>
       <div className="messageSender__bottom">
@@ -138,12 +147,12 @@ function MessageSender() {
           </label>
         </div>
         <div className="messageSender__option">
-{/* 
+          {/* 
 
           {/* <PlayCircleFilledIcon style={{ color: "red" }} />
           <h3>Video</h3> */}
           {/* <input accept="video/*" type="file" alt="/"  className="video__input"/>
-           */} 
+           */}
 
           <input
             accept="video/*"
@@ -163,15 +172,10 @@ function MessageSender() {
         </div>
 
         <div className="messageSender__option">
-          <input
-            accept=""
-            className={classes.input}
-            id="postEvent"
-            
-          />
+          <input accept="" className={classes.input} id="postEvent" />
           <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">
-              <DescriptionIcon style={{color:"blue"}}/>
+              <DescriptionIcon style={{ color: "blue" }} />
             </IconButton>
             <h3 style={{ margin: "11px" }}>Article</h3>
           </label>
@@ -221,12 +225,12 @@ function MessageSender() {
           </label>
         </div>
         <div className="messageSender__option">
-{/* 
+          {/* 
 
           {/* <PlayCircleFilledIcon style={{ color: "red" }} />
           <h3>Video</h3> */}
           {/* <input accept="video/*" type="file" alt="/"  className="video__input"/>
-           */} 
+           */}
 
           <input
             accept="video/*"
@@ -246,15 +250,10 @@ function MessageSender() {
         </div>
 
         <div className="messageSender__option">
-          <input
-            accept=""
-            className={classes.input}
-            id="postEvent"
-            
-          />
+          <input accept="" className={classes.input} id="postEvent" />
           <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">
-              <DescriptionIcon style={{color:"blue"}} />
+              <DescriptionIcon style={{ color: "blue" }} />
             </IconButton>
             <h3 style={{ margin: "11px" }}>Article</h3>
           </label>

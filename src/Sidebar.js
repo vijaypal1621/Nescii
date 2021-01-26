@@ -39,7 +39,8 @@ class Sidebar extends Component {
         method: "GET",
         headers: headers,
         redirect: "follow",
-        credentials: "include",
+        credentials: "same-origin",
+        //change to include later
       }
     )
       .then((response) => {

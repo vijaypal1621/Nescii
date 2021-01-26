@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SocietyMessageSender.css";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import EventIcon from "@material-ui/icons/Event";
 // import DescriptionIcon from "@material-ui/icons/Description";
-import { Avatar, Button, IconButton } from "@material-ui/core";
-import Modal from "@material-ui/core/Modal";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  Avatar,
+  Button,
+  IconButton,
+  Modal,
+  TextField,
+} from "@material-ui/core";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 
@@ -41,10 +52,25 @@ const useStyles = makeStyles((theme) => ({
 function SocietyMessageSender() {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
-  const [photo, setPhoto] = React.useState(null);
-  const [video, setVideo] = React.useState(null);
+  const [modalStyle] = useState(getModalStyle);
+  const [open, setOpen] = useState(false);
+  const [photo, setPhoto] = useState(null);
+  const [video, setVideo] = useState(null);
+  const [eventModal, setEventModal] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [start, setStart] = useState(new Date());
+  const [end, setEnd] = useState(new Date());
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [token, setToken] = useState("");
+
+  const handleEventModalOpen = () => {
+    setEventModal(true);
+  };
+
+  const handleEventModalClose = () => {
+    setEventModal(false);
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -62,6 +88,18 @@ function SocietyMessageSender() {
       reader.readAsDataURL(event.target.files[0]);
     }
     setOpen(true);
+  };
+
+  const handleDateChange = (date) => {
+    setDate(date);
+  };
+
+  const handleStartChange = (date) => {
+    setStart(date);
+  };
+
+  const handleEndChange = (date) => {
+    setEnd(date);
   };
 
   const RemoveSelectedFile = () => {
@@ -193,74 +231,204 @@ function SocietyMessageSender() {
   );
 
   return (
-    <div className="message">
-      <div className="messageSender__top">
-        <Avatar />
-        <button type="button" onClick={handleOpen}>
-          What's on Your Mind?
-        </button>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
+    <>
+      <Modal
+        open={eventModal}
+        onClose={handleEventModalClose}
+        style={{
+          display: "grid",
+          placeItems: "center",
+          overflowY: "scroll",
+          marginTop: "3rem",
+          marginBottom: "3rem",
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "white",
+            padding: "2rem",
+          }}
         >
-          {body}
-        </Modal>
-      </div>
-      <div className="messageSender__bottom">
-        <div className="messageSender__option">
-          <input
-            accept="image/*"
-            className={classes.input}
-            id="postImage"
-            multiple
-            type="file"
-            onChange={handlePhotoOpen}
-          />
-          <label htmlFor="postImage" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
-              <InsertPhotoIcon style={{ color: "green" }} />
-            </IconButton>
-            <h3 style={{ margin: "11px" }}>Photo</h3>
-          </label>
+          <form
+            autoComplete="off"
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log(
+                eventTitle,
+                eventDescription,
+                date,
+                start,
+                end,
+                token
+              );
+              handleEventModalClose();
+            }}
+          >
+            <div>
+              <h1>
+                <center>Event</center>
+              </h1>
+              <TextField
+                color="secondary"
+                fullWidth
+                id="eventTitle"
+                label="Event Title"
+                required
+                value={eventTitle}
+                onChange={(e) => {
+                  setEventTitle(e.target.value);
+                }}
+              />
+
+              <TextField
+                color="secondary"
+                margin="normal"
+                fullWidth
+                multiline
+                id="eventDescription"
+                label="Event Description"
+                required
+                value={eventDescription}
+                onChange={(e) => {
+                  setEventDescription(e.target.value);
+                }}
+              />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  format="dd/MM/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="Date"
+                  value={date}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+                <br />
+                <KeyboardTimePicker
+                  margin="normal"
+                  id="time-picker"
+                  label="Start"
+                  value={start}
+                  onChange={handleStartChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change time",
+                  }}
+                />
+                <br />
+                <KeyboardTimePicker
+                  margin="normal"
+                  id="time-picker"
+                  label="End"
+                  value={end}
+                  onChange={handleEndChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change time",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+              <TextField
+                color="secondary"
+                margin="normal"
+                fullWidth
+                id="token"
+                label="Token"
+                required
+                value={token}
+                onChange={(e) => {
+                  setToken(e.target.value);
+                }}
+              />
+              <br />
+              <br />
+              <center>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{ marginTop: "2rem" }}
+                >
+                  Submit
+                </Button>
+              </center>
+            </div>
+          </form>
         </div>
-        <div className="messageSender__option">
-          {/* 
+      </Modal>
+      <div className="message">
+        <div className="messageSender__top">
+          <Avatar />
+          <button type="button" onClick={handleOpen}>
+            What's on Your Mind?
+          </button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            {body}
+          </Modal>
+        </div>
+        <div className="messageSender__bottom">
+          <div className="messageSender__option">
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="postImage"
+              multiple
+              type="file"
+              onChange={handlePhotoOpen}
+            />
+            <label htmlFor="postImage" style={{ display: "inline-flex" }}>
+              <IconButton color="primary" component="div">
+                <InsertPhotoIcon style={{ color: "green" }} />
+              </IconButton>
+              <h3 style={{ margin: "11px" }}>Photo</h3>
+            </label>
+          </div>
+          <div className="messageSender__option">
+            {/* 
 
           {/* <PlayCircleFilledIcon style={{ color: "red" }} />
           <h3>Video</h3> */}
-          {/* <input accept="video/*" type="file" alt="/"  className="video__input"/>
-           */}
+            {/* <input accept="video/*" type="file" alt="/"  className="video__input"/>
+             */}
 
-          <input
-            accept="video/*"
-            className={classes.input}
-            id="postVideo"
-            multiple
-            type="file"
-            name="file[]"
-            onChange={handlePhotoOpen}
-          />
-          <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
-              <PlayCircleFilledIcon style={{ color: "red" }} />
-            </IconButton>
-            <h3 style={{ margin: "11px" }}>Video</h3>
-          </label>
-        </div>
+            <input
+              accept="video/*"
+              className={classes.input}
+              id="postVideo"
+              multiple
+              type="file"
+              name="file[]"
+              onChange={handlePhotoOpen}
+            />
+            <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
+              <IconButton color="primary" component="div">
+                <PlayCircleFilledIcon style={{ color: "red" }} />
+              </IconButton>
+              <h3 style={{ margin: "11px" }}>Video</h3>
+            </label>
+          </div>
 
-        <div className="messageSender__option">
-          <input accept="" className={classes.input} id="postEvent" />
-          <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
-              <EventIcon style={{ color: "gray" }} />
-            </IconButton>
-            <h3 style={{ margin: "11px" }}>Event</h3>
-          </label>
+          <div className="messageSender__option">
+            <input accept="" className={classes.input} id="postEvent" />
+            <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
+              <IconButton
+                color="primary"
+                component="div"
+                onClick={handleEventModalOpen}
+              >
+                <EventIcon style={{ color: "gray" }} />
+              </IconButton>
+              <h3 style={{ margin: "11px" }}>Event</h3>
+            </label>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

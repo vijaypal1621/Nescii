@@ -12,7 +12,10 @@ function MessageSender() {
       <div className="messageSender__top">
         <Avatar />
         <form>
-          <input placeholder="What's on Your Mind?" />
+          <label style={{ display: "none" }} htmlFor="mind">
+            What's on Your Mind?
+          </label>
+          <input placeholder="What's on Your Mind?" name="mind" id="mind" />
           <button type="submit">Hidden Submit</button>
         </form>
       </div>

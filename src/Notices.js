@@ -49,7 +49,7 @@ const RenderNotice = ({ notice }) => {
 
 function DisplayNotices({ notices }) {
   return notices.slice(0, 5).map((notice) => {
-    return <RenderNotice notice={notice} />;
+    return <RenderNotice notice={notice} key={notice.title} />;
   });
 }
 

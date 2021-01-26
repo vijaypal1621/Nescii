@@ -32,19 +32,23 @@ class Sidebar extends Component {
   componentDidMount() {
     var headers = new Headers();
     headers.append("Referer", "https://imsnsit.org/imsnsit/student.htm");
+
     fetch(
       "https://cors-anywhere.herokuapp.com/https://www.imsnsit.org/imsnsit/student_login.php",
       {
         method: "GET",
         headers: headers,
         redirect: "follow",
-        credentials: "same-origin",
+        credentials: "include",
       }
     )
       .then((response) => {
-        var cookie = response.headers.get("set-cookie");
-        console.log(cookie);
-        // ! headers.append("Cookie", cookie);
+        //document.cookie = response.headers.get("set-cookie");
+        //console.log(document.cookie);
+        //headers.append("Cookie", document.cookie);
+        response.headers.forEach((value, key) => {
+          console.log(key + ": " + value + "\n");
+        });
         return response;
       })
       .then((response) => response.text())

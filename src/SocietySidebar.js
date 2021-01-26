@@ -28,8 +28,7 @@ function SocietySidebar() {
   const [fb, setFb] = useState("");
   const [insta, setInsta] = useState("");
   const [logo, setLogo] = useState(null);
-  const [profSign, setProfSign] = useState(null);
-  const [prezSign, setPrezSign] = useState(null);
+  const [adminLetter, setAdminLetter] = useState(null);
   const [channels, setChannels] = useState([]);
 
   useEffect(() => {

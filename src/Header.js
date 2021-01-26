@@ -23,7 +23,15 @@ function Header() {
         <h2>nescii</h2>
         <div className="header__input">
           <SearchIcon />
-          <input placeholder="Search nescii..." type="text" />
+          <label style={{ display: "none" }} htmlFor="search">
+            Search
+          </label>
+          <input
+            placeholder="Search nescii..."
+            type="text"
+            id="search"
+            name="search"
+          />
         </div>
       </div>
       <div className="header__center">

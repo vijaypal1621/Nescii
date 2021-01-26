@@ -173,7 +173,7 @@ function MessageSender() {
             <IconButton color="primary" component="div">
               <DescriptionIcon style={{color:"blue"}}/>
             </IconButton>
-            <h3 style={{ margin: "11px" }}>Event</h3>
+            <h3 style={{ margin: "11px" }}>Article</h3>
           </label>
         </div>
       </div>
@@ -256,7 +256,7 @@ function MessageSender() {
             <IconButton color="primary" component="div">
               <DescriptionIcon style={{color:"blue"}} />
             </IconButton>
-            <h3 style={{ margin: "11px" }}>Event</h3>
+            <h3 style={{ margin: "11px" }}>Article</h3>
           </label>
         </div>
       </div>

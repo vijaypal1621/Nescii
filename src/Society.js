@@ -6,7 +6,7 @@ import SocietyChat from "./SocietyChat";
 
 function Society() {
   return (
-    <div className="society" style={{ display: "flex" }}>
+    <div className="society" style={{ display: "flex", flex: "1" }}>
       <Router>
         <div style={{ flex: 0.1 }}>
           <SocietySidebar />
@@ -16,7 +16,7 @@ function Society() {
             <SocietyChat />
           </Route>
           <Route path="/">
-            <SocietyChat />
+            <h1>hello</h1>
           </Route>
         </Switch>
       </Router>

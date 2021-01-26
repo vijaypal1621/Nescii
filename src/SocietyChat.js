@@ -30,6 +30,7 @@ function SocietyChat() {
         );
     }
   }, [societyId]);
+  console.log(societyDetails);
 
   return (
     <>
@@ -62,7 +63,7 @@ function SocietyChat() {
       </div>
 
       <div style={{ flex: 0.4 }}>
-        <Widgets />
+        <Widgets society={societyDetails} />
       </div>
     </>
   );

@@ -15,7 +15,7 @@ function SocietySidebarOption({url,id,title}) {
 
 
     return (
-        <div className='sidebarOption' onClick={selectSociety} >
+        <div className='sidebarOption active__society' onClick={selectSociety} >
             <img src={url} alt={title}/>
             <h3>{title}</h3>
         </div>

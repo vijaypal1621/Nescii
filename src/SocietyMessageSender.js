@@ -44,7 +44,7 @@ function SocietyMessageSender() {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [photo, setPhoto] = React.useState(null);
-  // const [video,setVideo]= React.useState(null);
+  const [video, setVideo] = React.useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -120,30 +120,66 @@ function SocietyMessageSender() {
             <CloseRoundedIcon />
           </Button>
           <img src={photo} alt="" />
-          {/* {video != null ? ( */}
-
-          <video width="400" controls>
-            <source src="mov_bbb.mp4" id="video_here" />
-            Your browser does not support HTML5 video.
-          </video>
-          {/* ) : (
-                          ""
-                        )} */}
+          {video != null ? (
+            <video width="400" controls>
+              <source src="mov_bbb.mp4" id="video_here" />
+              Your browser does not support HTML5 video.
+            </video>
+          ) : (
+            <> </>
+          )}
         </div>
       </div>
       <div className="messageSender__bottom">
         <div className="messageSender__option">
-          <InsertPhotoIcon style={{ color: "green" }} />
-          <h3>Photo</h3>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="postImage"
+            multiple
+            type="file"
+            onChange={handlePhotoOpen}
+          />
+          <label htmlFor="postImage" style={{ display: "inline-flex" }}>
+            <IconButton color="primary" component="div">
+              <InsertPhotoIcon style={{ color: "green" }} />
+            </IconButton>
+            <h3 style={{ margin: "11px" }}>Photo</h3>
+          </label>
         </div>
         <div className="messageSender__option">
-          <PlayCircleFilledIcon style={{ color: "red" }} />
-          <h3>Video</h3>
+          {/* 
+
+          {/* <PlayCircleFilledIcon style={{ color: "red" }} />
+          <h3>Video</h3> */}
+          {/* <input accept="video/*" type="file" alt="/"  className="video__input"/>
+           */}
+
+          <input
+            accept="video/*"
+            className={classes.input}
+            id="postVideo"
+            multiple
+            type="file"
+            name="file[]"
+            onChange={handlePhotoOpen}
+          />
+          <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
+            <IconButton color="primary" component="div">
+              <PlayCircleFilledIcon style={{ color: "red" }} />
+            </IconButton>
+            <h3 style={{ margin: "11px" }}>Video</h3>
+          </label>
         </div>
 
         <div className="messageSender__option">
-          <EventIcon style={{ color: "orange" }} />
-          <h3>Event</h3>
+          <input accept="" className={classes.input} id="postEvent" />
+          <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
+            <IconButton color="primary" component="div">
+              <EventIcon style={{ color: "gray" }} />
+            </IconButton>
+            <h3 style={{ margin: "11px" }}>Event</h3>
+          </label>
         </div>
       </div>
       <Button
@@ -180,7 +216,7 @@ function SocietyMessageSender() {
             id="postImage"
             multiple
             type="file"
-            onChange={() => handlePhotoOpen()}
+            onChange={handlePhotoOpen}
           />
           <label htmlFor="postImage" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">
@@ -204,7 +240,7 @@ function SocietyMessageSender() {
             multiple
             type="file"
             name="file[]"
-            // onChange={handleVideoOpen}
+            onChange={handlePhotoOpen}
           />
           <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">
@@ -215,9 +251,13 @@ function SocietyMessageSender() {
         </div>
 
         <div className="messageSender__option">
-          {/* <EventIcon style={{ color: "orange" }} />
-          <h3>Event</h3> */}
-          <input type="file" alt="/" className="video__input" />
+          <input accept="" className={classes.input} id="postEvent" />
+          <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
+            <IconButton color="primary" component="div">
+              <EventIcon style={{ color: "gray" }} />
+            </IconButton>
+            <h3 style={{ margin: "11px" }}>Event</h3>
+          </label>
         </div>
       </div>
     </div>

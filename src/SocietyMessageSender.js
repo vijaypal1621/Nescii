@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 function SocietyMessageSender() {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -59,7 +60,7 @@ function SocietyMessageSender() {
   const [eventModal, setEventModal] = useState(false);
   const [date, setDate] = useState(new Date());
   const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
+  // const [end, setEnd] = useState(new Date());
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [token, setToken] = useState("");
@@ -98,9 +99,9 @@ function SocietyMessageSender() {
     setStart(date);
   };
 
-  const handleEndChange = (date) => {
-    setEnd(date);
-  };
+  // const handleEndChange = (date) => {
+  //   setEnd(date);
+  // };
 
   const RemoveSelectedFile = () => {
     const x = document.getElementById("postImage");
@@ -120,6 +121,30 @@ function SocietyMessageSender() {
   // source[0].src = URL.createObjectURL(event.files[0]);
   // source.parent()[0].load();
   // };
+
+
+  
+const handleEventSubmit = (e) => {
+  e.preventDefault();
+  if(token==='nescii@102' || token==='nescii@101'){
+    console.log(
+      eventTitle,
+      eventDescription,
+      date,
+      start,
+      //end,
+      token
+    );
+  }
+
+
+
+  
+  handleEventModalClose();
+
+};
+
+
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -251,18 +276,7 @@ function SocietyMessageSender() {
         >
           <form
             autoComplete="off"
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log(
-                eventTitle,
-                eventDescription,
-                date,
-                start,
-                end,
-                token
-              );
-              handleEventModalClose();
-            }}
+            onSubmit={handleEventSubmit}
           >
             <div>
               <h1>
@@ -318,16 +332,16 @@ function SocietyMessageSender() {
                   }}
                 />
                 <br />
-                <KeyboardTimePicker
+                {/* <KeyboardTimePicker
                   margin="normal"
                   id="time-picker"
                   label="End"
-                  value={end}
+                  // value={end}
                   onChange={handleEndChange}
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
-                />
+                /> */}
               </MuiPickersUtilsProvider>
               <TextField
                 color="secondary"
@@ -341,17 +355,24 @@ function SocietyMessageSender() {
                   setToken(e.target.value);
                 }}
               />
-              <br />
-              <br />
-              <center>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  style={{ marginTop: "2rem" }}
-                >
-                  Submit
-                </Button>
-              </center>
+              <label htmlFor="EventImage">              
+              <h5 style={{color:"gray", fontWeight:"500"}}>Event Image</h5>
+            </label>
+              <input
+              accept="image/*"
+              id="EventImage"
+              multiple
+              type="file"
+            />
+                <center>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    style={{ marginTop: "2rem" }}
+                  >
+                    Submit
+                  </Button>
+                </center>
             </div>
           </form>
         </div>

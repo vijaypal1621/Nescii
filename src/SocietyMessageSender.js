@@ -5,6 +5,8 @@ import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import EventIcon from "@material-ui/icons/Event";
 // import DescriptionIcon from "@material-ui/icons/Description";
 import DateFnsUtils from "@date-io/date-fns";
+import { useParams } from "react-router-dom";
+import db from "./firebase";
 import {
   Avatar,
   Button,
@@ -60,11 +62,12 @@ function SocietyMessageSender() {
   const [eventModal, setEventModal] = useState(false);
   const [date, setDate] = useState(new Date());
   const [start, setStart] = useState(new Date());
-  // const [end, setEnd] = useState(new Date());
+  const [place, setPlace] = useState("");
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [token, setToken] = useState("");
-
+  const [eventPhoto,setEventPhoto]= useState("");
+  const { societyId } = useParams();
   const handleEventModalOpen = () => {
     setEventModal(true);
   };
@@ -98,6 +101,7 @@ function SocietyMessageSender() {
   const handleStartChange = (date) => {
     setStart(date);
   };
+  
 
   // const handleEndChange = (date) => {
   //   setEnd(date);
@@ -126,12 +130,32 @@ function SocietyMessageSender() {
 const handleEventSubmit = (e) => {
   e.preventDefault();
   if(token==='nescii@102' || token==='nescii@101'){
+    console.log(societyId);
+    if(societyId){
+      db.collection('societies').doc(societyId)
+        .collection('events').add({
+              description:eventDescription,
+              timestamp:date,
+              place:place,
+              title:eventTitle,
+              url:eventPhoto,
+          }
+      )
+      .then(function() {
+          console.log("Document successfully updated!");
+      })
+      .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
+      
+  }
     console.log(
       eventTitle,
       eventDescription,
       date,
       start,
-      //end,
+      eventPhoto,
       token
     );
   }
@@ -306,6 +330,17 @@ const handleEventSubmit = (e) => {
                   setEventDescription(e.target.value);
                 }}
               />
+              <TextField
+                color="secondary"
+                fullWidth
+                id="eventTitle"
+                label="Event Place"
+                required
+                value={place}
+                onChange={(e) => {
+                  setPlace(e.target.value);
+                }}
+              />
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   disableToolbar
@@ -362,6 +397,8 @@ const handleEventSubmit = (e) => {
               id="EventImage"
               multiple
               type="file"
+              value={eventPhoto}
+              onChange={(e)=> setEventPhoto(e.target.value)}
             />
                 <center>
                   <Button

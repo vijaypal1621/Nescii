@@ -21,7 +21,6 @@ function Events() {
         );
     }
   }, [societyId]);
-  console.log(events);
 
     return (
         <div className='events'>
@@ -37,12 +36,12 @@ function Events() {
         )))}
 
 
-
-            {/* <Event url='https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj'
+{/* 
+             <Event url='https://drive.google.com/file/d/17WJHIAusScQZP0F92cdM-ayS-xSCr7oN/view?usp=sharing'
              title='Street Play' 
-             timeline='24 march 2021' 
-             place='Netaji Subhash University of technology' />
-            <Event url='https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj'
+             
+             place='Netaji Subhash University of technology' /> */}
+           {/* <Event url='https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj'
              title='Street Play' 
              timeline='24 march 2021' 
              place='Netaji Subhash University of technology' />

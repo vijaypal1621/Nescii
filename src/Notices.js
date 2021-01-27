@@ -1,4 +1,4 @@
-import cheerioModule from "cheerio";
+import Loading from "./Loading";
 import React, { Component } from "react";
 import {
   Button,
@@ -10,6 +10,21 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+import { fetchNotices } from "./redux/ActionCreators";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
+const mapStateToProps = (state) => {
+  return {
+    notices: state.notices,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchNotices: () => {
+    dispatch(fetchNotices());
+  },
+});
 
 const RenderNotice = ({ notice }) => {
   if (notice) {
@@ -47,47 +62,25 @@ const RenderNotice = ({ notice }) => {
   }
 };
 
-function DisplayNotices({ notices }) {
-  return notices.slice(0, 5).map((notice) => {
-    return <RenderNotice notice={notice} key={notice.title} />;
-  });
+function DisplayNotices({ notices, isLoading, errMess }) {
+  if (isLoading) {
+    return (
+      <center>
+        <Loading type={"bubbles"} color={"#16A596"} />
+      </center>
+    );
+  } else if (errMess) {
+    return <h4>{errMess}</h4>;
+  } else {
+    return notices.slice(0, 5).map((notice) => {
+      return <RenderNotice notice={notice} key={notice.title} />;
+    });
+  }
 }
 
 class Notices extends Component {
-  constructor() {
-    super();
-    this.state = { notices: [] };
-  }
-
   componentDidMount() {
-    const noticesArray = [];
-    fetch(
-      "https://cors-anywhere.herokuapp.com/https://www.imsnsit.org/imsnsit/notifications.php"
-    )
-      .then((response) => response.text())
-      .then((html) => {
-        const $ = cheerioModule.load(html);
-        $("tr")
-          .slice(4)
-          .each((index, notice) => {
-            if (notice.children.length !== 1) {
-              const noticeObject = {
-                url: $(notice).find("a").attr("href"),
-                date: notice.firstChild.firstChild.firstChild.data.trim(),
-                publisher: $(notice).find("b").text(),
-                title: $(notice).find("a").text(),
-              };
-              noticesArray.push(noticeObject);
-            }
-          });
-        return noticesArray;
-      })
-      .then((notices) => this.setState({ notices: notices }))
-      .catch(() =>
-        console.log(
-          "Can’t access https://www.imsnsit.org/imsnsit/notifications.php response."
-        )
-      );
+    this.props.fetchNotices();
   }
 
   render() {
@@ -97,7 +90,11 @@ class Notices extends Component {
           <center>Notices</center>
         </h1>
         <List component="ul">
-          <DisplayNotices notices={this.state.notices} />
+          <DisplayNotices
+            notices={this.props.notices.notices}
+            isLoading={this.props.notices.isLoading}
+            errMess={this.props.notices.errMess}
+          />
         </List>
         <center>
           <Button variant="contained" centerRipple={true}>
@@ -117,4 +114,6 @@ class Notices extends Component {
   }
 }
 
-export default Notices;
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Notices)
+);

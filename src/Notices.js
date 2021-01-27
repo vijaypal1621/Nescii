@@ -70,7 +70,11 @@ function DisplayNotices({ notices, isLoading, errMess }) {
       </center>
     );
   } else if (errMess) {
-    return <h4>{errMess}</h4>;
+    return (
+      <center>
+        <h4>{errMess}</h4>
+      </center>
+    );
   } else {
     return notices.slice(0, 5).map((notice) => {
       return <RenderNotice notice={notice} key={notice.title} />;

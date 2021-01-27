@@ -5,6 +5,7 @@ import {
   TextField,
   InputLabel,
   Button,
+  Snackbar,
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import "./SocietySidebar.css";
@@ -12,8 +13,32 @@ import SocietySidebarOption from "./SocietySidebarOption";
 import AddIcon from "@material-ui/icons/Add";
 import { AccountCircle, Facebook, Instagram } from "@material-ui/icons";
 import db from "./firebase";
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function SocietySidebar() {
+  const [successfulSnackOpen, setSuccessfulSnackOpen] = useState(false);
+
+  const handleSuccessfulSnackClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccessfulSnackOpen(false);
+  };
+  const [unsuccessfulSnackOpen, setUnsuccessfulSnackOpen] = useState(false);
+
+  const handleUnsuccessfulSnackClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setUnsuccessfulSnackOpen(false);
+  };
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -46,6 +71,24 @@ function SocietySidebar() {
 
   return (
     <>
+      <Snackbar
+        open={successfulSnackOpen}
+        autoHideDuration={6000}
+        onClose={handleSuccessfulSnackClose}
+      >
+        <Alert onClose={handleSuccessfulSnackClose} severity="success">
+          Form filled successfully.
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={unsuccessfulSnackOpen}
+        autoHideDuration={6000}
+        onClose={handleUnsuccessfulSnackClose}
+      >
+        <Alert onClose={handleUnsuccessfulSnackClose} severity="error">
+          Error submitting form. Try again!
+        </Alert>
+      </Snackbar>
       <Modal
         open={open}
         onClose={handleClose}
@@ -77,6 +120,18 @@ function SocietySidebar() {
                 logo,
                 adminLetter
               );
+              if (
+                name !== "" &&
+                prez !== "" &&
+                prof !== "" &&
+                description !== "" &&
+                adminLetter !== null &&
+                logo !== null
+              ) {
+                setSuccessfulSnackOpen(true);
+              } else {
+                setUnsuccessfulSnackOpen(true);
+              }
               handleClose();
             }}
           >

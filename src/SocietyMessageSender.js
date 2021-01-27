@@ -290,15 +290,7 @@ const handleEventSubmit = (e) => {
           </label>
         </div>
 
-        <div className="messageSender__option">
-          <input accept="" className={classes.input} id="postEvent" />
-          <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
-              <EventIcon style={{ color: "gray" }} />
-            </IconButton>
-            <h3 style={{ margin: "11px" }}>Event</h3>
-          </label>
-        </div>
+        
       </div>
       <Button
         className="post__button"

@@ -105,9 +105,8 @@ function SocietyMessageSender() {
 
   const RemoveSelectedFile = () => {
     const x = document.getElementById("postImage");
-    console.log(x.value);
     x.value = "";
-    console.log(x.value);
+    
   };
 
   const handlePhotoClose = () => {

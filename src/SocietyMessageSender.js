@@ -5,6 +5,9 @@ import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import EventIcon from "@material-ui/icons/Event";
 // import DescriptionIcon from "@material-ui/icons/Description";
 import DateFnsUtils from "@date-io/date-fns";
+import { useParams } from "react-router-dom";
+import {storage, db} from './firebase';
+
 import {
   Avatar,
   Button,
@@ -49,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 function SocietyMessageSender() {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -59,11 +63,12 @@ function SocietyMessageSender() {
   const [eventModal, setEventModal] = useState(false);
   const [date, setDate] = useState(new Date());
   const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
+  const [place, setPlace] = useState("");
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [token, setToken] = useState("");
-
+  const [eventPhoto,setEventPhoto]= useState(null);
+  const { societyId } = useParams();
   const handleEventModalOpen = () => {
     setEventModal(true);
   };
@@ -124,16 +129,16 @@ function SocietyMessageSender() {
   const handleStartChange = (date) => {
     setStart(date);
   };
+  
 
-  const handleEndChange = (date) => {
-    setEnd(date);
-  };
+  // const handleEndChange = (date) => {
+  //   setEnd(date);
+  // };
 
   const RemoveSelectedFile = () => {
     const x = document.getElementById("postImage");
-    console.log(x.value);
     x.value = "";
-    console.log(x.value);
+    
   };
 
   const handlePhotoClose = () => {
@@ -141,12 +146,87 @@ function SocietyMessageSender() {
     RemoveSelectedFile();
   };
 
+  const handleEventImage = (e) => {
+      if(e.target.files[0]){
+        setEventPhoto(e.target.files[0]);
+    }
+  }
+
   // const handleVideoOpen = (event) => {
 
   // var source = document.getElementById('video_here');
   // source[0].src = URL.createObjectURL(event.files[0]);
   // source.parent()[0].load();
   // };
+
+  
+const handleEventSubmit = (e) => {
+  e.preventDefault();
+  if(token==='nescii@102' || token==='nescii@101'){
+    console.log(societyId);
+    if(societyId){
+      const uploadTask = storage.ref(`images/${eventPhoto.name}`).put(eventPhoto);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+            // progress function
+            
+            
+        },
+        (error)=> {
+            // error function...
+            console.log(error);
+            alert(error.message);
+        },
+        () => {
+            // complete function
+            storage
+                   .ref('images')
+                   .child(eventPhoto.name)
+                   .getDownloadURL()
+                   .then(url => {
+                       //post image inside db
+                       db.collection('societies').doc(societyId)
+                          .collection('events').add({
+                                description:eventDescription,
+                                timestamp:date,
+                                place:place,
+                                title:eventTitle,
+                                url:url,
+                            }
+                        )
+                        .then(function() {
+                          console.log("Document successfully updated!");
+                          })
+                          .catch(function(error) {
+                              // The document probably doesn't exist.
+                              console.error("Error updating document: ", error);
+                          });
+                   })
+        }
+      )
+
+        //dcdhcgd
+      
+  
+    console.log(
+      eventTitle,
+      eventDescription,
+      date,
+      start,
+      eventPhoto,
+      token
+    );
+  }
+
+
+
+}
+  handleEventModalClose();
+
+};
+
+
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -236,15 +316,7 @@ function SocietyMessageSender() {
           </label>
         </div>
 
-        <div className="messageSender__option">
-          <input accept="" className={classes.input} id="postEvent" />
-          <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
-              <EventIcon style={{ color: "gray" }} />
-            </IconButton>
-            <h3 style={{ margin: "11px" }}>Event</h3>
-          </label>
-        </div>
+        
       </div>
       <Button
         className="post__button"
@@ -277,18 +349,7 @@ function SocietyMessageSender() {
         >
           <form
             autoComplete="off"
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log(
-                eventTitle,
-                eventDescription,
-                date,
-                start,
-                end,
-                token
-              );
-              handleEventModalClose();
-            }}
+            onSubmit={handleEventSubmit}
           >
             <div>
               <h1>
@@ -319,6 +380,17 @@ function SocietyMessageSender() {
                   setEventDescription(e.target.value);
                 }}
               />
+              <TextField
+                color="secondary"
+                fullWidth
+                id="eventTitle"
+                label="Event Place"
+                required
+                value={place}
+                onChange={(e) => {
+                  setPlace(e.target.value);
+                }}
+              />
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   disableToolbar
@@ -344,16 +416,16 @@ function SocietyMessageSender() {
                   }}
                 />
                 <br />
-                <KeyboardTimePicker
+                {/* <KeyboardTimePicker
                   margin="normal"
                   id="time-picker"
                   label="End"
-                  value={end}
+                  // value={end}
                   onChange={handleEndChange}
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
-                />
+                /> */}
               </MuiPickersUtilsProvider>
               <TextField
                 color="secondary"
@@ -367,17 +439,25 @@ function SocietyMessageSender() {
                   setToken(e.target.value);
                 }}
               />
-              <br />
-              <br />
-              <center>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  style={{ marginTop: "2rem" }}
-                >
-                  Submit
-                </Button>
-              </center>
+              <label htmlFor="EventImage">              
+              <h5 style={{color:"gray", fontWeight:"500"}}>Event Image</h5>
+            </label>
+              <input
+              accept="image/*"
+              id="EventImage"
+              multiple
+              type="file"
+              onChange={handleEventImage}
+            />
+                <center>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    style={{ marginTop: "2rem" }}
+                  >
+                    Submit
+                  </Button>
+                </center>
             </div>
           </form>
         </div>

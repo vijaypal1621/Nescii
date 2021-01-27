@@ -21,16 +21,20 @@ function SocietyChat() {
       db.collection("societies")
         .doc(societyId)
         .onSnapshot((snapshot) => setSocietyDetails(snapshot.data()));
-      db.collection("societies")
+        db.collection("societies")
         .doc(societyId)
         .collection("posts")
         .orderBy("timestamp", "asc")
         .onSnapshot((snapshot) =>
           setPosts(snapshot.docs.map((doc) => doc.data()))
         );
+        
+        
+      
     }
   }, [societyId]);
-  console.log(societyDetails);
+  
+  
 
   return (
     <>
@@ -63,7 +67,7 @@ function SocietyChat() {
       </div>
 
       <div style={{ flex: 0.4 }}>
-        <Widgets society={societyDetails} />
+        <Widgets society={societyDetails}  />
       </div>
     </>
   );

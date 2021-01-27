@@ -5,7 +5,7 @@ import WidgetAbout from './WidgetAbout';
 function Widgets({society}) {
     return (
         <div className='widgets'>
-            <Events />
+            <Events  />
             <WidgetAbout society={society}/>
         </div>
     )

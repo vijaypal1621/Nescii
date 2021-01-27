@@ -3,6 +3,7 @@ import SocietySidebar from "./SocietySidebar";
 import "./Society.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SocietyChat from "./SocietyChat";
+import SocietyDefault from "./SocietyDefault";
 
 function Society() {
   return (
@@ -16,7 +17,7 @@ function Society() {
             <SocietyChat />
           </Route>
           <Route path="/">
-            <h1>hello</h1>
+            <SocietyDefault />
           </Route>
         </Switch>
       </Router>

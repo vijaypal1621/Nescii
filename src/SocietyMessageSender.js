@@ -84,6 +84,7 @@ function SocietyMessageSender() {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handlePhotoOpen = (event) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
@@ -93,6 +94,32 @@ function SocietyMessageSender() {
       reader.readAsDataURL(event.target.files[0]);
     }
     setOpen(true);
+  };
+
+  const handleVideoOpen = (evt) => {
+    var reader = new window.FileReader(),
+      file = evt.target.files[0],
+      url;
+
+    reader = window.URL || window.webKitURL;
+
+    if (reader && reader.createObjectURL) {
+      url = reader.createObjectURL(file);
+      video.src = url;
+      reader.revokeObjectURL(url); //free up memory
+      return;
+    }
+
+    if (!window.FileReader) {
+      console.log("Sorry, not so much");
+      return;
+    }
+
+    reader = new window.FileReader();
+    reader.onload = function (evt) {
+      video.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleDateChange = (date) => {
@@ -240,8 +267,7 @@ const handleEventSubmit = (e) => {
           <img src={photo} alt="" />
           {video != null ? (
             <video width="400" controls>
-              <source src="mov_bbb.mp4" id="video_here" />
-              Your browser does not support HTML5 video.
+              <source src={URL.createObjectURL(video)} />
             </video>
           ) : (
             <> </>
@@ -280,7 +306,7 @@ const handleEventSubmit = (e) => {
             multiple
             type="file"
             name="file[]"
-            onChange={handlePhotoOpen}
+            onChange={handleVideoOpen}
           />
           <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
             <IconButton color="primary" component="div">

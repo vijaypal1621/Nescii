@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import './Events.css';
 import Event from './Event';
 import { useParams } from "react-router-dom";
-import db from "./firebase";
+import {db} from "./firebase";
 
 function Events() {
 

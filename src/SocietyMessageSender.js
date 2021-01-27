@@ -6,7 +6,8 @@ import EventIcon from "@material-ui/icons/Event";
 // import DescriptionIcon from "@material-ui/icons/Description";
 import DateFnsUtils from "@date-io/date-fns";
 import { useParams } from "react-router-dom";
-import db from "./firebase";
+import {storage, db} from './firebase';
+
 import {
   Avatar,
   Button,
@@ -66,7 +67,7 @@ function SocietyMessageSender() {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [token, setToken] = useState("");
-  const [eventPhoto,setEventPhoto]= useState("");
+  const [eventPhoto,setEventPhoto]= useState(null);
   const { societyId } = useParams();
   const handleEventModalOpen = () => {
     setEventModal(true);
@@ -118,6 +119,12 @@ function SocietyMessageSender() {
     RemoveSelectedFile();
   };
 
+  const handleEventImage = (e) => {
+      if(e.target.files[0]){
+        setEventPhoto(e.target.files[0]);
+    }
+  }
+
   // const handleVideoOpen = (event) => {
 
   // var source = document.getElementById('video_here');
@@ -125,31 +132,56 @@ function SocietyMessageSender() {
   // source.parent()[0].load();
   // };
 
-
   
 const handleEventSubmit = (e) => {
   e.preventDefault();
   if(token==='nescii@102' || token==='nescii@101'){
     console.log(societyId);
     if(societyId){
-      db.collection('societies').doc(societyId)
-        .collection('events').add({
-              description:eventDescription,
-              timestamp:date,
-              place:place,
-              title:eventTitle,
-              url:eventPhoto,
-          }
+      const uploadTask = storage.ref(`images/${eventPhoto.name}`).put(eventPhoto);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+            // progress function
+            
+            
+        },
+        (error)=> {
+            // error function...
+            console.log(error);
+            alert(error.message);
+        },
+        () => {
+            // complete function
+            storage
+                   .ref('images')
+                   .child(eventPhoto.name)
+                   .getDownloadURL()
+                   .then(url => {
+                       //post image inside db
+                       db.collection('societies').doc(societyId)
+                          .collection('events').add({
+                                description:eventDescription,
+                                timestamp:date,
+                                place:place,
+                                title:eventTitle,
+                                url:url,
+                            }
+                        )
+                        .then(function() {
+                          console.log("Document successfully updated!");
+                          })
+                          .catch(function(error) {
+                              // The document probably doesn't exist.
+                              console.error("Error updating document: ", error);
+                          });
+                   })
+        }
       )
-      .then(function() {
-          console.log("Document successfully updated!");
-      })
-      .catch(function(error) {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
-      });
+
+        //dcdhcgd
       
-  }
+  
     console.log(
       eventTitle,
       eventDescription,
@@ -162,7 +194,7 @@ const handleEventSubmit = (e) => {
 
 
 
-  
+}
   handleEventModalClose();
 
 };
@@ -397,8 +429,7 @@ const handleEventSubmit = (e) => {
               id="EventImage"
               multiple
               type="file"
-              value={eventPhoto}
-              onChange={(e)=> setEventPhoto(e.target.value)}
+              onChange={handleEventImage}
             />
                 <center>
                   <Button

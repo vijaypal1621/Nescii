@@ -7,6 +7,7 @@ import { Avatar, Button, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
+import {useStateValue} from './StateProvider';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -44,7 +45,7 @@ function MessageSender() {
   const [open, setOpen] = React.useState(false);
   const [photo, setPhoto] = React.useState(null);
   const [video, setVideo] = React.useState(null);
-
+  const [{user}] = useStateValue();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -92,8 +93,8 @@ function MessageSender() {
       </div>
       <hr />
       <div className="modal__profile">
-        <Avatar />
-        <h4 className="modal__title">....user....</h4>
+        <Avatar src={user?.photoURL} alt={user?.displayName}  />
+        <h4 className="modal__title">{user?.displayName}</h4>
       </div>
       <div
         style={{
@@ -194,7 +195,7 @@ function MessageSender() {
   return (
     <div className="message">
       <div className="messageSender__top">
-        <Avatar />
+        <Avatar src={user?.photoURL} alt={user?.displayName} />
         <button type="button" onClick={handleOpen}>
           What's on Your Mind?
         </button>

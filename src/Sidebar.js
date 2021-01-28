@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from "react";
 import "./Sidebar.css";
 import { useStateValue } from './StateProvider';
+import { Button, Input } from '@material-ui/core';
+import {auth} from './firebase';
+import Login from './Login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   function Sidebar() {
     const classes = useStyles();
     const [{ user } ] = useStateValue();
+    
 
     return (
       <>
@@ -36,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
             </div>
             <h3 className="profile__name">{user.displayName}</h3>
             <h4 className="profile__sem">Sem-4</h4>
+            {user ? 
+                  (<Button  onClick={()=> auth.signOut()}>Logout</Button>
+                  ):(
+                    <Login />
+                  )
+                  }
           </div>
         </div>
       </>

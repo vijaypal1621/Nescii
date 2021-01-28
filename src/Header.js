@@ -10,9 +10,12 @@ import ApartmentIcon from "@material-ui/icons/Apartment";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { NavLink } from "react-router-dom";
+import {useStateValue} from './StateProvider';
 
 function Header() {
   const [current, setCurrent] = useState("home");
+  const [{user}] = useStateValue();
+
   useEffect(() => {
     const currentPage = document.getElementById(current);
     currentPage.classList.add("header__option--active");
@@ -80,8 +83,8 @@ function Header() {
       </div>
       <div className="header__right">
         <div className="header__info">
-          <Avatar />
-          <h4>Aaryan Raj Sarda</h4>
+          <Avatar src={user?.photoURL} alt={user?.displayName}/>
+          <h4>{user?.displayName}</h4>
         </div>
         <IconButton>
           <AddIcon />

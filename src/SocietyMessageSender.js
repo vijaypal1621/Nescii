@@ -22,7 +22,7 @@ import {
 } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
-
+import {useStateValue} from './StateProvider';
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SocietyMessageSender() {
   const classes = useStyles();
+  const [{user}] = useStateValue();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
@@ -238,8 +239,8 @@ const handleEventSubmit = (e) => {
       </div>
       <hr />
       <div className="modal__profile">
-        <Avatar />
-        <h4 className="modal__title">....user....</h4>
+        <Avatar src={user?.photoURL} alt={user?.displayName}  />
+        <h4 className="modal__title">{user?.displayName}</h4>
       </div>
       <div
         style={{
@@ -464,7 +465,7 @@ const handleEventSubmit = (e) => {
       </Modal>
       <div className="message">
         <div className="messageSender__top">
-          <Avatar />
+          <Avatar src={user?.photoURL} alt={user?.displayName} />
           <button type="button" onClick={handleOpen}>
             What's on Your Mind?
           </button>

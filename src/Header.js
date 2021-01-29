@@ -10,35 +10,29 @@ import ApartmentIcon from "@material-ui/icons/Apartment";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import HelpIcon from '@material-ui/icons/Help';
+import MenuIcon from '@material-ui/icons/Menu';
+import { UncontrolledDropdown,DropdownToggle,DropdownMenu,  DropdownItem, ButtonDropdown,} from 'reactstrap';
 import { NavLink } from "react-router-dom";
 import {useStateValue} from './StateProvider';
+
 
 function Header() {
   const [current, setCurrent] = useState("home");
   const [{user}] = useStateValue();
+  const [dropdownOpen, setOpen] = useState(false);
+
+  const toggle = () => setOpen(!dropdownOpen);
 
   useEffect(() => {
     const currentPage = document.getElementById(current);
     currentPage.classList.add("header__option--active");
   }, [current]);
   return (
-    <div className="header">
-      <div className="header__left">
+    <div className="header row">
+      <div className="header__left col-6 order-1 order-md-1 col-md-4">
         <h2>nescii</h2>
-        <div className="header__input">
-          <SearchIcon />
-          <label style={{ display: "none" }} htmlFor="search">
-            Search
-          </label>
-          <input
-            placeholder="Search nescii..."
-            type="text"
-            id="search"
-            name="search"
-          />
-        </div>
       </div>
-      <div className="header__center">
+      <div className="header__center col-12 order-2 order-md-2 col-md-4">
         <div className="header__option" id="home">
           <Tooltip title="Home">
             <NavLink
@@ -81,11 +75,13 @@ function Header() {
             </NavLink>
           </Tooltip>
         </div>
+        <MenuIcon style={{ color: " #16a596" }} fontSize="large" />
+        
       </div>
-      <div className="header__right">
+      <div className="header__right col-6 order-1 order-md-3 col-md-4">
         <div className="header__info">
           <Avatar src={user?.photoURL} alt={user?.displayName}/>
-          <h4>{user?.displayName}</h4>
+          <h4 className="d-none d-md-block">{user?.displayName}</h4>
         </div>
         <IconButton>
           <HelpIcon />
@@ -96,3 +92,101 @@ function Header() {
 }
 
 export default Header;
+
+// import React, { useState, useEffect } from "react";
+// import "./Header.css";
+// import SearchIcon from "@material-ui/icons/Search";
+// import HomeIcon from "@material-ui/icons/Home";
+// import { Avatar, IconButton, Tooltip } from "@material-ui/core";
+// import AddIcon from "@material-ui/icons/Add";
+// import ForumIcon from "@material-ui/icons/Forum";
+// import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
+// import ApartmentIcon from "@material-ui/icons/Apartment";
+// import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+// import AssignmentIcon from "@material-ui/icons/Assignment";
+// import HelpIcon from '@material-ui/icons/Help';
+// import {useStateValue} from './StateProvider';
+// import {NavLink} from 'react-router-dom';
+// import {
+//   Collapse,
+//   Navbar,
+//   NavbarToggler,
+//   NavbarBrand,
+//   Nav,
+//   NavItem,
+  
+//   UncontrolledDropdown,
+//   DropdownToggle,
+//   DropdownMenu,
+//   DropdownItem,
+//   NavbarText
+// } from 'reactstrap';
+
+// function Header() {
+//   const [isOpen, setIsOpen] = useState(false);
+
+//   const toggle = () => setIsOpen(!isOpen);
+//   const [{user}] = useStateValue();
+
+//   return (
+//     <div className="header">
+//       <Navbar color="light" light expand="md">
+// <NavbarBrand href="/home"> 
+//     <div className="header__left">
+//             <h2>nescii</h2>
+//             <div className="header__input">
+//               <SearchIcon />
+//               <label style={{ display: "none" }} htmlFor="search">
+//                 Search
+//               </label>
+//               <input
+//                 placeholder="Search nescii..."
+//                 type="text"
+//                 id="search"
+//                 name="search"
+//               />
+//             </div>
+//           </div>
+// </NavbarBrand>
+// <NavbarToggler onClick={toggle} />
+// <Collapse isOpen={isOpen} navbar>
+//   <Nav className="mr-auto" navbar>
+//     <NavItem>
+//       <NavLink href="/home">
+//             <div className="header__option" id="home">
+//                 <Tooltip title="Home">
+//                     <HomeIcon style={{ color: " #16a596" }} fontSize="large" />
+//                 </Tooltip>
+//               </div>
+//       </NavLink>
+//     </NavItem>
+//     <NavItem>
+//       <NavLink href="/societies">
+//           <div className="header__option" id="societies">
+//               <Tooltip title="Societies">
+//                   <ApartmentIcon style={{ color: " #16a596" }} fontSize="large" />
+//               </Tooltip>
+//             </div>
+//       </NavLink>
+//     </NavItem>
+//     <NavItem>
+//       <NavLink href="/home">
+//           <div className="header__option" id="resources">
+//               <Tooltip title="Resources">
+//               <AssignmentIcon style={{ color: " #16a596" }} fontSize="large" />
+//               </Tooltip>
+//             </div>
+//       </NavLink>
+//     </NavItem>
+    
+//   </Nav>
+// </Collapse>
+// </Navbar>
+
+
+//     </div>      
+//   );  
+  
+// }
+
+// export default Header;

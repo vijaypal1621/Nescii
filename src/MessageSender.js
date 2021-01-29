@@ -209,7 +209,7 @@ function MessageSender() {
         </Modal>
       </div>
       <div className="messageSender__bottom row">
-        <div className="messageSender__option col-sm-4">
+        <div className="messageSender__option col-4">
           <input
             accept="image/*"
             className={classes.input}
@@ -227,7 +227,7 @@ function MessageSender() {
           </div>
           </label>
         </div>
-        <div className="messageSender__option col-sm-4">
+        <div className="messageSender__option col-4">
           <input
             accept="video/*"
             className={classes.input}
@@ -247,7 +247,7 @@ function MessageSender() {
           </label>
         </div>
 
-        <div className="messageSender__option col-sm-4">
+        <div className="messageSender__option col-4">
           <input accept="" className={classes.input} id="postEvent" />
           <label htmlFor="postEvent" className="messageSender__option__label">
           <div style={{display:"flex",alignItems:"center"}}>

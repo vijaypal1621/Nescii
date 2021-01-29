@@ -11,7 +11,7 @@ const firebaseConfig = {
   storageBucket: "nescii-1o1.appspot.com",
   messagingSenderId: "4694794732",
   appId: "1:4694794732:web:71dde450292957bec820c9",
-  measurementId: "G-NBKEGKSYR9"
+  measurementId: "G-NBKEGKSYR9",
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -20,5 +20,5 @@ const storage = firebase.storage();
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-export { auth,provider,db, storage};
+export { auth, provider, db, storage };
 export default db;

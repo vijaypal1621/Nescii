@@ -1,6 +1,12 @@
 import React from "react";
 import "./SocietySidebarOption.css";
 import { useHistory } from "react-router-dom";
+import {
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Typography,
+} from "@material-ui/core";
 
 function SocietySidebarOption({ url, id, title }) {
   const history = useHistory();
@@ -13,8 +19,20 @@ function SocietySidebarOption({ url, id, title }) {
 
   return (
     <div className="sidebarOption active__society" onClick={selectSociety}>
-      <img src={url} alt={title} />
-      <h3>{title}</h3>
+      <ListItem>
+        <ListItemIcon>
+          <img
+            src={url}
+            alt={title}
+            width="60px"
+            height="60px"
+            style={{ borderRadius: "100%" }}
+          />
+        </ListItemIcon>
+        <ListItemText style={{ marginLeft: "10px" }}>
+          <Typography variant="h6">{title}</Typography>
+        </ListItemText>
+      </ListItem>
     </div>
   );
 }

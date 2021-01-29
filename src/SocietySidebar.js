@@ -6,6 +6,10 @@ import {
   InputLabel,
   Button,
   Snackbar,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import "./SocietySidebar.css";
@@ -174,7 +178,7 @@ function SocietySidebar() {
           >
             <div>
               <h1>
-                <center>Hit Us Up!</center>
+                <center>Register your Society with Us!</center>
               </h1>
               <TextField
                 name="name"
@@ -322,65 +326,26 @@ function SocietySidebar() {
           </form>
         </div>
       </Modal>
-      <div className="society-sidebar">
-        <IconButton style={{ marginLeft: "35%" }}>
-          <AddIcon className="add__button" onClick={handleOpen} />
-        </IconButton>
-        <hr />
+      <List className="society-sidebar">
+        <ListItem>
+          <ListItemIcon>
+            <IconButton style={{ marginLeft: "100%" }}>
+              <AddIcon className="add__button" onClick={handleOpen} />
+            </IconButton>
+          </ListItemIcon>
+        </ListItem>
+        <Divider />
         {channels.map((channel) => (
-          <SocietySidebarOption
-            title={channel.title}
-            id={channel.id}
-            url={channel.imageURL}
-          />
+          <>
+            <SocietySidebarOption
+              title={channel.title}
+              id={channel.id}
+              url={channel.imageURL}
+            />
+            <Divider />
+          </>
         ))}
-
-        {/* <SocietySidebarOption
-          url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
-          title="Ashwamedh"
-        />
-        <hr />
-        <SocietySidebarOption
-          url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
-          title="Crescendo"
-        />
-        <hr />
-        <SocietySidebarOption
-          url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
-          title="Junoon"
-        />
-        <hr />
-        <SocietySidebarOption
-          url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
-          title="Mirage"
-        />
-        <hr />
-        <SocietySidebarOption
-          url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
-          title="Alliance"
-        />
-        <hr />
-        <SocietySidebarOption
-          url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
-          title="Debsoc"
-        />
-        <hr />
-        <SocietySidebarOption
-          url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
-          title="Capella"
-        />
-        <hr />
-        <SocietySidebarOption
-          url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
-          title="Enactus"
-        />
-        <hr />
-        <SocietySidebarOption
-          url="https://yt3.ggpht.com/ytc/AAUvwnh2tXWXz84kQWn1D0thfl6EAl5PeiBe0FwA2BQEKw=s176-c-k-c0x00ffffff-no-rj"
-          title="Quiz Club"
-        />
-        <hr /> */}
-      </div>
+      </List>
     </>
   );
 }

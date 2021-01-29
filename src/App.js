@@ -25,7 +25,7 @@ function App() {
             (
               <>
                <Header />
-                <div className="app__body ">
+                <div className="app__body container-fluid">
                   <Switch>
                     <Route path="/home" component={Home} />
                     <Route path="/societies" component={Society} />

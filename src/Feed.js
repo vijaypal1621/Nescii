@@ -4,7 +4,7 @@ import MessageSender from "./MessageSender";
 import Post from "./Post";
 function Feed() {
   return (
-    <div className="feed">
+    <div className="feed col-12">
       <MessageSender />
       <Post
         profilePic="https://s.yimg.com/fz/api/res/1.2/lX1NI08tfA8zoS_91rRWrQ--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpdDtoPTE4MDtxPTgwO3c9MTgw/https://s.yimg.com/zb/imgv1/22245df6-eb54-33c3-b1ff-64f879f287bf/t_500x300"

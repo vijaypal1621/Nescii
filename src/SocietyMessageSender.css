@@ -32,12 +32,11 @@
 .messageSender__input {
   flex: 1;
 }
-.messageSender__bottom {
+/* .messageSender__bottom {
   display: flex;
   justify-content: space-evenly;
 }
 .messageSender__option {
-  /* padding: 20px; */
   display: flex;
   align-items: center;
   color: gray;
@@ -49,11 +48,10 @@
   cursor: pointer;
 }
 .messageSender__option:hover {
-  /* background-color: #eff2f5; */
   border-radius: 20px;
   opacity: 0.8;
   cursor: pointer;
-}
+} */
 .modal__input {
   border: none;
   outline: 0;

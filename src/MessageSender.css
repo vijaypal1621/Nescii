@@ -1,7 +1,7 @@
 .message{
     flex: 1;
     display: flex;
-    margin-top: 30px;
+    margin-top: 15px;
     flex-direction: column;
     background-color: floralwhite;
     border-radius: 15px;
@@ -29,27 +29,32 @@
 .messageSender__top > form  > button {
     display: none;
 }
-.messageSender__input {
+/* .messageSender__input {
     flex: 1;
-}
+} */
 .messageSender__bottom {
-    display: flex;
-    justify-content: space-evenly;
+    margin: 0;
 }
-.messageSender__option {
-    /* padding: 20px; */
-    display: flex;
-    align-items: center;
+ .messageSender__option {
     color: gray;
-    margin: 5px;
+    padding: 0;
 }
+.messageSender__option__label{
+    display: flex;
+    margin: 0;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.messageSender__option__label > h3{
+    font-size: 1rem;
+}
+/*
 .messageSender__option >h3 {
     font-size: medium;
     margin-left: 10px;
     cursor: pointer;
-}
-.messageSender__option:hover {
-    /* background-color: #eff2f5; */
+} */
+/* .messageSender__option:hover {
     border-radius: 20px;
     cursor: pointer;
-}
+} */

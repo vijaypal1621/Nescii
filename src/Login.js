@@ -49,14 +49,15 @@ function Login() {
         //user has logged in..
         console.log(authUser.uid);
         setUser(authUser); // helps in persistence
-        dispatch({
-            type:actionTypes.SET_USER,
-            user:user
-        })
+        
       }else{
         //user has logged out..
         setUser(null);
       }
+      dispatch({
+        type:actionTypes.SET_USER,
+        user:user
+    })
     })
   }, [dispatch, user, username]);
 

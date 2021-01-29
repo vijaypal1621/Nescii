@@ -207,17 +207,6 @@ const handleEventSubmit = (e) => {
         }
       )
 
-        //dcdhcgd
-      
-  
-    console.log(
-      eventTitle,
-      eventDescription,
-      date,
-      start,
-      eventPhoto,
-      token
-    );
   }
 
 

@@ -42,11 +42,20 @@
 .messageSender__option__label{
     display: flex;
     margin: 0;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
 }
-.messageSender__option__label > h3{
+.messageSender__option__label > div > h4{
     font-size: 1rem;
+    margin-top:8px;
+
+}
+@media (min-width: 1000px){ 
+    .messageSender__option__label > div > h4{
+        font-size: 1.4rem;
+        margin-top:8px;
+    }
+    
 }
 /*
 .messageSender__option >h3 {

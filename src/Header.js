@@ -9,6 +9,7 @@ import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import ApartmentIcon from "@material-ui/icons/Apartment";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import HelpIcon from '@material-ui/icons/Help';
 import { NavLink } from "react-router-dom";
 import {useStateValue} from './StateProvider';
 
@@ -87,16 +88,7 @@ function Header() {
           <h4>{user?.displayName}</h4>
         </div>
         <IconButton>
-          <AddIcon />
-        </IconButton>
-        <IconButton>
-          <ForumIcon />
-        </IconButton>
-        <IconButton>
-          <NotificationsActiveIcon />
-        </IconButton>
-        <IconButton>
-          <ExpandMoreIcon />
+          <HelpIcon />
         </IconButton>
       </div>
     </div>

@@ -219,10 +219,12 @@ function MessageSender() {
             onChange={handlePhotoOpen}
           />
           <label htmlFor="postImage" className="messageSender__option__label" >
+          <div style={{display:"flex",alignItems:"center"}}>
             <IconButton style={{padding:"0"}} color="primary" component="div">
               <InsertPhotoIcon  style={{ color: "green" }} />
             </IconButton>
-            <h3 >Photo</h3>
+            <h4 >Photo</h4>
+          </div>
           </label>
         </div>
         <div className="messageSender__option col-sm-4">
@@ -236,20 +238,24 @@ function MessageSender() {
             onChange={handlePhotoOpen}
           />
           <label htmlFor="postVideo" className="messageSender__option__label" >
+            <div style={{display:"flex",alignItems:"center"}}>
             <IconButton style={{padding:"0"}}color="primary" component="div">
               <PlayCircleFilledIcon style={{ color: "red" }} />
             </IconButton>
-            <h3 >Video</h3>
+            <h4 >Video</h4>
+            </div>
           </label>
         </div>
 
         <div className="messageSender__option col-sm-4">
           <input accept="" className={classes.input} id="postEvent" />
           <label htmlFor="postEvent" className="messageSender__option__label">
+          <div style={{display:"flex",alignItems:"center"}}>
             <IconButton style={{padding:"0"}} color="primary" component="div">
               <DescriptionIcon style={{ color: "blue" }} />
             </IconButton>
-            <h3 >Article</h3>
+            <h4 >Article</h4>
+            </div>
           </label>
         </div>
       </div>

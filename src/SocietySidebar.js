@@ -14,6 +14,8 @@ import AddIcon from "@material-ui/icons/Add";
 import { AccountCircle, Facebook, Instagram } from "@material-ui/icons";
 import db from "./firebase";
 import MuiAlert from "@material-ui/lab/Alert";
+import emailjs, { init } from "emailjs-com";
+init("user_u87cckXVKEo0jLw2yaOzv");
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -107,31 +109,66 @@ function SocietySidebar() {
           }}
         >
           <form
+            id="socRegForm"
             autoComplete="off"
             onSubmit={(e) => {
               e.preventDefault();
-              console.log(
-                name,
-                prez,
-                prof,
-                description,
-                fb,
-                insta,
-                logo,
-                adminLetter
-              );
-              if (
-                name !== "" &&
-                prez !== "" &&
-                prof !== "" &&
-                description !== "" &&
-                adminLetter !== null &&
-                logo !== null
-              ) {
-                setSuccessfulSnackOpen(true);
-              } else {
-                setUnsuccessfulSnackOpen(true);
-              }
+              const logoDataUrl = (file) =>
+                new Promise((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.readAsDataURL(file);
+                  reader.onload = () => resolve(reader.result);
+                  reader.onerror = (error) => reject(error);
+                })
+                  .then((url) => {
+                    template.logo = url;
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+
+              const adminLetterDataUrl = (file) =>
+                new Promise((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.readAsDataURL(file);
+                  reader.onload = () => resolve(reader.result);
+                  reader.onerror = (error) => reject(error);
+                })
+                  .then((url) => {
+                    template.adminLetter = url;
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+
+              var template = {
+                name: name,
+                description: description,
+                prez: prez,
+                prof: prof,
+                fb: fb,
+                insta: insta,
+                user_name: "test User",
+              };
+              logoDataUrl(logo);
+              adminLetterDataUrl(adminLetter);
+              emailjs
+                .send(
+                  "service_lfsk51j",
+                  "soc_reg_form",
+                  template,
+                  "user_u87cckXVKEo0jLw2yaOzv"
+                )
+                .then(
+                  function (response) {
+                    console.log("SUCCESS!", response.status, response.text);
+                    setSuccessfulSnackOpen(true);
+                  },
+                  function (error) {
+                    console.log("FAILED...", error);
+                    setUnsuccessfulSnackOpen(true);
+                  }
+                );
               handleClose();
             }}
           >
@@ -140,6 +177,7 @@ function SocietySidebar() {
                 <center>Hit Us Up!</center>
               </h1>
               <TextField
+                name="name"
                 color="secondary"
                 fullWidth
                 id="name"
@@ -152,6 +190,7 @@ function SocietySidebar() {
               />
 
               <TextField
+                name="description"
                 color="secondary"
                 margin="normal"
                 fullWidth
@@ -167,6 +206,7 @@ function SocietySidebar() {
               />
 
               <TextField
+                name="prof"
                 color="secondary"
                 margin="normal"
                 fullWidth
@@ -186,6 +226,7 @@ function SocietySidebar() {
                 }}
               />
               <TextField
+                name="prez"
                 color="secondary"
                 margin="normal"
                 fullWidth
@@ -214,6 +255,7 @@ function SocietySidebar() {
                 id="logo"
                 accept="image/*"
                 required="true"
+                name="logo"
                 onChange={(e) => setLogo(e.target.files[0])}
               ></input>
               <br />
@@ -225,6 +267,7 @@ function SocietySidebar() {
                 type="file"
                 id="adminLetter"
                 accept="image/*"
+                name="adminLetter"
                 required="true"
                 onChange={(e) => setAdminLetter(e.target.files[0])}
               ></input>
@@ -235,6 +278,7 @@ function SocietySidebar() {
                 margin="normal"
                 fullWidth
                 id="fb"
+                name="fb"
                 label="Facebook Page URL"
                 InputProps={{
                   startAdornment: (
@@ -251,6 +295,7 @@ function SocietySidebar() {
                 color="secondary"
                 margin="normal"
                 fullWidth
+                name="insta"
                 id="instagram"
                 label="Instagram Page URL"
                 InputProps={{

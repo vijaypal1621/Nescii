@@ -66,7 +66,7 @@ function DisplayNotices({ notices, isLoading, errMess }) {
   if (isLoading) {
     return (
       <center>
-        <Loading type={"bubbles"} color={"#16A596"} />
+        <Loading type={"bubbles"} color={"#ff0000"} />
       </center>
     );
   } else if (errMess) {
@@ -89,7 +89,7 @@ class Notices extends Component {
 
   render() {
     return (
-      <div className="notice" >
+      <div className="notice">
         <h1>
           <center>Notices</center>
         </h1>

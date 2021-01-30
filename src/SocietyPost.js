@@ -6,52 +6,6 @@ import {db} from './firebase';
 import {useStateValue} from './StateProvider';
 import { useParams } from "react-router-dom";
 import firebase from 'firebase';
-<<<<<<< HEAD
-
-
-function SocietyPost({postId, profilePic, image, username, timestamp, message }) {
-
-
-  const [comments, setComments] = useState([]);
-  const [comment,setComment]  = useState('');
-  const [{user}] = useStateValue();
-  const { societyId } = useParams();
-  
-
-  
-  useEffect(() => {
-    if(postId){
-            db
-            .collection('societies')
-            .doc(societyId)
-                .collection("posts")
-                .doc(postId)
-            .collection('comments')
-            .orderBy('timestamp','desc')
-            .onSnapshot((snapshot)=>{
-                setComments(snapshot.docs.map((doc)=>doc.data() ))
-            });
-    }
-}, [postId, societyId]);
-
-const societyPostComment = (event) => {
-  event.preventDefault();
-
-  db
-  .collection('societies')
-  .doc(societyId)
-  .collection("posts")
-  .doc(postId)
-  .collection('comments').add({
-      text: comment,
-      username: user?.displayName,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
-  setComment('');
-
-}
-
-=======
 
 
 function SocietyPost({postId, profilePic, image, username, timestamp, message }) {
@@ -99,7 +53,6 @@ const societyPostComment = (event) => {
 console.log(societyId);
 console.log(postId);
   console.log(comments);
->>>>>>> 307a6bd65c1baf5603055341df00f6fa68ef6746
   return (
     <div className="post">
       <div className="post__top">

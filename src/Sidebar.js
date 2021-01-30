@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     return (
       <>
         <div className="sidebar">
+          <div className="sidebar__card">
           <div className="sidebar__profile">
             <div className="profile__background"></div>
             <div className="profile__image">
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
             <h3 className="profile__name">{user.displayName}</h3>
             <h4 className="profile__sem">Sem-4</h4>
             <Button  onClick={()=> auth.signOut()}>Logout</Button>
+          </div>
           </div>
         </div>
       </>

@@ -1,6 +1,13 @@
 * {
   margin: 0;
+  padding: 0;
 }
 body {
   --nescii: #16a596;
+}
+.app__body {
+  padding: 5px;
+}
+p {
+  overflow-wrap: "anywhere";
 }

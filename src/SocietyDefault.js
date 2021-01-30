@@ -30,50 +30,74 @@ function SocietyDefault() {
       <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
         <SocietySidebar />
       </Drawer>
-      <div
+      <header
         class="jumbotron jumbotron-fluid"
         style={{
           backgroundImage: `url(https://mapio.net/images-p/55335209.jpg)`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100vh",
+          backgroundPosition: "center center",
           width: "100%",
+          height: "100vh",
         }}
       >
-        <Typography
-          variant="h3"
-          style={{ color: "white", marginTop: "20%" }}
-          align="center"
-        >
-          Connect with your college societies with <strong>nescii</strong>
-        </Typography>
-        <center>
-          <Button
-            variant="contained"
-            className="mt-3"
-            style={{
-              borderRadius: "20px",
-              backgroundColor: "white",
-              padding: "0.8rem 3rem",
-              textTransform: "none",
-              outlineWidth: "0px",
-            }}
-            onClick={toggleDrawer(true)}
-          >
-            <Typography variant="h5" style={{ fontWeight: "bolder" }}>
-              Explore Societies
-            </Typography>
-          </Button>
-        </center>
-        {/* <div className="col-5">
-              <Typography paragraph className="lead" style={{ color: "white" }}>
-                <strong>nescii</strong> is a great way to keep in touch with the
-                societies of NSUT. It keeps you updated about society events and
-                meetings. Follow your favourite societies and never miss an
-                update!
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12" style={{ marginTop: "20%" }}>
+              <Typography
+                variant="h3"
+                style={{ color: "white" }}
+                align="center"
+              >
+                Connect with your college societies with <strong>nescii</strong>
               </Typography>
-            </div> */}
+              <center>
+                <Button
+                  variant="contained"
+                  className="mt-3"
+                  style={{
+                    borderRadius: "20px",
+                    backgroundColor: "white",
+                    padding: "0.8rem 3rem",
+                    textTransform: "none",
+                    outlineWidth: "0px",
+                  }}
+                  onClick={toggleDrawer(true)}
+                >
+                  <Typography variant="h5" style={{ fontWeight: "bolder" }}>
+                    Explore Societies
+                  </Typography>
+                </Button>
+              </center>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div className="container-fluid p-0 m-0">
+        <div className="row">
+          <div
+            className="col-6"
+            style={{
+              backgroundPosition: "center center",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundImage:
+                "url(https://lh3.googleusercontent.com/proxy/JwWVwvD2WumQnYgsVY-sMMP271nX8Lju6Du22jVzrjdCT2oyelenhMJg3gZ3Y5bWP2jxJjLMhpmavC-yOr_1Jqfmoe8FOWv0k_kQs0kf9g8)",
+            }}
+          ></div>
+          <div
+            className="col-6"
+            style={{
+              backgroundPosition: "center center",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundImage:
+                "url(https://lh3.googleusercontent.com/proxy/JwWVwvD2WumQnYgsVY-sMMP271nX8Lju6Du22jVzrjdCT2oyelenhMJg3gZ3Y5bWP2jxJjLMhpmavC-yOr_1Jqfmoe8FOWv0k_kQs0kf9g8)",
+            }}
+          >
+            <h1>Ashwamedh</h1>
+          </div>
+        </div>
       </div>
       {/* <div className="container">
         <div className="row">

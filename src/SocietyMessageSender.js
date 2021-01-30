@@ -3,23 +3,11 @@ import "./SocietyMessageSender.css";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import EventIcon from "@material-ui/icons/Event";
-// import DescriptionIcon from "@material-ui/icons/Description";
 import DateFnsUtils from "@date-io/date-fns";
 import { useParams } from "react-router-dom";
 import {storage, db} from './firebase';
-
-import {
-  Avatar,
-  Button,
-  IconButton,
-  Modal,
-  TextField,
-} from "@material-ui/core";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+import { Avatar,Button,IconButton,Modal,TextField,} from "@material-ui/core";
+import {MuiPickersUtilsProvider,KeyboardTimePicker,KeyboardDatePicker,} from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 import {useStateValue} from './StateProvider';
@@ -467,8 +455,8 @@ const handleEventSubmit = (e) => {
             {body}
           </Modal>
         </div>
-        <div className="messageSender__bottom">
-          <div className="messageSender__option">
+        <div className="messageSender__bottom row">
+          <div className="messageSender__option col-4">
             <input
               accept="image/*"
               className={classes.input}
@@ -477,21 +465,16 @@ const handleEventSubmit = (e) => {
               type="file"
               onChange={handlePhotoOpen}
             />
-            <label htmlFor="postImage" style={{ display: "inline-flex" }}>
-              <IconButton color="primary" component="div">
-                <InsertPhotoIcon style={{ color: "green" }} />
-              </IconButton>
-              <h3 style={{ margin: "11px" }}>Photo</h3>
+            <label htmlFor="postImage"  className="messageSender__option__label" >
+            <div style={{display:"flex",alignItems:"center"}}>
+            <IconButton style={{padding:"0"}} color="primary" component="div">
+              <InsertPhotoIcon  style={{ color: "green" }} />
+            </IconButton>
+            <h4 >Photo</h4>
+          </div>
             </label>
           </div>
-          <div className="messageSender__option">
-            {/* 
-
-          {/* <PlayCircleFilledIcon style={{ color: "red" }} />
-          <h3>Video</h3> */}
-            {/* <input accept="video/*" type="file" alt="/"  className="video__input"/>
-             */}
-
+          <div className="messageSender__option col-4">
             <input
               accept="video/*"
               className={classes.input}
@@ -501,27 +484,27 @@ const handleEventSubmit = (e) => {
               name="file[]"
               onChange={handlePhotoOpen}
             />
-            <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
-              <IconButton color="primary" component="div">
+            <label htmlFor="postVideo" className="messageSender__option__label" >
+              <div style={{display:"flex",alignItems:"center"}}>
+              <IconButton style={{padding:"0"}}color="primary" component="div">
                 <PlayCircleFilledIcon style={{ color: "red" }} />
               </IconButton>
-              <h3 style={{ margin: "11px" }}>Video</h3>
+              <h4 >Video</h4>
+              </div>
             </label>
           </div>
 
-          <div className="messageSender__option">
-            <input accept="" className={classes.input} id="postEvent" />
-            <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
-              <IconButton
-                color="primary"
-                component="div"
-                onClick={handleEventModalOpen}
-              >
-                <EventIcon style={{ color: "gray" }} />
-              </IconButton>
-              <h3 style={{ margin: "11px" }}>Event</h3>
-            </label>
-          </div>
+          <div className="messageSender__option col-4">
+          <input accept="" className={classes.input} id="postEvent" />
+          <label htmlFor="postEvent" className="messageSender__option__label">
+          <div style={{display:"flex",alignItems:"center"}}>
+            <IconButton style={{padding:"0"}} onClick={handleEventModalOpen} color="primary" component="div">
+              <EventIcon style={{ color: "gray" }} />
+            </IconButton>
+            <h4 >Event</h4>
+            </div>
+          </label>
+        </div>
         </div>
       </div>
     </>

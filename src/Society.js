@@ -34,42 +34,33 @@ function Society() {
 
   return (
     <Router>
-      <div className="society container">
-        <div className="row">
-          <IconButton
-            id="hamburger"
-            style={{
-              position: "absolute",
-              left: "0",
-              backgroundColor: "#16A596",
-              color: "white",
-              padding: "1rem",
-              marginTop: "0rem",
-              borderRadius: "0%",
-            }}
-            onClick={toggleDrawer("left", true)}
-          >
-            <MenuIcon style={{ width: "2.5rem", height: "2.5rem" }} />
-          </IconButton>
-          <Drawer
-            anchor="left"
-            open={state["left"]}
-            onClose={toggleDrawer("left", false)}
-          >
-            {list("left")}
-          </Drawer>
-          <div className="col-12">
-            <Switch>
-              <Route
-                exact
-                path="/societies/:societyId"
-                component={SocietyChat}
-              />
-              <Route path="/" component={SocietyDefault} />
-            </Switch>
-          </div>
-        </div>
-      </div>
+      {/* <IconButton
+        id="hamburger"
+        style={{
+          position: "absolute",
+          left: "0",
+          backgroundColor: "#16A596",
+          color: "white",
+          padding: "1rem",
+          marginTop: "0rem",
+          borderRadius: "0%",
+        }}
+        onClick={toggleDrawer("left", true)}
+      >
+        <MenuIcon style={{ width: "2.5rem", height: "2.5rem" }} />
+      </IconButton>
+      <Drawer
+        anchor="left"
+        open={state["left"]}
+        onClose={toggleDrawer("left", false)}
+      >
+        {list("left")}
+      </Drawer> */}
+
+      <Switch>
+        <Route exact path="/societies/:societyId" component={SocietyChat} />
+        <Route path="/" component={SocietyDefault} />
+      </Switch>
     </Router>
   );
 }

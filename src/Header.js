@@ -96,9 +96,6 @@ function Header() {
           <Avatar src={user?.photoURL} alt={user?.displayName}/>
           <h4 className="d-none d-md-block">{user?.displayName}</h4>
         </div>
-        <IconButton>
-          <HelpIcon />
-        </IconButton>
       </div>
     </div>
   );

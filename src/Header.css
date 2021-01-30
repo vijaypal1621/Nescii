@@ -76,4 +76,5 @@
 }
 .header__right{
     display: flex;
+    justify-content: flex-end;
 }

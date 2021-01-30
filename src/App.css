@@ -8,3 +8,6 @@ body {
 .app__body{
   padding: 5px;
 }
+p{
+  overflow-wrap: "anywhere";
+}

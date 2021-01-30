@@ -8,7 +8,7 @@
 .post__top{
     display: flex;
     position: relative;
-    align-items: center;
+    align-items: end;
     padding: 15px;
 }
 .post__avatar{
@@ -30,13 +30,13 @@
 .post__bottom {
     margin-top: 10px;
     margin-bottom: 10px;
-    padding: 15px 25px;
+    padding: 0px 25px;
 }
 .post__options {
     padding-top: 10px;
     border-top: 1px solid lightgray;
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     font-size: medium;
     color: gray;
     cursor: pointer;

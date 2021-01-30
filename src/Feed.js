@@ -9,27 +9,27 @@ function Feed() {
 
   const [posts, setPosts] = useState([]);
   
-  useEffect(() => {
-        db.collection("home")
-        .orderBy("timestamp", "asc")
-        .onSnapshot((snapshot) =>
-          setPosts(snapshot.docs.map((doc) => doc.data()))
-        );
-  },[posts]);
+  useEffect ( ()=> {
+    db.collection('home').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+      // every time a new post is added , this code fires off 
+      setPosts(snapshot.docs.map(doc => ({
+        id:doc.id,
+        post:doc.data()})
+      ))
+    })
+  }, []);
 
 
   return (
     <div className="feed col-12">
       <MessageSender />
-      {posts.map(({ image, message, profilePic, timestamp, user }) => (
-          <Post
-            message={message}
-            timestamp={timestamp}
-            user={user}
-            profilePic={profilePic}
-            image={image}
-          />
-        ))}
+          {
+              posts.map( ({post, id})=> {
+                return (
+                  <Post key={id} user={post.user} postId={id} message={post.message} profilePic={post.profilePic} timestamp={post.timestamp} image={post.image} />   
+                )
+              })
+          }
 
 
       {/* <Post

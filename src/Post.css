@@ -8,7 +8,7 @@
 .post__top{
     display: flex;
     position: relative;
-    align-items: center;
+    align-items: end;
     padding: 15px;
     padding-bottom: 0 !important;
 }
@@ -29,19 +29,19 @@
     object-fit: cover;
 }
 .post__bottom {
-    padding: 15px 25px;
+    padding: 0px 25px;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
 }
 .post__options {
-    padding-top: 10px;
+    padding-bottom: 5px;
     border-top: 1px solid lightgray;
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     font-size: medium;
     color: gray;
     cursor: pointer;
-    padding: 15px;
+    
 }
 .post__option {
     display: flex;
@@ -58,4 +58,7 @@
 .post__option:hover {
     background-color: #eff2f5;
     border-radius: 10px;
+}
+.post__comments{
+    padding: 20px;
 }

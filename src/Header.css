@@ -10,7 +10,7 @@
 }
 .header__left{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-items: center;
 
 }
@@ -76,4 +76,5 @@
 }
 .header__right{
     display: flex;
+    justify-content: flex-end;
 }

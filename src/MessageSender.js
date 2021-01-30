@@ -208,8 +208,8 @@ function MessageSender() {
           {body}
         </Modal>
       </div>
-      <div className="messageSender__bottom">
-        <div className="messageSender__option">
+      <div className="messageSender__bottom row">
+        <div className="messageSender__option col-4">
           <input
             accept="image/*"
             className={classes.input}
@@ -218,21 +218,16 @@ function MessageSender() {
             type="file"
             onChange={handlePhotoOpen}
           />
-          <label htmlFor="postImage" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
-              <InsertPhotoIcon style={{ color: "green" }} />
+          <label htmlFor="postImage" className="messageSender__option__label" >
+          <div style={{display:"flex",alignItems:"center"}}>
+            <IconButton style={{padding:"0"}} color="primary" component="div">
+              <InsertPhotoIcon  style={{ color: "green" }} />
             </IconButton>
-            <h3 style={{ margin: "11px" }}>Photo</h3>
+            <h4 >Photo</h4>
+          </div>
           </label>
         </div>
-        <div className="messageSender__option">
-          {/* 
-
-          {/* <PlayCircleFilledIcon style={{ color: "red" }} />
-          <h3>Video</h3> */}
-          {/* <input accept="video/*" type="file" alt="/"  className="video__input"/>
-           */}
-
+        <div className="messageSender__option col-4">
           <input
             accept="video/*"
             className={classes.input}
@@ -242,21 +237,25 @@ function MessageSender() {
             name="file[]"
             onChange={handlePhotoOpen}
           />
-          <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
+          <label htmlFor="postVideo" className="messageSender__option__label" >
+            <div style={{display:"flex",alignItems:"center"}}>
+            <IconButton style={{padding:"0"}}color="primary" component="div">
               <PlayCircleFilledIcon style={{ color: "red" }} />
             </IconButton>
-            <h3 style={{ margin: "11px" }}>Video</h3>
+            <h4 >Video</h4>
+            </div>
           </label>
         </div>
 
-        <div className="messageSender__option">
+        <div className="messageSender__option col-4">
           <input accept="" className={classes.input} id="postEvent" />
-          <label htmlFor="postEvent" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
+          <label htmlFor="postEvent" className="messageSender__option__label">
+          <div style={{display:"flex",alignItems:"center"}}>
+            <IconButton style={{padding:"0"}} color="primary" component="div">
               <DescriptionIcon style={{ color: "blue" }} />
             </IconButton>
-            <h3 style={{ margin: "11px" }}>Article</h3>
+            <h4 >Article</h4>
+            </div>
           </label>
         </div>
       </div>

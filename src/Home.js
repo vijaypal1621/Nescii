@@ -6,7 +6,7 @@ import Notices from "./Notices";
 
 function Home() {
     return (
-        <div className='home row'>
+        <div className='home row' style={{backgroundColor:"#00af91"}}>
             <div className="d-none d-md-block col-md-3 col-xl-2" style={{padding:"0"}}>
                 <Sidebar />
             </div>

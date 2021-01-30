@@ -30,6 +30,7 @@ function Header() {
   return (
     <div className="header row">
       <div className="header__left col-6 order-1 order-md-1 col-md-4">
+        <Avatar src={user?.photoURL} alt={user?.displayName}/>
         <h2>nescii</h2>
       </div>
       <div className="header__center col-12 order-2 order-md-2 col-md-4">

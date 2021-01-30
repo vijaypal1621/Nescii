@@ -12,11 +12,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SocietySidebar from "./SocietySidebar";
 
 function SocietyDefault() {
-  const [state, setState] = useState({
-    left: false,
-  });
+  const [state, setState] = useState(false);
 
-  const toggleDrawer = (anchor, open) => (event) => {
+  const toggleDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -24,27 +22,13 @@ function SocietyDefault() {
       return;
     }
 
-    setState({ ...state, [anchor]: open });
+    setState(open);
   };
-
-  const list = (anchor) => (
-    <div
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <SocietySidebar />
-    </div>
-  );
 
   return (
     <>
-      <Drawer
-        anchor="left"
-        open={state["left"]}
-        onClose={toggleDrawer("left", false)}
-      >
-        {list("left")}
+      <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
+        <SocietySidebar />
       </Drawer>
       <div
         class="jumbotron jumbotron-fluid"
@@ -73,8 +57,9 @@ function SocietyDefault() {
               backgroundColor: "white",
               padding: "0.8rem 3rem",
               textTransform: "none",
+              outlineWidth: "0px",
             }}
-            onClick={toggleDrawer("left", true)}
+            onClick={toggleDrawer(true)}
           >
             <Typography variant="h5" style={{ fontWeight: "bolder" }}>
               Explore Societies

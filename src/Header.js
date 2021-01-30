@@ -10,11 +10,11 @@ import ApartmentIcon from "@material-ui/icons/Apartment";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { NavLink } from "react-router-dom";
-import {useStateValue} from './StateProvider';
+import { useStateValue } from "./StateProvider";
 
 function Header() {
   const [current, setCurrent] = useState("home");
-  const [{user}] = useStateValue();
+  const [{ user }] = useStateValue();
 
   useEffect(() => {
     const currentPage = document.getElementById(current);
@@ -83,7 +83,7 @@ function Header() {
       </div>
       <div className="header__right">
         <div className="header__info">
-          <Avatar src={user?.photoURL} alt={user?.displayName}/>
+          <Avatar src={user?.photoURL} alt={user?.displayName} />
           <h4>{user?.displayName}</h4>
         </div>
         <IconButton>

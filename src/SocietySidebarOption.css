@@ -1,18 +1,8 @@
-.sidebarOption {
-    display: flex;
-    align-items: center;
-}
 .sidebarOption:hover {
-    background-color: #74c7b8;
-    cursor: pointer;
-}
-.sidebarOption > img{
-    margin: 5px 10px;
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
+  background-color: #74c7b8;
+  cursor: pointer;
 }
 .sidebarOption > h3 {
-    color: white;
-    font-weight: 100;
+  color: white;
+  font-weight: 100;
 }

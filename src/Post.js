@@ -55,23 +55,25 @@ function Post({ postId,profilePic, image, username, timestamp, message }) {
       <div className="post__image">
         <img src={image} alt="" />
       </div>
+      
       <div className="post__options">
         {/* <div className="post__option">
           <ThumbUp />
           <p>..1..</p>
         </div> */ } 
+        <form className="post__commentBox">
+                <input className='post__input' type='text' placeholder='Add a comment..' value={comment} 
+                        onChange={(e)=> setComment(e.target.value)} />
+                <Button style={{justifyContent:"end"}} className='post__button' disabled={!comment} type='submit' onClick={postComment}>Post</Button>
+        </form>
         <div className='post__comments'>
               {!comments?(""): (comments.map((comment) => (
                 <p style={{overflowWrap:"anywhere", margin:"0"}}>
                   <strong>{comment.username}</strong> {comment.text}
                 </p>
               )))}
-            </div>
-            <form className="post__commentBox">
-                <input className='post__input' type='text' placeholder='Add a comment..' value={comment} 
-                        onChange={(e)=> setComment(e.target.value)} />
-                <Button className='post__button' disabled={!comment} type='submit' onClick={postComment}>Post</Button>
-            </form>
+        </div>
+            
       </div>
     </div>
   );

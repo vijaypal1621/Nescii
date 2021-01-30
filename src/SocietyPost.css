@@ -35,7 +35,7 @@
 .post__options {
     padding-top: 10px;
     border-top: 1px solid lightgray;
-    display: flex;
+    /* display: flex; */
     /* justify-content: space-evenly; */
     font-size: medium;
     color: gray;

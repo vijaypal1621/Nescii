@@ -28,13 +28,13 @@ function SocietyDefault() {
   };
 
   const list = (anchor) => (
-    <div
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
+    // <div
+    //   role="presentation"
+    //   onClick={toggleDrawer(anchor, false)}
+    //   onKeyDown={toggleDrawer(anchor, false)}
+    // >
       <SocietySidebar />
-    </div>
+    //  {/* </div> */}
   );
 
   return (

@@ -1,8 +1,5 @@
 .society-sidebar {
   background-color: cadetblue;
-  min-width: 220px;
-  flex: 0.1;
-  /* min-height: 89vh; */
 }
 .add__button {
   color: white;

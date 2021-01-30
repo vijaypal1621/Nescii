@@ -68,3 +68,11 @@
 .post__button{
     justify-content: end;
 }
+.post__input{
+    width: 1000%;
+    border: none;
+    border-radius: 10px;
+    background: lightgray;
+    outline-width: 0;
+    padding-left: 10px;
+}

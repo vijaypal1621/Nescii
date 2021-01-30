@@ -4,6 +4,7 @@
 }
 body {
   --nescii : #16a596;
+  width: 99%;
 }
 .app__body{
   padding: 5px;

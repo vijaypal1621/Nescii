@@ -10,7 +10,7 @@ import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 import {useStateValue} from './StateProvider';
 
 function rand() {
-  return Math.round(Math.random() * 20) - 10;
+  return Math.round(Math.random() * 15) - 10;
 }
 
 function getModalStyle() {

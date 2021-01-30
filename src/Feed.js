@@ -1,12 +1,38 @@
-import React from "react";
+import React,{useState , useEffect} from "react";
 import "./Feed.css";
 import MessageSender from "./MessageSender";
 import Post from "./Post";
+import {db} from './firebase';
+
+
 function Feed() {
+
+  const [posts, setPosts] = useState([]);
+  
+  useEffect(() => {
+        db.collection("home")
+        .orderBy("timestamp", "asc")
+        .onSnapshot((snapshot) =>
+          setPosts(snapshot.docs.map((doc) => doc.data()))
+        );
+  },[posts]);
+
+
   return (
     <div className="feed col-12">
       <MessageSender />
-      <Post
+      {posts.map(({ image, message, profilePic, timestamp, user }) => (
+          <Post
+            message={message}
+            timestamp={timestamp}
+            user={user}
+            profilePic={profilePic}
+            image={image}
+          />
+        ))}
+
+
+      {/* <Post
         profilePic="https://s.yimg.com/fz/api/res/1.2/lX1NI08tfA8zoS_91rRWrQ--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpdDtoPTE4MDtxPTgwO3c9MTgw/https://s.yimg.com/zb/imgv1/22245df6-eb54-33c3-b1ff-64f879f287bf/t_500x300"
         message="Two Talented students updated their college website"
         timestamp="This is a Test timestamp"
@@ -25,7 +51,7 @@ function Feed() {
         message="This is a test Message"
         timestamp="This is a Test timestamp"
         username="Vijay PAL"
-      />
+      /> */}
     </div>
   );
 }

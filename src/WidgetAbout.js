@@ -8,10 +8,10 @@ function WidgetAbout({ society }) {
         <Typography variant="h4">About</Typography>
         <br />
         <div className="row">
-          <div className="col-auto">
+          <div className="col-auto my-auto">
             <i class="fas fa-theater-masks fa-5x"></i>
           </div>
-          <div className="col">
+          <div className="col my-auto">
             <Typography paragraph>{!society ? "" : society.about}</Typography>
           </div>
         </div>

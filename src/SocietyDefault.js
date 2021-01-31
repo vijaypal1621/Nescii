@@ -40,10 +40,11 @@ function SocietyDefault() {
           backgroundPosition: "center center",
           width: "100%",
           height: "100vh",
+          margin: "0",
         }}
       >
         <div className="container-fluid m-0">
-          <div className="row">
+          <div className="row m-0">
             <div className="col-12" style={{ marginTop: "20%" }}>
               <Typography
                 variant="h3"
@@ -83,7 +84,7 @@ function SocietyDefault() {
         }}
       >
         <div className="row m-0">
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Junoon"
@@ -95,7 +96,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Ashwamedh"
@@ -107,7 +108,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Mirage"
@@ -119,7 +120,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Crescendo"
@@ -131,7 +132,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Quiz Club"
@@ -143,7 +144,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Capella"
@@ -158,7 +159,7 @@ function SocietyDefault() {
         </div>
         <br />
         <div className="row m-0">
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Debsoc"
@@ -170,7 +171,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Alliance"
@@ -182,7 +183,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="FES"
@@ -194,7 +195,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Enactus"
@@ -206,7 +207,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="eCell"
@@ -218,7 +219,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
-          <div className="col-2 hover">
+          <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
               alt="Bullethawk Racing"

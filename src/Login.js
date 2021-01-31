@@ -97,17 +97,18 @@ function Login() {
       .catch((error) => alert(error.message));
     setOpenSignIn(false);
   };
-
+  // https://drive.google.com/file/d/1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo/view?usp=sharing
+  
   return (
     <div className="login row ">
       <div className="login__container offset-1 col-10 col-md-4 offset-md-4">
-        {/* <img src="https://yt3.ggpht.com/a-/AAuE7mDBBS00E88tbJONrBTNiWDBhHSfBKSM3889QA=s900-mo-c-c0xffffffff-rj-k-no" alt="/" /> */}
+        <img className="login__photo" src="https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo" alt="" />
         <Modal open={open} onClose={() => setOpen(false)}>
           <div style={modalStyle} className={classes.paper}>
             <form className="app__signup">
               <center>
-                {/* <img className="app__headerImage"
-                 src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1280px-Instagram_logo.svg.png' alt='' /> */}
+                <img className="login__photo"
+                 src='https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo' alt='dd' />
               </center>
               <Input
                 placeholder="username"
@@ -137,8 +138,8 @@ function Login() {
           <div style={modalStyle} className={classes.paper}>
             <form className="app__signup">
               <center>
-                {/* <img className="app__headerImage"
-                 src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1280px-Instagram_logo.svg.png' alt='' /> */}
+                <img className="login__photo"
+                 src='https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo' alt='' />
               </center>
               <Input
                 placeholder="email"
@@ -158,7 +159,6 @@ function Login() {
             </form>
           </div>
         </Modal>
-        <h1>Nescii</h1>
         <h1>Sign in to Nescii</h1>
         <Button onClick={signInWithGoogle}>Sign In With Google</Button>
         {user ? (

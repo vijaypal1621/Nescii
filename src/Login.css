@@ -24,10 +24,11 @@
 }
 
 
-.login__container > img{
+.login__photo{
     object-fit: contain;
     height: 100px;
-    margin-bottom: 40px;
+    margin-bottom: 27px;
+    border-radius: 35px;
 }
 .login__container > button {
     margin-top: 50px;

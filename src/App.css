@@ -4,10 +4,8 @@
 }
 body {
   --nescii : #16a596;
-  width: 99%;
-}
-.app__body {
-  padding: 5px;
+  width: 100%;
+  overflow-x: hidden;
 }
 p {
   overflow-wrap: "anywhere";

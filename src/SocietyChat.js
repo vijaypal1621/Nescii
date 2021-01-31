@@ -26,7 +26,10 @@ function SocietyChat() {
         .collection("posts")
         .orderBy("timestamp", "asc")
         .onSnapshot((snapshot) =>
-          setPosts(snapshot.docs.map((doc) => doc.data()))
+        setPosts(snapshot.docs.map(doc => ({
+          id:doc.id,
+          post:doc.data()})
+        ))
         );
     }
   }, [societyId]);
@@ -38,13 +41,14 @@ function SocietyChat() {
           <div className="col-12 col-md-8">
             <SocietyMessageSender />
             {posts.map(
-              ({ image, message, profilePic, timestamp, username }) => (
+              ({post, id}) => (
                 <SocietyPost
-                  message={message}
-                  timestamp={timestamp}
-                  username={username}
-                  profilePic={profilePic}
-                  image={image}
+                  postId={id}
+                  message={post.message}
+                  timestamp={post.timestamp}
+                  username={post.username}
+                  profilePic={post.profilePic}
+                  image={post.image}
                 />
               )
             )}

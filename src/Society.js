@@ -9,23 +9,6 @@ import { IconButton, Drawer } from "@material-ui/core";
 function Society() {
   return (
     <Router>
-      {/* <IconButton
-        id="hamburger"
-        style={{
-          position: "absolute",
-          left: "0",
-          backgroundColor: "#16A596",
-          color: "white",
-          padding: "1rem",
-          marginTop: "0rem",
-          borderRadius: "0%",
-        }}
-        onClick={toggleDrawer("left", true)}
-      >
-        <MenuIcon style={{ width: "2.5rem", height: "2.5rem" }} />
-      </IconButton>
-      */}
-
       <Switch>
         <Route exact path="/societies/:societyId" component={SocietyChat} />
         <Route path="/" component={SocietyDefault} />

@@ -75,14 +75,7 @@ function SocietyDefault() {
           </div>
         </div>
       </header>
-      <div
-        className="container-fluid p-2 m-0"
-        style={{
-          backgroundColor: "#16A596",
-          position: "relative",
-          top: "-1rem",
-        }}
-      >
+      <div className="container-fluid p-2 m-0">
         <div className="row m-0">
           <div className="col-md-2 col-6 mb-3 hover">
             <img

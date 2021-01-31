@@ -23,7 +23,7 @@ function Events() {
   return (
     <div className="events">
       <center>
-        <h2>Upcoming events</h2>
+        <h2 className="p-2">Upcoming events</h2>
       </center>
       {!events
         ? "No events till now -_- "

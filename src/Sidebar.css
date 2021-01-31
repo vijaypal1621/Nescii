@@ -1,32 +1,32 @@
-.sidebar{
-    padding: 0;
-    box-shadow: 0px 5px 7px -7px rgba(0,0,0,0.75);
+.sidebar {
+  padding: 0;
+  box-shadow: 0px 5px 7px -7px rgba(0, 0, 0, 0.75);
 }
-.sidebar__card{
-    box-shadow: 0px 5px 7px -7px rgba(0,0,0,0.75);
-}
-
-.sidebar__profile{
-    padding: 10px;
-    background-color: white;
-    box-shadow: 0px 5px 7px -7px rgba(0,0,0,0.75);
-    border: 2px solid whitesmoke;
-    text-align: center;
-}
-.profile__background{
-    height: 70px;
-    background-color:#a3d2ca;
+.sidebar__card {
+  box-shadow: 0px 5px 7px -7px rgba(0, 0, 0, 0.75);
 }
 
-.profile__image{
-    display: flex;
-    justify-content: center;
-    position: relative;
-    bottom: 20px;
-    font-size: large;
-
+.sidebar__profile {
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0px 5px 7px -7px rgba(0, 0, 0, 0.75);
+  border: 2px solid whitesmoke;
+  text-align: center;
 }
-.profile__name , .profile__sem{
-    font-weight: 400;
-    color: gray;
-} 
+.profile__background {
+  height: 70px;
+  background-color: #a3d2ca;
+}
+
+.profile__image {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  bottom: 40px;
+  font-size: large;
+}
+.profile__name,
+.profile__sem {
+  font-weight: 400;
+  color: gray;
+}

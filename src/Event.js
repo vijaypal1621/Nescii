@@ -30,22 +30,33 @@ function Event({ url, title, timeline, place, description }) {
     //   {/* <h4>{place}</h4> */}
     //   {/* </div> */}
     // </Card>
-    <div className="card container">
+    <div
+      className="card container"
+      style={{ borderWidth: "medium", borderColor: "yellowgreen" }}
+    >
       <div className="row">
-        <div className="col-4 p-0">
+        <div className="col-5 p-0">
           <img
             className="card-img img-fluid"
             src={url}
             alt={title}
-            style={{ height: "auto", minWidth: "100%", marginTop: "20%" }}
+            style={{
+              minWidth: "100%",
+            }}
           />
         </div>
-        <div className="col-8 p-0">
+        <div className="col-7 p-0">
           <div className="card-body">
-            <p className="card-text">
+            <Typography
+              variant="subtitle1"
+              color="secondary"
+              className="card-text"
+            >
               {new Date(timeline?.toDate()).toUTCString()}
-            </p>
-            <p className="card-text">{description}</p>
+            </Typography>
+            <Typography paragraph className="card-text">
+              {description}
+            </Typography>
           </div>
         </div>
       </div>

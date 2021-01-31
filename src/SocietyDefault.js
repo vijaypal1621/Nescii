@@ -1,14 +1,5 @@
-import {
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Paper,
-  Button,
-  Drawer,
-} from "@material-ui/core";
+import { Typography, Button, Drawer } from "@material-ui/core";
 import React, { useState } from "react";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SocietySidebar from "./SocietySidebar";
 import "./SocietyDefault.css";
 

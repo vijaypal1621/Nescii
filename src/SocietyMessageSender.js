@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 import {useStateValue} from './StateProvider';
 function rand() {
-  return Math.round(Math.random() * 20) - 10;
+  return Math.round(Math.random() * 16) - 10;
 }
 
 function getModalStyle() {
@@ -29,7 +29,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: 400,
+    width: 340,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -206,54 +206,55 @@ const handleEventSubmit = (e) => {
 
 
 
-  const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <div className="modal__top">
-        <h2 id="simple-modal-title">Create Post</h2>
-        <Button onClick={handleClose}>
+const body = (
+  <div style={modalStyle} className={classes.paper}>
+    <div className="modal__top">
+      <h2 id="simple-modal-title">Create Post</h2>
+      <Button onClick={handleClose}>
+        <CloseRoundedIcon />
+      </Button>
+    </div>
+    <hr />
+    <div className="modal__profile">
+      <Avatar src={user?.photoURL} alt={user?.displayName}  />
+      <h4 className="modal__title">{user?.displayName}</h4>
+    </div>
+    <div
+      style={{
+        maxWidth: "100%",
+        overflowX: "hidden",
+        overflowY: "auto",
+        maxHeight: "300px",
+      }}
+    >
+      <textarea
+        className="modal__input"
+        rows="5"
+        cols="20"
+        style={{ width: "100%" }}
+        placeholder="Whats on your mind?"
+      />
+      <div className="modal__input__photo">
+        <Button
+          style={{ position: "absolute", color: "white" }}
+          className="modal__input__photo__button"
+          onClick={handlePhotoClose}
+        >
           <CloseRoundedIcon />
         </Button>
+        <img src={photo} alt="" />
+        {video != null ? (
+          <video width="400" controls>
+            <source src="mov_bbb.mp4" id="video_here" />
+            Your browser does not support HTML5 video.
+          </video>
+        ) : (
+          <> </>
+        )}
       </div>
-      <hr />
-      <div className="modal__profile">
-        <Avatar src={user?.photoURL} alt={user?.displayName}  />
-        <h4 className="modal__title">{user?.displayName}</h4>
-      </div>
-      <div
-        style={{
-          maxWidth: "100%",
-          overflowX: "hidden",
-          overflowY: "auto",
-          maxHeight: "300px",
-        }}
-      >
-        <textarea
-          className="modal__input"
-          rows="5"
-          cols="20"
-          style={{ width: "100%" }}
-          placeholder="Whats on your mind?"
-        />
-        <div className="modal__input__photo">
-          <Button
-            style={{ position: "absolute", color: "white" }}
-            className="modal__input__photo__button"
-            onClick={handlePhotoClose}
-          >
-            <CloseRoundedIcon />
-          </Button>
-          <img src={photo} alt="" />
-          {video != null ? (
-            <video width="400" controls>
-              <source src={URL.createObjectURL(video)} />
-            </video>
-          ) : (
-            <> </>
-          )}
-        </div>
-      </div>
-      <div className="messageSender__bottom">
-        <div className="messageSender__option">
+    </div>
+    <div className="messageSender__bottom row">
+    <div className="messageSender__option col-6">
           <input
             accept="image/*"
             className={classes.input}
@@ -262,50 +263,44 @@ const handleEventSubmit = (e) => {
             type="file"
             onChange={handlePhotoOpen}
           />
-          <label htmlFor="postImage" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
-              <InsertPhotoIcon style={{ color: "green" }} />
-            </IconButton>
-            <h3 style={{ margin: "11px" }}>Photo</h3>
+          <label htmlFor="postImage"  className="messageSender__option__label" >
+          <div style={{display:"flex",alignItems:"center"}}>
+          <IconButton style={{padding:"0"}} color="primary" component="div">
+            <InsertPhotoIcon  style={{ color: "green" }} />
+          </IconButton>
+          <h4 >Photo</h4>
+        </div>
           </label>
         </div>
-        <div className="messageSender__option">
-          {/* 
-
-          {/* <PlayCircleFilledIcon style={{ color: "red" }} />
-          <h3>Video</h3> */}
-          {/* <input accept="video/*" type="file" alt="/"  className="video__input"/>
-           */}
-
-          <input
-            accept="video/*"
-            className={classes.input}
-            id="postVideo"
-            multiple
-            type="file"
-            name="file[]"
-            onChange={handleVideoOpen}
-          />
-          <label htmlFor="postVideo" style={{ display: "inline-flex" }}>
-            <IconButton color="primary" component="div">
-              <PlayCircleFilledIcon style={{ color: "red" }} />
-            </IconButton>
-            <h3 style={{ margin: "11px" }}>Video</h3>
-          </label>
-        </div>
-
-        
+      <div className="messageSender__option col-6">
+        <input
+          accept="video/*"
+          className={classes.input}
+          id="postVideo"
+          multiple
+          type="file"
+          name="file[]"
+          onChange={handlePhotoOpen}
+        />
+        <label htmlFor="postVideo" className="messageSender__option__label" >
+          <div style={{display:"flex",alignItems:"center"}}>
+          <IconButton style={{padding:"0"}}color="primary" component="div">
+            <PlayCircleFilledIcon style={{ color: "red" }} />
+          </IconButton>
+          <h4 >Video</h4>
+          </div>
+        </label>
       </div>
-      <Button
-        className="post__button"
-        style={{ color: "white", backgroundColor: "#16a596" }}
-      >
-        Post
-      </Button>
-      {/* <SimpleModal /> */}
     </div>
-  );
-
+    <Button
+      className="post__button"
+      style={{ color: "white", backgroundColor: "#16a596" }}
+    >
+      Post
+    </Button>
+    {/* <SimpleModal /> */}
+  </div>
+);
   return (
     <>
       <Modal

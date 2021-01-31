@@ -99,8 +99,8 @@ function Login() {
   };
 
   return (
-    <div className="login">
-      <div className="login__container">
+    <div className="login row ">
+      <div className="login__container offset-1 col-10 col-md-4 offset-md-4">
         {/* <img src="https://yt3.ggpht.com/a-/AAuE7mDBBS00E88tbJONrBTNiWDBhHSfBKSM3889QA=s900-mo-c-c0xffffffff-rj-k-no" alt="/" /> */}
         <Modal open={open} onClose={() => setOpen(false)}>
           <div style={modalStyle} className={classes.paper}>

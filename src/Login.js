@@ -38,7 +38,6 @@ function Login() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [user, setUser] = useState(null);
-  const [openSignIn, setOpenSignIn] = useState(false);
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -95,13 +94,13 @@ function Login() {
         });
       })
       .catch((error) => alert(error.message));
-    setOpenSignIn(false);
   };
   // https://drive.google.com/file/d/1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo/view?usp=sharing
   
   return (
-    <div className="login row ">
-      <div className="login__container offset-1 col-10 col-md-4 offset-md-4">
+    <>
+      <div className="login row ">
+      <div className="login__container offset-2 col-8 col-md-4 offset-md-4">
         <img className="login__photo" src="https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo" alt="" />
         <Modal open={open} onClose={() => setOpen(false)}>
           <div style={modalStyle} className={classes.paper}>
@@ -111,66 +110,68 @@ function Login() {
                  src='https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo' alt='dd' />
               </center>
               <Input
-                placeholder="username"
+                style={{width:"90%"}}
+                placeholder="Name"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
               <Input
-                placeholder="email"
+                style={{width:"90%"}}
+                placeholder="Email"
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <Input
-                placeholder="password"
+                style={{width:"90%"}}
+                placeholder="Password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button type="submit" onClick={signUp}>
+              <Button style={{outlineWidth:'0',width:"99%"}} type="submit" onClick={signUp}>
                 Sign Up
               </Button>
             </form>
           </div>
         </Modal>
-        <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
-          <div style={modalStyle} className={classes.paper}>
+        {/* <h1>Sign in to Nescii</h1> */}
+        <div>
             <form className="app__signup">
-              <center>
-                <img className="login__photo"
-                 src='https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo' alt='' />
-              </center>
               <Input
-                placeholder="email"
+                style={{width:"90%"}}
+                placeholder="Email"
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <Input
-                placeholder="password"
+                style={{width:"90%"}}
+                placeholder="Password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button type="submit" onClick={signIn}>
+              <Button style={{outlineWidth:'0'}}type="submit" onClick={signIn}>
                 Sign In
               </Button>
             </form>
+            <h4>-----Or-----</h4>
           </div>
-        </Modal>
-        <h1>Sign in to Nescii</h1>
-        <Button onClick={signInWithGoogle}>Sign In With Google</Button>
-        {user ? (
-          <Button onClick={() => auth.signOut()}>Logout</Button>
-        ) : (
-          <div className="app__loginContainer">
-            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
-            <Button onClick={() => setOpen(true)}>SignUp Dude....</Button>
-          </div>
-        )}
+        <Button onClick={signInWithGoogle}><img className="google__image"src="https://www.google.com/images/hpp/gsa_super_g-64.gif" alt=""/>Sign In With Google</Button>
       </div>
+      
+      <div className="login__container offset-2 col-8 col-md-4 offset-md-4">
+        <div className="app__loginContainer " style={{textAlign:"left"}}>
+          <Button style={{outlineWidth:'0',width:"99%"}} onClick={() => setOpen(true)}>SignUp</Button>
+        </div>
+      </div>
+      
+  
     </div>
+    
+    </>
   );
 }
 

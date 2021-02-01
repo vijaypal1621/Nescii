@@ -9,16 +9,21 @@ import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import ApartmentIcon from "@material-ui/icons/Apartment";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import HelpIcon from '@material-ui/icons/Help';
-import MenuIcon from '@material-ui/icons/Menu';
-import { UncontrolledDropdown,DropdownToggle,DropdownMenu,  DropdownItem, ButtonDropdown,} from 'reactstrap';
+import HelpIcon from "@material-ui/icons/Help";
+import MenuIcon from "@material-ui/icons/Menu";
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  ButtonDropdown,
+} from "reactstrap";
 import { NavLink } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 
-
 function Header() {
   const [current, setCurrent] = useState("home");
-  const [{user}] = useStateValue();
+  const [{ user }] = useStateValue();
   const [dropdownOpen, setOpen] = useState(false);
 
   const toggle = () => setOpen(!dropdownOpen);
@@ -30,8 +35,12 @@ function Header() {
   return (
     <div className="header row">
       <div className="header__left col-6 order-1 order-md-1 col-md-4">
-        <Avatar src={user?.photoURL} alt={user?.displayName}/>
-        <h2>nescii</h2>
+        <img
+          src="https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo"
+          alt="nescii"
+          style={{ borderRadius: "10%" }}
+        />
+        <h2 style={{ marginLeft: "5px" }}>nescii</h2>
       </div>
       <div className="header__center col-12 order-2 order-md-2 col-md-4">
         <div className="header__option" id="home">
@@ -90,11 +99,10 @@ function Header() {
             </NavLink>
           </Tooltip>
         </div>
-        
       </div>
       <div className="header__right col-6 order-1 order-md-3 col-md-4">
         <div className="header__info">
-          <Avatar src={user?.photoURL} alt={user?.displayName}/>
+          <Avatar src={user?.photoURL} alt={user?.displayName} />
           <h4 className="d-none d-md-block">{user?.displayName}</h4>
         </div>
       </div>
@@ -103,5 +111,3 @@ function Header() {
 }
 
 export default Header;
-
-

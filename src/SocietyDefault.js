@@ -1,16 +1,16 @@
 import {
   Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Paper,
   Button,
   Drawer,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SocietySidebar from "./SocietySidebar";
 import "./SocietyDefault.css";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Instagram, Facebook, LinkedIn, Email } from "@material-ui/icons";
 
 function SocietyDefault() {
   const [state, setState] = useState(false);
@@ -51,7 +51,8 @@ function SocietyDefault() {
                 style={{ color: "white" }}
                 align="center"
               >
-                Connect with your college societies with <strong>nescii</strong>
+                Connect with your college societies with{" "}
+                <strong style={{ color: "yellowgreen" }}>nescii</strong>
               </Typography>
               <center>
                 <Button
@@ -81,7 +82,7 @@ function SocietyDefault() {
             <img
               className="img-fluid"
               alt="Junoon"
-              src="https://lh3.googleusercontent.com/proxy/h3UQFOSOb_ehVL76KGfwGljEgbIBsE1gxgdAvBl4NwAvpgZJspJBr21Xs7UXXDuMwme6knv1JEcvKsPjm4LZfaGX3baelcfQvN4RVuQpADo"
+              src="https://lh3.googleusercontent.com/proxy/vsD9d97tUzWGGc7DmOOYkw2HKiNwpMAU6KcN0nk7dKQhnue2tzXj4XejYP-1J3UtjFJwyI-sfGDRW5F2HEZXScs4QHIMHoqF0tXbullnfBc"
             />
             <div class="overlay">
               <div class="text">
@@ -226,16 +227,18 @@ function SocietyDefault() {
           </div>
         </div>
       </div>
-      {/* <div className="container">
+      <div className="container-fluid" style={{ backgroundColor: "#16A596" }}>
         <div className="row">
           <div className="col-12">
+            <br />
             <center>
               <Typography variant="h3">
                 Benefits of Joining a Society
               </Typography>
             </center>
+            <br />
           </div>
-          <div className="col-12">
+          <div className="offset-md-2 col-md-8 col-12">
             <Accordion style={{ backgroundColor: "#fffaf0" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography style={{ fontSize: "25px" }}>
@@ -330,9 +333,38 @@ function SocietyDefault() {
                 </Typography>
               </AccordionDetails>
             </Accordion>
+            <br />
           </div>
-        </div> 
-  </div>*/}
+        </div>
+      </div>
+      <footer>
+        <div
+          className="container-fluid p-3"
+          style={{ backgroundColor: "yellowgreen" }}
+        >
+          <div className="row">
+            <div className="col-4 my-auto">
+              <Typography variant="h5">
+                <a
+                  href="/home"
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  © <strong>nescii</strong>
+                </a>
+              </Typography>
+            </div>
+            <div className="col-4 my-auto">
+              <Typography variant="h5">Made with ❤ by Team OOC</Typography>
+            </div>
+            <div className="col-4 my-auto">
+              <Instagram style={{ fontSize: "3rem" }} />
+              <Facebook style={{ fontSize: "3rem" }} />
+              <LinkedIn style={{ fontSize: "3rem" }} />
+              <Email style={{ fontSize: "3rem" }} />
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

@@ -3,7 +3,7 @@ import "./Login.css";
 import { auth, provider } from "./firebase";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Input } from "@material-ui/core";
+import { Button, Input, TextField } from "@material-ui/core";
 import { useStateValue } from "./StateProvider";
 import { actionTypes } from "./reducer";
 
@@ -96,81 +96,140 @@ function Login() {
       .catch((error) => alert(error.message));
   };
   // https://drive.google.com/file/d/1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo/view?usp=sharing
-  
+
   return (
     <>
       <div className="login row ">
-      <div className="login__container offset-2 col-8 col-md-4 offset-md-4">
-        <img className="login__photo" src="https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo" alt="" />
-        <Modal open={open} onClose={() => setOpen(false)}>
-          <div style={modalStyle} className={classes.paper}>
+        <div className="login__container offset-2 col-8 col-md-4 offset-md-4">
+          <img
+            className="login__photo"
+            src="https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo"
+            alt=""
+          />
+          <Modal open={open} onClose={() => setOpen(false)}>
+            <div style={modalStyle} className={classes.paper}>
+              <form className="app__signup">
+                <center>
+                  <img
+                    className="login__photo"
+                    src="https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo"
+                    alt="dd"
+                  />
+                </center>
+                <TextField
+                  style={{ width: "90%" }}
+                  placeholder="Name"
+                  type="text"
+                  value={username}
+                  margin="normal"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <TextField
+                  style={{ width: "90%" }}
+                  placeholder="Email"
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  margin="normal"
+                />
+                <TextField
+                  style={{ width: "90%" }}
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  margin="normal"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Button
+                  style={{ outlineWidth: "0", width: "99%" }}
+                  type="submit"
+                  onClick={signUp}
+                >
+                  Sign Up
+                </Button>
+              </form>
+            </div>
+          </Modal>
+          {/* <h1>Sign in to Nescii</h1> */}
+          <div>
             <form className="app__signup">
-              <center>
-                <img className="login__photo"
-                 src='https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo' alt='dd' />
-              </center>
-              <Input
-                style={{width:"90%"}}
-                placeholder="Name"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <Input
-                style={{width:"90%"}}
+              <TextField
+                style={{ width: "90%" }}
                 placeholder="Email"
                 type="text"
                 value={email}
+                required
+                margin="normal"
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <Input
-                style={{width:"90%"}}
+              <br />
+              <TextField
+                style={{ width: "90%" }}
                 placeholder="Password"
                 type="password"
                 value={password}
+                margin="normal"
+                required
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button style={{outlineWidth:'0',width:"99%"}} type="submit" onClick={signUp}>
-                Sign Up
-              </Button>
-            </form>
-          </div>
-        </Modal>
-        {/* <h1>Sign in to Nescii</h1> */}
-        <div>
-            <form className="app__signup">
-              <Input
-                style={{width:"90%"}}
-                placeholder="Email"
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                style={{width:"90%"}}
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Button style={{outlineWidth:'0'}}type="submit" onClick={signIn}>
+              <br />
+              <br />
+
+              <Button
+                variant="contained"
+                style={{ outlineWidth: "0" }}
+                type="submit"
+                onClick={signIn}
+              >
                 Sign In
               </Button>
             </form>
-            <h4>-----Or-----</h4>
+            <br />
+            <br />
+
+            <center>
+              <h4
+                style={{
+                  width: "70%",
+                  textAlign: "center",
+                  borderBottom: "1px solid #000",
+                  lineHeight: "0.1em",
+                }}
+              >
+                <span style={{ backgroundColor: "#fff", padding: "0 10px" }}>
+                  OR
+                </span>
+              </h4>
+            </center>
+            <br />
+            <br />
           </div>
-        <Button onClick={signInWithGoogle}><img className="google__image"src="https://www.google.com/images/hpp/gsa_super_g-64.gif" alt=""/>Sign In With Google</Button>
-      </div>
-      
-      <div className="login__container offset-2 col-8 col-md-4 offset-md-4">
-        <div className="app__loginContainer " style={{textAlign:"left"}}>
-          <Button style={{outlineWidth:'0',width:"99%"}} onClick={() => setOpen(true)}>SignUp</Button>
+          <Button onClick={signInWithGoogle}>
+            <img
+              className="google__image"
+              src="https://www.google.com/images/hpp/gsa_super_g-64.gif"
+              alt=""
+            />
+            Sign In With Google
+          </Button>
+        </div>
+
+        <div className="login__container offset-2 col-8 col-md-4 offset-md-4">
+          <div className="app__loginContainer " style={{ textAlign: "left" }}>
+            <Button
+              style={{
+                outlineWidth: "0",
+                width: "99%",
+                fontSize: "1rem",
+                fontWeight: "bolder",
+              }}
+              onClick={() => setOpen(true)}
+            >
+              SignUp
+            </Button>
+          </div>
         </div>
       </div>
-      
-  
-    </div>
-    
     </>
   );
 }

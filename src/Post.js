@@ -74,11 +74,16 @@ function Post({ postId, profilePic, image, username, timestamp, message }) {
         <div className="post__comments">
           {!comments
             ? ""
-            : comments.map((comment) => (
-                <p style={{ overflowWrap: "anywhere", margin: "0" }}>
-                  <strong>{comment.username}</strong> {comment.text}
-                </p>
-              ))}
+            : comments.map((comment) => {
+                return (
+                  <div className="comment__div">
+                    <Avatar src={comment.url} alt="" />
+                    <p>
+                      <strong>{comment.username}</strong> {comment.text}
+                    </p>
+                  </div>
+                );
+              })}
         </div>
       </div>
     </div>

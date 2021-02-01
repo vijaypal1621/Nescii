@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Header.css";
-import SearchIcon from "@material-ui/icons/Search";
 import HomeIcon from "@material-ui/icons/Home";
-import { Avatar, IconButton, Tooltip } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import ForumIcon from "@material-ui/icons/Forum";
-import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
+import { Avatar, Tooltip } from "@material-ui/core";
 import ApartmentIcon from "@material-ui/icons/Apartment";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import HelpIcon from "@material-ui/icons/Help";
 import MenuIcon from "@material-ui/icons/Menu";
-import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  ButtonDropdown,
-} from "reactstrap";
 import { NavLink } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 

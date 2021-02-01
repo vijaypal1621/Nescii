@@ -31,6 +31,7 @@ function Post({ postId,profilePic, image, username, timestamp, message }) {
     event.preventDefault();
 
     db.collection('home').doc(postId).collection('comments').add({
+        url: user?.photoURL,
         text: comment,
         username: user?.displayName,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -67,11 +68,17 @@ function Post({ postId,profilePic, image, username, timestamp, message }) {
                 <Button style={{justifyContent:"end"}} className='post__button' disabled={!comment} type='submit' onClick={postComment}>Post</Button>
         </form>
         <div className='post__comments'>
-              {!comments?(""): (comments.map((comment) => (
-                <p style={{overflowWrap:"anywhere", margin:"0"}}>
-                  <strong>{comment.username}</strong> {comment.text}
-                </p>
-              )))}
+              {!comments?(""): (comments.map((comment) => {
+                return(
+                  <div className="comment__div">
+                    <Avatar src={comment.url} alt="" />
+                    <p>
+                    <strong>{comment.username}</strong> {comment.text}
+                  </p>
+                  </div>
+                )
+                
+                }))}
         </div>
             
       </div>
@@ -80,3 +87,10 @@ function Post({ postId,profilePic, image, username, timestamp, message }) {
 }
 
 export default Post;
+// {
+//   posts.map( ({post, id})=> {
+//     return (
+//       <Post key={id} username={post.username} postId={id} message={post.message} profilePic={post.profilePic} timestamp={post.timestamp} image={post.image} />   
+//     )
+//   })
+// }

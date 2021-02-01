@@ -87,10 +87,3 @@ function Post({ postId,profilePic, image, username, timestamp, message }) {
 }
 
 export default Post;
-// {
-//   posts.map( ({post, id})=> {
-//     return (
-//       <Post key={id} username={post.username} postId={id} message={post.message} profilePic={post.profilePic} timestamp={post.timestamp} image={post.image} />   
-//     )
-//   })
-// }

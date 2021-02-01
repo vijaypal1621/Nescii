@@ -42,6 +42,7 @@ const societyPostComment = (event) => {
   .collection("posts")
   .doc(postId)
   .collection('comments').add({
+      url:user?.photoURL,
       text: comment,
       username: user?.displayName,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -50,9 +51,6 @@ const societyPostComment = (event) => {
 
 }
 
-console.log(societyId);
-console.log(postId);
-  console.log(comments);
   return (
     <div className="post">
       <div className="post__top">
@@ -79,11 +77,17 @@ console.log(postId);
                 <Button style={{justifyContent:"end"}} className='post__button' disabled={!comment} type='submit' onClick={societyPostComment}>Post</Button>
         </form>
         <div className='post__comments'>
-              {!comments?(""): (comments.map((comment) => (
-                <p style={{overflowWrap:"anywhere", margin:"0"}}>
-                  <strong>{comment.username}</strong> {comment.text}
-                </p>
-              )))}
+        {!comments?(""): (comments.map((comment) => {
+                return(
+                  <div className="comment__div">
+                    <Avatar src={comment.url} alt="" />
+                    <p>
+                    <strong>{comment.username}</strong> {comment.text}
+                  </p>
+                  </div>
+                )
+                
+                }))}
         </div>
             
       </div>

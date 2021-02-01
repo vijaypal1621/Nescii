@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Input, TextField } from "@material-ui/core";
 import { useStateValue } from "./StateProvider";
 import { actionTypes } from "./reducer";
+import {db} from './firebase';
 
 function getModalStyle() {
   const top = 50;
@@ -67,18 +68,32 @@ function Login() {
         });
       })
       .catch((error) => alert(error.message));
+    
   };
 
   const signUp = (event) => {
     event.preventDefault();
-    auth
+
+    if(email.includes('@nsut.ac.in')===false){
+      alert('Not a valid NSUT Id! Please SignUp using a valid NSUT id')
+    }else{
+      auth
       .createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
+        console.log(authUser.user);
+        db
+        .collection('users')
+        .doc(authUser.user.uid)
+        .set({
+        });
         return authUser.user.updateProfile({
           displayName: username,
         });
       })
       .catch((error) => alert(error.message));
+    }
+
+    
     setOpen(false);
   };
 

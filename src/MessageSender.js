@@ -43,7 +43,7 @@ function MessageSender() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState([]);
   const [video, setVideo] = useState(null);
   const [{ user }] = useStateValue();
 
@@ -56,50 +56,31 @@ function MessageSender() {
   };
 
   const handlePhotoOpen = (event) => {
-    console.log(event.target);
-    if (event.target.files && event.target.files[0]) {
-      let reader = new FileReader();
-      reader.onload = (e) => {
-        setPhoto(e.target.result);
-      };
-      reader.readAsDataURL(event.target.files[0]);
+    for (let i = 0; i < event.target.files.length; i++) {
+      let file = event.target.files[i];
+      setPhoto((array) => {
+        return [...array, URL.createObjectURL(file)];
+      });
     }
   };
 
-  const RemoveSelectedFile = () => {
-    const x = document.getElementById("postImage");
-    const y = document.getElementById("postVideo");
-    y.value = "";
-    x.value = "";
+  const handlePhotoClose = (file) => {
+    setPhoto(photo.filter((photo) => photo !== file));
   };
 
-  const handlePhotoClose = () => {
-    setPhoto(null);
+  const handleVideoClose = () => {
     setVideo(null);
-    RemoveSelectedFile();
   };
 
   const handleVideoOpen = (event) => {
-    console.log(event.target.files[0]);
-    if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
-
-      reader.onload = function (e) {
-        console.log("loaded");
-        //videoSrc.src = e.target.result
-        //videoTag.load()
-        setVideo(e.target.result);
-      };
-
-      reader.readAsDataURL(event.target.files[0]);
-    }
+    setVideo(URL.createObjectURL(event.target.files[0]));
   };
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <div className="modal__top">
         <h2 id="simple-modal-title">Create Post</h2>
-        <Button onClick={handleClose}>
+        <Button onClick={handleClose} style={{ outlineWidth: "0px" }}>
           <CloseRoundedIcon />
         </Button>
       </div>
@@ -124,20 +105,55 @@ function MessageSender() {
           placeholder="Whats on your mind?"
         />
         <div className="modal__input__photo">
-          <Button
-            style={{ position: "absolute", color: "white" }}
-            className="modal__input__photo__button"
-            onClick={handlePhotoClose}
-          >
-            <CloseRoundedIcon />
-          </Button>
-          <img src={photo} alt="" />
-          {/* <video controls id="video-tag">
-            <source id="video-source" src="">
-              Your browser does not support the video tag.
-            </source>
-          </video> */}
-          <ReactPlayer url={video} width="100%" height="100%" controls={true} />
+          {photo.map((photo) => {
+            return (
+              <div style={{ position: "relative" }}>
+                <Button
+                  style={{
+                    position: "absolute",
+                    color: "grey",
+                    outlineWidth: "0px",
+                    top: "0",
+                    right: "0",
+                  }}
+                  className="modal__input__photo__button"
+                  onClick={() => {
+                    handlePhotoClose(photo);
+                  }}
+                >
+                  <CloseRoundedIcon />
+                </Button>
+                <img
+                  src={photo}
+                  alt=""
+                  style={{ objectFit: "cover", width: "100%" }}
+                />
+              </div>
+            );
+          })}
+          {video !== null ? (
+            <div style={{ position: "relative" }}>
+              <Button
+                style={{
+                  position: "absolute",
+                  color: "grey",
+                  outlineWidth: "0px",
+                  top: "-2rem",
+                  right: "0",
+                }}
+                className="modal__input__photo__button"
+                onClick={handleVideoClose}
+              >
+                <CloseRoundedIcon />
+              </Button>
+              <ReactPlayer
+                url={video}
+                width="100%"
+                height="100%"
+                controls={true}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="messageSender__bottom row">
@@ -188,7 +204,7 @@ function MessageSender() {
           </label>
         </div>
         <div className="messageSender__option col-4">
-          <input accept="" className={classes.input} id="postEvent" />
+          <input accept="" className={classes.input} id="postArticle" />
           <label htmlFor="postEvent" className="messageSender__option__label">
             <div style={{ display: "flex", alignItems: "center" }}>
               <IconButton
@@ -209,91 +225,98 @@ function MessageSender() {
       >
         Post
       </Button>
-      {/* <SimpleModal /> */}
     </div>
   );
 
   return (
-    <div className="message">
-      <div className="messageSender__top">
-        <Avatar src={user?.photoURL} alt={user?.displayName} />
-        <button type="button" className="p-2" onClick={handleOpen}>
-          What's on Your Mind?
-        </button>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
-          {body}
-        </Modal>
-      </div>
-      <div className="messageSender__bottom row">
-        <div className="messageSender__option col-4">
-          <input
-            accept="image/*"
-            className={classes.input}
-            id="postImageIn"
-            multiple
-            type="file"
-            name="postImageIn"
-            onChange={handlePhotoOpen}
-          />
-          <label htmlFor="postImageIn" className="messageSender__option__label">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <IconButton
-                style={{ padding: "0" }}
-                color="primary"
-                component="div"
-              >
-                <InsertPhotoIcon style={{ color: "green" }} />
-              </IconButton>
-              <h4>Photo</h4>
-            </div>
-          </label>
+    <>
+      <div className="message">
+        <div className="messageSender__top">
+          <Avatar src={user?.photoURL} alt={user?.displayName} />
+          <button type="button" className="p-2" onClick={handleOpen}>
+            What's on Your Mind?
+          </button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            {body}
+          </Modal>
         </div>
-        <div className="messageSender__option col-4">
-          <input
-            accept="video/*"
-            className={classes.input}
-            id="postVideoIn"
-            multiple
-            type="file"
-            name="postVideoIn"
-            onChange={handleVideoOpen}
-          />
-          <label htmlFor="postVideoIn" className="messageSender__option__label">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <IconButton
-                style={{ padding: "0" }}
-                color="primary"
-                component="div"
-              >
-                <PlayCircleFilledIcon style={{ color: "red" }} />
-              </IconButton>
-              <h4>Video</h4>
-            </div>
-          </label>
-        </div>
+        <div className="messageSender__bottom row">
+          <div className="messageSender__option col-4">
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="postImageIn"
+              multiple
+              type="file"
+              name="postImageIn"
+              onChange={handlePhotoOpen}
+            />
+            <label
+              htmlFor="postImageIn"
+              className="messageSender__option__label"
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  style={{ padding: "0" }}
+                  color="primary"
+                  component="div"
+                >
+                  <InsertPhotoIcon style={{ color: "green" }} />
+                </IconButton>
+                <h4>Photo</h4>
+              </div>
+            </label>
+          </div>
+          <div className="messageSender__option col-4">
+            <input
+              accept="video/*"
+              className={classes.input}
+              id="postVideoIn"
+              multiple
+              type="file"
+              name="postVideoIn"
+              onChange={handleVideoOpen}
+            />
+            <label
+              htmlFor="postVideoIn"
+              className="messageSender__option__label"
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  style={{ padding: "0" }}
+                  color="primary"
+                  component="div"
+                >
+                  <PlayCircleFilledIcon style={{ color: "red" }} />
+                </IconButton>
+                <h4>Video</h4>
+              </div>
+            </label>
+          </div>
 
-        <div className="messageSender__option col-4">
-          <input accept="" className={classes.input} id="postEvent" />
-          <label htmlFor="postEvent" className="messageSender__option__label">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <IconButton
-                style={{ padding: "0" }}
-                color="primary"
-                component="div"
-              >
-                <DescriptionIcon style={{ color: "blue" }} />
-              </IconButton>
-              <h4>Article</h4>
-            </div>
-          </label>
+          <div className="messageSender__option col-4">
+            <input accept="" className={classes.input} id="postArticleIn" />
+            <label htmlFor="postEvent" className="messageSender__option__label">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  style={{ padding: "0" }}
+                  color="primary"
+                  component="div"
+                >
+                  <DescriptionIcon style={{ color: "blue" }} />
+                </IconButton>
+                <h4>Article</h4>
+              </div>
+            </label>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

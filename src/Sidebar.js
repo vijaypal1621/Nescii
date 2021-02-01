@@ -83,8 +83,20 @@ function Sidebar() {
     setOpen(false);
   };
 
-  const handleUpdate = () => {
-      alert("nd")
+  const handleUpdate = (e) => {
+    e.preventDefault();
+      db
+      .collection('users')
+      .doc(user?.uid)
+        .update({
+          year: year,
+          branch:branch,
+          section:section,
+        });
+      setBranch('');
+      setSection('');
+      setYear('');
+      setOpen(false);
   };
   const body = (
     <div style={modalStyle} className={modalClasses.paper}>
@@ -127,6 +139,9 @@ function Sidebar() {
           </div>
           <h3 className="profile__name">{user.displayName}</h3>
           <h4 className="profile__sem">{profile?.year}</h4>
+          <h4 className="profile__sem">{profile?.branch}</h4>
+          <h4 className="profile__sem">{profile?.section}</h4>
+
           <EditIcon onClick={openModal} />
           <Modal
           open={open}

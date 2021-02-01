@@ -85,6 +85,9 @@ function Login() {
         .collection('users')
         .doc(authUser.user.uid)
         .set({
+          branch:"",
+          section:"",
+          year:"",
         });
         return authUser.user.updateProfile({
           displayName: username,

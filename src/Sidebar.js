@@ -70,7 +70,7 @@ function Sidebar() {
     if(user?.email.includes('gmail')===false){
         db.collection('users').doc(user.uid)
         .onSnapshot((snapshot)=>{
-          setProfile(!snapshot?(snapshot.docs.map((doc)=>doc.data()) ): (null) )
+          setProfile(!snapshot?(null) : (snapshot.docs.map((doc)=>doc.data()) ))
       });
       }
 
@@ -137,7 +137,7 @@ function Sidebar() {
               className={classes.large}
             />
           </div>
-          <h3 className="profile__name">{user.displayName}</h3>
+          <h3 className="profile__name">{user?.displayName}</h3>
           <h4 className="profile__sem">{profile?.year}</h4>
           <h4 className="profile__sem">{profile?.branch}</h4>
           <h4 className="profile__sem">{profile?.section}</h4>

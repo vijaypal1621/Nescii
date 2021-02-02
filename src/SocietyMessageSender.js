@@ -5,12 +5,22 @@ import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import EventIcon from "@material-ui/icons/Event";
 import DateFnsUtils from "@date-io/date-fns";
 import { useParams } from "react-router-dom";
-import {storage, db} from './firebase';
-import { Avatar,Button,IconButton,Modal,TextField,} from "@material-ui/core";
-import {MuiPickersUtilsProvider,KeyboardTimePicker,KeyboardDatePicker,} from "@material-ui/pickers";
+import { storage, db } from "./firebase";
+import {
+  Avatar,
+  Button,
+  IconButton,
+  Modal,
+  TextField,
+} from "@material-ui/core";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
-import {useStateValue} from './StateProvider';
+import { useStateValue } from "./StateProvider";
 function rand() {
   return Math.round(Math.random() * 16) - 10;
 }
@@ -40,10 +50,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 function SocietyMessageSender() {
   const classes = useStyles();
-  const [{user}] = useStateValue();
+  const [{ user }] = useStateValue();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
@@ -56,7 +65,7 @@ function SocietyMessageSender() {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [token, setToken] = useState("");
-  const [eventPhoto,setEventPhoto]= useState(null);
+  const [eventPhoto, setEventPhoto] = useState(null);
   const { societyId } = useParams();
   const handleEventModalOpen = () => {
     setEventModal(true);
@@ -118,7 +127,6 @@ function SocietyMessageSender() {
   const handleStartChange = (date) => {
     setStart(date);
   };
-  
 
   // const handleEndChange = (date) => {
   //   setEnd(date);
@@ -127,7 +135,6 @@ function SocietyMessageSender() {
   const RemoveSelectedFile = () => {
     const x = document.getElementById("postImage");
     x.value = "";
-    
   };
 
   const handlePhotoClose = () => {
@@ -136,10 +143,10 @@ function SocietyMessageSender() {
   };
 
   const handleEventImage = (e) => {
-      if(e.target.files[0]){
-        setEventPhoto(e.target.files[0]);
+    if (e.target.files[0]) {
+      setEventPhoto(e.target.files[0]);
     }
-  }
+  };
 
   // const handleVideoOpen = (event) => {
 
@@ -148,113 +155,106 @@ function SocietyMessageSender() {
   // source.parent()[0].load();
   // };
 
-  
-const handleEventSubmit = (e) => {
-  e.preventDefault();
-  if(token==='nescii@102' || token==='nescii@101'){
-    console.log(societyId);
-    if(societyId){
-      const uploadTask = storage.ref(`images/${eventPhoto.name}`).put(eventPhoto);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
+  const handleEventSubmit = (e) => {
+    e.preventDefault();
+    if (token === "nescii@102" || token === "nescii@101") {
+      console.log(societyId);
+      if (societyId) {
+        const uploadTask = storage
+          .ref(`images/${eventPhoto.name}`)
+          .put(eventPhoto);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
             // progress function
-            
-            
-        },
-        (error)=> {
+          },
+          (error) => {
             // error function...
             console.log(error);
             alert(error.message);
-        },
-        () => {
+          },
+          () => {
             // complete function
             storage
-                   .ref('images')
-                   .child(eventPhoto.name)
-                   .getDownloadURL()
-                   .then(url => {
-                       //post image inside db
-                       db.collection('societies').doc(societyId)
-                          .collection('events').add({
-                                description:eventDescription,
-                                timestamp:date,
-                                place:place,
-                                title:eventTitle,
-                                url:url,
-                            }
-                        )
-                        .then(function() {
-                          console.log("Document successfully updated!");
-                          })
-                          .catch(function(error) {
-                              // The document probably doesn't exist.
-                              console.error("Error updating document: ", error);
-                          });
-                   })
-        }
-      )
+              .ref("images")
+              .child(eventPhoto.name)
+              .getDownloadURL()
+              .then((url) => {
+                //post image inside db
+                db.collection("societies")
+                  .doc(societyId)
+                  .collection("events")
+                  .add({
+                    description: eventDescription,
+                    timestamp: date,
+                    place: place,
+                    title: eventTitle,
+                    url: url,
+                  })
+                  .then(function () {
+                    console.log("Document successfully updated!");
+                  })
+                  .catch(function (error) {
+                    // The document probably doesn't exist.
+                    console.error("Error updating document: ", error);
+                  });
+              });
+          }
+        );
+      }
+    }
+    handleEventModalClose();
+  };
 
-  }
-
-
-
-}
-  handleEventModalClose();
-
-};
-
-
-
-const body = (
-  <div style={modalStyle} className={classes.paper}>
-    <div className="modal__top">
-      <h2 id="simple-modal-title">Create Post</h2>
-      <Button onClick={handleClose}>
-        <CloseRoundedIcon />
-      </Button>
-    </div>
-    <hr />
-    <div className="modal__profile">
-      <Avatar src={user?.photoURL} alt={user?.displayName}  />
-      <h4 className="modal__title">{user?.displayName}</h4>
-    </div>
-    <div
-      style={{
-        maxWidth: "100%",
-        overflowX: "hidden",
-        overflowY: "auto",
-        maxHeight: "300px",
-      }}
-    >
-      <textarea
-        className="modal__input"
-        rows="5"
-        cols="20"
-        style={{ width: "100%" }}
-        placeholder="Whats on your mind?"
-      />
-      <div className="modal__input__photo">
-        <Button
-          style={{ position: "absolute", color: "white" }}
-          className="modal__input__photo__button"
-          onClick={handlePhotoClose}
-        >
+  const body = (
+    <div style={modalStyle} className={classes.paper}>
+      <div className="modal__top">
+        <h2 id="simple-modal-title">Create Post</h2>
+        <Button onClick={handleClose}>
           <CloseRoundedIcon />
         </Button>
-        <img src={photo} alt="" />
-        {video != null ? (
-          <video width="400" controls>
-            <source src="mov_bbb.mp4" id="video_here" />
-            Your browser does not support HTML5 video.
-          </video>
-        ) : (
-          <> </>
-        )}
       </div>
-    </div>
-    <div className="messageSender__bottom row">
-    <div className="messageSender__option col-6">
+      <hr />
+      <div className="modal__profile">
+        <Avatar src={user?.photoURL} alt={user?.displayName} />
+        <h4 className="modal__title">{user?.displayName}</h4>
+      </div>
+      <div
+        style={{
+          maxWidth: "100%",
+          overflowX: "hidden",
+          overflowY: "auto",
+          maxHeight: "300px",
+        }}
+      >
+        <textarea
+          className="modal__input"
+          rows="5"
+          cols="20"
+          style={{ width: "100%" }}
+          placeholder="Whats on your mind?"
+        />
+        <div className="modal__input__photo">
+          <Button
+            style={{ position: "absolute", color: "white" }}
+            className="modal__input__photo__button"
+            onClick={handlePhotoClose}
+          >
+            <CloseRoundedIcon />
+          </Button>
+          <img src={photo} alt="" />
+          {video != null ? (
+            <video width="400" controls>
+              <source src="mov_bbb.mp4" id="video_here" />
+              Your browser does not support HTML5 video.
+            </video>
+          ) : (
+            <> </>
+          )}
+        </div>
+      </div>
+      <div className="messageSender__bottom row">
+        <div className="messageSender__option col-6">
           <input
             accept="image/*"
             className={classes.input}
@@ -263,44 +263,52 @@ const body = (
             type="file"
             onChange={handlePhotoOpen}
           />
-          <label htmlFor="postImage"  className="messageSender__option__label" >
-          <div style={{display:"flex",alignItems:"center"}}>
-          <IconButton style={{padding:"0"}} color="primary" component="div">
-            <InsertPhotoIcon  style={{ color: "green" }} />
-          </IconButton>
-          <h4 >Photo</h4>
-        </div>
+          <label htmlFor="postImage" className="messageSender__option__label">
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <IconButton
+                style={{ padding: "0" }}
+                color="primary"
+                component="div"
+              >
+                <InsertPhotoIcon style={{ color: "green" }} />
+              </IconButton>
+              <h4>Photo</h4>
+            </div>
           </label>
         </div>
-      <div className="messageSender__option col-6">
-        <input
-          accept="video/*"
-          className={classes.input}
-          id="postVideo"
-          multiple
-          type="file"
-          name="file[]"
-          onChange={handlePhotoOpen}
-        />
-        <label htmlFor="postVideo" className="messageSender__option__label" >
-          <div style={{display:"flex",alignItems:"center"}}>
-          <IconButton style={{padding:"0"}}color="primary" component="div">
-            <PlayCircleFilledIcon style={{ color: "red" }} />
-          </IconButton>
-          <h4 >Video</h4>
-          </div>
-        </label>
+        <div className="messageSender__option col-6">
+          <input
+            accept="video/*"
+            className={classes.input}
+            id="postVideo"
+            multiple
+            type="file"
+            name="file[]"
+            onChange={handlePhotoOpen}
+          />
+          <label htmlFor="postVideo" className="messageSender__option__label">
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <IconButton
+                style={{ padding: "0" }}
+                color="primary"
+                component="div"
+              >
+                <PlayCircleFilledIcon style={{ color: "red" }} />
+              </IconButton>
+              <h4>Video</h4>
+            </div>
+          </label>
+        </div>
       </div>
+      <Button
+        className="post__button"
+        style={{ color: "white", backgroundColor: "#16a596" }}
+      >
+        Post
+      </Button>
+      {/* <SimpleModal /> */}
     </div>
-    <Button
-      className="post__button"
-      style={{ color: "white", backgroundColor: "#16a596" }}
-    >
-      Post
-    </Button>
-    {/* <SimpleModal /> */}
-  </div>
-);
+  );
   return (
     <>
       <Modal
@@ -320,10 +328,7 @@ const body = (
             padding: "2rem",
           }}
         >
-          <form
-            autoComplete="off"
-            onSubmit={handleEventSubmit}
-          >
+          <form autoComplete="off" onSubmit={handleEventSubmit}>
             <div>
               <h1>
                 <center>Event</center>
@@ -412,25 +417,27 @@ const body = (
                   setToken(e.target.value);
                 }}
               />
-              <label htmlFor="EventImage">              
-              <h5 style={{color:"gray", fontWeight:"500"}}>Event Image</h5>
-            </label>
+              <label htmlFor="EventImage">
+                <h5 style={{ color: "gray", fontWeight: "500" }}>
+                  Event Image
+                </h5>
+              </label>
               <input
-              accept="image/*"
-              id="EventImage"
-              multiple
-              type="file"
-              onChange={handleEventImage}
-            />
-                <center>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    style={{ marginTop: "2rem" }}
-                  >
-                    Submit
-                  </Button>
-                </center>
+                accept="image/*"
+                id="EventImage"
+                multiple
+                type="file"
+                onChange={handleEventImage}
+              />
+              <center>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{ marginTop: "2rem" }}
+                >
+                  Submit
+                </Button>
+              </center>
             </div>
           </form>
         </div>
@@ -460,13 +467,17 @@ const body = (
               type="file"
               onChange={handlePhotoOpen}
             />
-            <label htmlFor="postImage"  className="messageSender__option__label" >
-            <div style={{display:"flex",alignItems:"center"}}>
-            <IconButton style={{padding:"0"}} color="primary" component="div">
-              <InsertPhotoIcon  style={{ color: "green" }} />
-            </IconButton>
-            <h4 >Photo</h4>
-          </div>
+            <label htmlFor="postImage" className="messageSender__option__label">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  style={{ padding: "0" }}
+                  color="primary"
+                  component="div"
+                >
+                  <InsertPhotoIcon style={{ color: "green" }} />
+                </IconButton>
+                <h4>Photo</h4>
+              </div>
             </label>
           </div>
           <div className="messageSender__option col-4">
@@ -479,27 +490,36 @@ const body = (
               name="file[]"
               onChange={handlePhotoOpen}
             />
-            <label htmlFor="postVideo" className="messageSender__option__label" >
-              <div style={{display:"flex",alignItems:"center"}}>
-              <IconButton style={{padding:"0"}}color="primary" component="div">
-                <PlayCircleFilledIcon style={{ color: "red" }} />
-              </IconButton>
-              <h4 >Video</h4>
+            <label htmlFor="postVideo" className="messageSender__option__label">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  style={{ padding: "0" }}
+                  color="primary"
+                  component="div"
+                >
+                  <PlayCircleFilledIcon style={{ color: "red" }} />
+                </IconButton>
+                <h4>Video</h4>
               </div>
             </label>
           </div>
 
           <div className="messageSender__option col-4">
-          <input accept="" className={classes.input} id="postEvent" />
-          <label htmlFor="postEvent" className="messageSender__option__label">
-          <div style={{display:"flex",alignItems:"center"}}>
-            <IconButton style={{padding:"0"}} onClick={handleEventModalOpen} color="primary" component="div">
-              <EventIcon style={{ color: "gray" }} />
-            </IconButton>
-            <h4 >Event</h4>
-            </div>
-          </label>
-        </div>
+            <input accept="" className={classes.input} id="postEvent" />
+            <label htmlFor="postEvent" className="messageSender__option__label">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  style={{ padding: "0" }}
+                  onClick={handleEventModalOpen}
+                  color="primary"
+                  component="div"
+                >
+                  <EventIcon style={{ color: "gray" }} />
+                </IconButton>
+                <h4>Event</h4>
+              </div>
+            </label>
+          </div>
         </div>
       </div>
     </>

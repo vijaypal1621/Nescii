@@ -1,22 +1,24 @@
 import React from "react";
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { Card, CardContent, Grow, Typography } from "@material-ui/core";
 
 function WidgetAbout({ society }) {
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h4">About</Typography>
-        <br />
-        <div className="row">
-          <div className="col-auto my-auto">
-            <i class="fas fa-theater-masks fa-5x"></i>
+    <Grow in={true} timeout={1000}>
+      <Card>
+        <CardContent>
+          <Typography variant="h4">About</Typography>
+          <br />
+          <div className="row">
+            <div className="col-auto my-auto">
+              <i class="fas fa-theater-masks fa-5x"></i>
+            </div>
+            <div className="col my-auto">
+              <Typography paragraph>{!society ? "" : society.about}</Typography>
+            </div>
           </div>
-          <div className="col my-auto">
-            <Typography paragraph>{!society ? "" : society.about}</Typography>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Grow>
   );
 }
 

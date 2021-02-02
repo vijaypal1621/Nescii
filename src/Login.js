@@ -3,7 +3,7 @@ import "./Login.css";
 import { auth, provider } from "./firebase";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Input, TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { useStateValue } from "./StateProvider";
 import { actionTypes } from "./reducer";
 

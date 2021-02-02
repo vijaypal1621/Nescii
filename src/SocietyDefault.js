@@ -5,6 +5,8 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Fade,
+  Grow,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import SocietySidebar from "./SocietySidebar";
@@ -31,51 +33,53 @@ function SocietyDefault() {
       <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
         <SocietySidebar />
       </Drawer>
-      <header
-        class="jumbotron jumbotron-fluid"
-        style={{
-          backgroundImage: `url(https://mapio.net/images-p/55335209.jpg)`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          width: "100%",
-          height: "100vh",
-          margin: "0",
-        }}
-      >
-        <div className="container-fluid m-0">
-          <div className="row m-0">
-            <div className="col-12" style={{ marginTop: "20%" }}>
-              <Typography
-                variant="h3"
-                style={{ color: "white" }}
-                align="center"
-              >
-                Connect with your college societies with{" "}
-                <strong style={{ color: "yellowgreen" }}>nescii</strong>
-              </Typography>
-              <center>
-                <Button
-                  variant="contained"
-                  className="mt-3"
-                  style={{
-                    borderRadius: "20px",
-                    backgroundColor: "white",
-                    padding: "0.8rem 3rem",
-                    textTransform: "none",
-                    outlineWidth: "0px",
-                  }}
-                  onClick={toggleDrawer(true)}
+      <Fade in={true}>
+        <header
+          class="jumbotron jumbotron-fluid"
+          style={{
+            backgroundImage: `url(https://mapio.net/images-p/55335209.jpg)`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+            width: "100%",
+            height: "100vh",
+            margin: "0",
+          }}
+        >
+          <div className="container-fluid m-0">
+            <div className="row m-0">
+              <div className="col-12" style={{ marginTop: "20%" }}>
+                <Typography
+                  variant="h3"
+                  style={{ color: "white" }}
+                  align="center"
                 >
-                  <Typography variant="h5" style={{ fontWeight: "bolder" }}>
-                    Explore Societies
-                  </Typography>
-                </Button>
-              </center>
+                  Connect with your college societies with{" "}
+                  <strong style={{ color: "yellowgreen" }}>nescii</strong>
+                </Typography>
+                <center>
+                  <Button
+                    variant="contained"
+                    className="mt-3"
+                    style={{
+                      borderRadius: "20px",
+                      backgroundColor: "white",
+                      padding: "0.8rem 3rem",
+                      textTransform: "none",
+                      outlineWidth: "0px",
+                    }}
+                    onClick={toggleDrawer(true)}
+                  >
+                    <Typography variant="h5" style={{ fontWeight: "bolder" }}>
+                      Explore Societies
+                    </Typography>
+                  </Button>
+                </center>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
+      </Fade>
       <div className="container-fluid p-2 m-0">
         <div className="row m-0">
           <div className="col-md-2 col-6 mb-3 hover">
@@ -90,6 +94,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
+
           <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
@@ -102,6 +107,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
+
           <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
@@ -114,6 +120,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
+
           <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
@@ -126,6 +133,7 @@ function SocietyDefault() {
               </div>
             </div>
           </div>
+
           <div className="col-md-2 col-6 mb-3 hover">
             <img
               className="img-fluid"
@@ -343,24 +351,30 @@ function SocietyDefault() {
           style={{ backgroundColor: "yellowgreen" }}
         >
           <div className="row">
-            <div className="col-4 my-auto">
-              <Typography variant="h5">
-                <a
-                  href="/home"
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  © <strong>nescii</strong>
-                </a>
-              </Typography>
+            <div className="col-md-4 col-12 my-auto p-2">
+              <center>
+                <Typography variant="h5">
+                  <a
+                    href="/home"
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    © <strong>nescii</strong>
+                  </a>
+                </Typography>
+              </center>
             </div>
-            <div className="col-4 my-auto">
-              <Typography variant="h5">Made with ❤ by Team OOC</Typography>
+            <div className="col-md-4 col-12 my-auto  p-2">
+              <center>
+                <Typography variant="h5">Made with ❤ by Team OOC</Typography>
+              </center>
             </div>
-            <div className="col-4 my-auto">
-              <Instagram style={{ fontSize: "3rem" }} />
-              <Facebook style={{ fontSize: "3rem" }} />
-              <LinkedIn style={{ fontSize: "3rem" }} />
-              <Email style={{ fontSize: "3rem" }} />
+            <div className="col-md-4 col-12 my-auto  p-2">
+              <center>
+                <Instagram style={{ fontSize: "3rem" }} />
+                <Facebook style={{ fontSize: "3rem" }} />
+                <LinkedIn style={{ fontSize: "3rem" }} />
+                <Email style={{ fontSize: "3rem" }} />
+              </center>
             </div>
           </div>
         </div>

@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 const useModalStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
-    width: 400,
+    width: 600,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -151,7 +151,7 @@ function Sidebar() {
 
 
   const handleUpdate = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
       db
       .collection('users')
       .doc(user?.uid)
@@ -164,23 +164,48 @@ function Sidebar() {
       setSection('');
       setYear('');
       setOpenModal(false);
+    // alert(section);
   };
   const body = (
     <div style={modalStyle} className={modalClasses.paper}>
     <div className="">
-          <InputLabel shrink htmlFor="branch">
-            Branch
-          </InputLabel>
-        <input value={branch} id="branch" onChange={(e)=>setBranch(e.target.value)} />
-        <InputLabel shrink htmlFor="Year">
-            Expected Year of Graduation
-          </InputLabel>
-        <input value={year} id="year"  onChange={(e)=>setYear(e.target.value)}/>
-        <InputLabel shrink htmlFor="section">
-            Section
-          </InputLabel>
-        <input value={section} id="section" onChange={(e)=>setSection(e.target.value)} />
-        <Button style={{ color: "white", backgroundColor: "#16a596" }} onClick={handleUpdate}>Update</Button>
+      <div className="row">
+          <label className="col-3" for="branch">Branch : </label>
+          <select className="col-8 profile__update" name="branch" id="branch" onChange={(e)=>setBranch(e.target.value)}>
+          <option selected value="Bio-Technology (BT) ">Bio-Technology (BT) </option>
+          <option value="Computer Engineering (COE)">Computer Engineering (COE)</option>
+          <option value="Computer Science and Engineering(CSAI)">Computer Science and Engineering(CSAI)</option>
+          <option value="Computer Science and Engineering(CSDS)">Computer Science and Engineering(CSDS)</option>
+          <option value="Electronics and Communication Engineering (ECE) ">Electronics and Communication Engineering (ECE) </option>
+          <option value="Electronics and Communication Engineering (EIOT) ">Electronics and Communication Engineering (EIOT) </option>
+          <option value="Electrical Engineering (EE) ">Electrical Engineering (EE) </option>
+          <option value="Information Technology (IT)">Information Technology (IT)</option>  
+          <option value="Information Technology (ITNS) ">Information Technology (ITNS) </option>
+          <option value="Instrumentation and Control Engineering (ICE) ">Instrumentation and Control Engineering (ICE) </option>
+          <option value="Manufacturing Process and Automation Engineering (MPAE) ">Manufacturing Process and Automation Engineering (MPAE) </option>
+          <option value="Mathematics and Computing (MAC)">Mathematics and Computing (MAC)</option>
+          <option value="Mechanical Engineering (ME) ">Mechanical Engineering (ME) </option>
+          </select>
+    </div>
+    <div className="row">
+          <label className="col-3"  for="year">Year of Graduation : </label>
+          <select className="col-8 profile__update" name="year" id="year" onChange={(e)=>setYear(e.target.value)}>
+          <option selected value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          </select>
+    </div>
+    <div className="row">
+          <label className="col-3" for="section">Section : </label>
+          <select className="col-8 profile__update" name="section" id="section" onChange={(e)=>setSection(e.target.value)}>
+          <option selected value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          </select>
+    </div>
+        <Button style={{ color: "white", backgroundColor: "#16a596" }} className="col-11 mt-4 ml-2" onClick={handleUpdate}>Update</Button>
     </div>
   
   </div>
@@ -263,9 +288,7 @@ function Sidebar() {
 
           
           <Button onClick={() => auth.signOut()}>Logout</Button>
-          {/* <Button aria-describedby={id} variant="contained" color="primary" onClick={handlePopClick}>
-        Open Popover
-      </Button> */}
+         
         </div>
       </div>
     </div>

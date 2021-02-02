@@ -37,3 +37,7 @@
   padding: 0;
   padding-left: 2px;
 }
+.profile__update{
+  border: none;
+  outline-width: 0px;
+}

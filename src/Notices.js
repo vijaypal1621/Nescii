@@ -1,5 +1,6 @@
 import Loading from "./Loading";
 import React, { Component } from "react";
+import { AnimatedList } from "react-animated-list";
 import {
   Button,
   Divider,
@@ -9,6 +10,7 @@ import {
   ListItemText,
   Paper,
   Typography,
+  Grow,
 } from "@material-ui/core";
 import { fetchNotices } from "./redux/ActionCreators";
 import { withRouter } from "react-router-dom";
@@ -29,6 +31,13 @@ const mapDispatchToProps = (dispatch) => ({
 const RenderNotice = ({ notice }) => {
   if (notice) {
     return (
+      // <Grow
+      //   in={notice !== null}
+      //   style={{
+      //     transformOrigin: "0 0 0",
+      //   }}
+      //   {...(notice !== null ? { timeout: 1000 } : {})}
+      // >
       <Paper
         elevation={2}
         style={{ marginBottom: "1rem", backgroundColor: "#FFFAF0" }}
@@ -56,6 +65,7 @@ const RenderNotice = ({ notice }) => {
         </ListItem>
         <Divider variant="middle" component="li" />
       </Paper>
+      // </Grow>
     );
   } else {
     return <div></div>;
@@ -76,9 +86,13 @@ function DisplayNotices({ notices, isLoading, errMess }) {
       </center>
     );
   } else {
-    return notices.slice(0, 5).map((notice) => {
-      return <RenderNotice notice={notice} key={notice.title} />;
-    });
+    return (
+      <AnimatedList initialAnimationDuration={2000}>
+        {notices.slice(0, 5).map((notice) => {
+          return <RenderNotice notice={notice} key={notice.title} />;
+        })}
+      </AnimatedList>
+    );
   }
 }
 

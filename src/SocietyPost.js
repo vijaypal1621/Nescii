@@ -1,56 +1,57 @@
 import { Avatar, Button } from "@material-ui/core";
-import { ThumbUp } from "@material-ui/icons";
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./SocietyPost.css";
-import {db} from './firebase';
-import {useStateValue} from './StateProvider';
+import { db } from "./firebase";
+import { useStateValue } from "./StateProvider";
 import { useParams } from "react-router-dom";
-import firebase from 'firebase';
+import firebase from "firebase";
 
-
-function SocietyPost({postId, profilePic, image, username, timestamp, message }) {
-
-
+function SocietyPost({
+  postId,
+  profilePic,
+  image,
+  username,
+  timestamp,
+  message,
+}) {
   const [comments, setComments] = useState([]);
-  const [comment,setComment]  = useState('');
-  const [{user}] = useStateValue();
+  const [comment, setComment] = useState("");
+  const [{ user }] = useStateValue();
   const { societyId } = useParams();
-  
 
-  
   useEffect(() => {
-    if(postId){
-            db
-            .collection('societies')
-            .doc(societyId)
-                .collection("posts")
-                .doc(postId)
-            .collection('comments')
-            .orderBy('timestamp','desc')
-            .onSnapshot((snapshot)=>{
-                setComments(snapshot.docs.map((doc)=>doc.data() ))
-            });
+    if (postId) {
+      db.collection("societies")
+        .doc(societyId)
+        .collection("posts")
+        .doc(postId)
+        .collection("comments")
+        .orderBy("timestamp", "desc")
+        .onSnapshot((snapshot) => {
+          setComments(snapshot.docs.map((doc) => doc.data()));
+        });
     }
-}, [postId, societyId]);
+  }, [postId, societyId]);
 
-const societyPostComment = (event) => {
-  event.preventDefault();
+  const societyPostComment = (event) => {
+    event.preventDefault();
 
-  db
-  .collection('societies')
-  .doc(societyId)
-  .collection("posts")
-  .doc(postId)
-  .collection('comments').add({
-      url:user?.photoURL,
-      text: comment,
-      username: user?.displayName,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
-  setComment('');
+    db.collection("societies")
+      .doc(societyId)
+      .collection("posts")
+      .doc(postId)
+      .collection("comments")
+      .add({
+        text: comment,
+        username: user?.displayName,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    setComment("");
+  };
 
-}
-
+  console.log(societyId);
+  console.log(postId);
+  console.log(comments);
   return (
     <div className="post">
       <div className="post__top">
@@ -70,26 +71,39 @@ const societyPostComment = (event) => {
         {/* <div className="post__option">
           <ThumbUp />
           <p>..1..</p>
-        </div> */ } 
+        </div> */}
         <form className="post__commentBox">
-                <input className='post__input' type='text' placeholder='Add a comment..' value={comment} 
-                        onChange={(e)=> setComment(e.target.value)} />
-                <Button style={{justifyContent:"end"}} className='post__button' disabled={!comment} type='submit' onClick={societyPostComment}>Post</Button>
+          <input
+            className="post__input"
+            type="text"
+            placeholder="Add a comment.."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <Button
+            style={{ justifyContent: "end" }}
+            className="post__button"
+            disabled={!comment}
+            type="submit"
+            onClick={societyPostComment}
+          >
+            Post
+          </Button>
         </form>
-        <div className='post__comments'>
-        {!comments?(""): (comments.map((comment) => {
-                return(
+        <div className="post__comments">
+          {!comments
+            ? ""
+            : comments.map((comment) => {
+                return (
                   <div className="comment__div">
                     <Avatar src={comment.url} alt="" />
                     <p>
-                    <strong>{comment.username}</strong> {comment.text}
-                  </p>
+                      <strong>{comment.username}</strong> {comment.text}
+                    </p>
                   </div>
-                )
-                
-                }))}
+                );
+              })}
         </div>
-            
       </div>
     </div>
   );

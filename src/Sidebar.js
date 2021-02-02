@@ -4,10 +4,11 @@ import React, { useState,useEffect, useRef } from "react";
 import "./Sidebar.css";
 import { useStateValue } from "./StateProvider";
 import Popover from '@material-ui/core/Popover';
+import firebase from 'firebase';
 import EditIcon from '@material-ui/icons/Edit';
 import { Button } from "@material-ui/core";
 import { auth } from "./firebase";
-import {db} from './firebase';
+import {db, storage} from './firebase';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -66,6 +67,7 @@ function Sidebar() {
   const [openModal, setOpenModal] = React.useState(false);
   const [{ user }] = useStateValue();
   const [profile,setProfile] = useState(null);
+  
   const [photo,setPhoto] = useState(user?.photoURL);
   const [branch,setBranch]=useState('');
   const [year,setYear]=useState('');
@@ -103,9 +105,49 @@ function Sidebar() {
     setOpenModal(false);
   };
 
+  const handlePhotoChange = (e) => {
+    if(e.target.files[0]){
+      setPhoto(e.target.files[0]);
+      
+  }
+}
+  
+
   const handlePhotoUpdate = () =>{
     
+    const uploadTask = storage.ref(`userImages/${photo.name}`).put(photo);
+       uploadTask.on(
+           "state_changed",
+           (snapshot) => {
+               // progress function
+           },
+           (error)=> {
+               // error function...
+               console.log(error);
+               alert(error.message);
+           },
+           () => {
+               // complete function
+               storage
+                      .ref('userImages')
+                      .child(photo.name)
+                      .getDownloadURL()
+                      .then(url => {
+                          //post image inside db
+                          firebase.auth().currentUser.updateProfile({
+                            photoURL: url
+                          }).then(function() {
+                            alert('Updated Successfully')
+                          }).catch(function(error) {
+                            alert('-_- Failed to Upload')
+                          });
+                          })
+                      })
+                      setAnchorEl(null);
+
   }
+       
+  
 
 
   const handleUpdate = (e) => {
@@ -170,7 +212,7 @@ function Sidebar() {
         <InputLabel shrink htmlFor="postImage">
             Photo
         </InputLabel>
-        <input accept="image/*" id="postImage" type="file" onChange={(e)=>setPhoto(e.target.value)} />
+        <input accept="image/*" id="postImage" type="file" required onChange={handlePhotoChange} />
         <Button style={{ color: "white", backgroundColor: "#16a596" }} onClick={handlePhotoUpdate}>Update</Button>
         </Typography>
       </Popover>

@@ -30,3 +30,10 @@
   font-weight: 400;
   color: gray;
 }
+.profile__info{
+  /* display: flex; */
+  /* justify-content: space-between;
+  align-items: center; */
+  padding: 0;
+  padding-left: 2px;
+}

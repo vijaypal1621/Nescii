@@ -137,10 +137,25 @@ function Sidebar() {
             />
           </div>
           <h3 className="profile__name">{user?.displayName}</h3>
-          <h4 className="profile__sem">{profile?.year}</h4>
-          <h4 className="profile__sem">{profile?.branch}</h4>
-          <h4 className="profile__sem">{profile?.section}</h4>
-
+          {user?.email.includes('gmail')===true ? (
+            <h1>Guest</h1>
+          ) : (
+            <>
+          <div className="row">
+              <h6 className="col-6 profile__info">Expected year of Graduation </h6>
+              <p  className="col-1 profile__info">:</p>
+              <h6 className="col-5 profile__info">{profile?.year}</h6>
+          </div>
+          <div className="row">
+                <h6 className="col-6 profile__info">Branch</h6>
+                <p  className="col-1 profile__info">:</p>
+                <h6 className="col-5 profile__info">{profile?.branch}</h6>
+          </div>
+          <div className="row">
+                <h6 className="col-6 profile__info">Section</h6>
+                <p  className="col-1 profile__info">:</p>
+                <h6 className="col-5 profile__info">{profile?.section}</h6>
+          </div>
           <EditIcon onClick={openModal} />
           <Modal
           open={open}
@@ -150,6 +165,10 @@ function Sidebar() {
         >
           {body}
         </Modal>
+            </>
+          )}
+
+          
           <Button onClick={() => auth.signOut()}>Logout</Button>
         </div>
       </div>

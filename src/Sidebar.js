@@ -64,17 +64,16 @@ function Sidebar() {
   const [year,setYear]=useState('');
   const [section,setSection]=useState('');
   
-
-  useEffect(() => {
-
-    if(user?.email.includes('gmail')===false){
-        db.collection('users').doc(user.uid)
-        .onSnapshot((snapshot)=>{
-          setProfile(!snapshot?(null) : (snapshot.docs.map((doc)=>doc.data()) ))
-      });
-      }
-
-  }, [user])
+        useEffect(() => {
+          if(user?.email.includes('gmail')===false){
+            db
+            .collection('users')
+            .doc(user?.uid)
+            .onSnapshot((snapshot)=>{ setProfile(snapshot.data());})
+              
+          }
+          },
+       [user?.email, user?.uid])
 
   const openModal = () =>{
     setOpen(true);

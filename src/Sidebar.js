@@ -226,26 +226,30 @@ function Sidebar() {
             />
           </div>
           <h3 className="profile__name">{user?.displayName}</h3>
+          <div className='text-right'>
+          <EditIcon className="text-primary"  onClick={handleOpenModal} />
+          </div>
+          
           {user?.email.includes('gmail')===true ? (
             <h1>Guest</h1>
           ) : (
             <>
-          <div className="row">
-              <h6 className="col-5 text-left pl-2 profile__info">Expected year of Graduation </h6>
-              <p  className="col-1 profile__info">:</p>
-              <h6 className="col-5 profile__info">{profile?.year}</h6>
+          <div className="row align-items-center">
+              <h6 className="col-5  profile__info">Expected year of Graduation </h6>
+              <h6  className="col-1 profile__info">:</h6>
+              <h6 className="col-5 text-primary profile__info">{profile?.year}</h6>
           </div>
-          <div className="row">
-                <h6 className="col-5 text-left pl-2 profile__info">Branch</h6>
-                <p  className="col-1 profile__info">:</p>
-                <h6 className="col-5 profile__info">{profile?.branch}</h6>
+          <div className="row align-items-center">
+                <h6 className="col-5  profile__info">Branch</h6>
+                <h6  className="col-1 profile__info">:</h6>
+                <h6 className="col-5 text-danger profile__info">{profile?.branch}</h6>
           </div>
-          <div className="row">
-                <h6 className="col-5 text-left pl-2 profile__info">Section</h6>
-                <p  className="col-1 profile__info">:</p>
-                <h6 className="col-5 profile__info">{profile?.section}</h6>
+          <div className="row align-items-center">
+                <h6 className="col-5  profile__info">Section</h6>
+                <h6  className="col-1 profile__info">:</h6>
+                <h6 className="col-5 text-primary profile__info">{profile?.section}</h6>
           </div>
-          <EditIcon onClick={handleOpenModal} />
+          
           <Modal
           open={openModal}
           onClose={handleClose}

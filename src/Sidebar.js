@@ -1,8 +1,9 @@
-import { Avatar, InputLabel, Modal } from "@material-ui/core";
+import { Avatar, InputLabel, Modal, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import "./Sidebar.css";
 import { useStateValue } from "./StateProvider";
+import Popover from '@material-ui/core/Popover';
 import EditIcon from '@material-ui/icons/Edit';
 import { Button } from "@material-ui/core";
 import { auth } from "./firebase";
@@ -55,6 +56,7 @@ const useModalStyles = makeStyles((theme) => ({
 function Sidebar() {
   const classes = useStyles();
   const modalClasses = useModalStyles();
+  const ref = useRef(null)
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [{ user }] = useStateValue();
@@ -81,6 +83,29 @@ function Sidebar() {
   const handleClose = () => {
     setOpen(false);
   };
+
+
+  const handlePhoto = () => {
+    if(user?.email.includes('gmail')===false){
+      <Popover
+        open
+        anchorEl={ref}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Typography className={classes.typography}>The content of the Popover.</Typography>
+      </Popover>
+    }
+    else{
+        
+    }
+  }
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -133,7 +158,9 @@ function Sidebar() {
             <Avatar
               alt={user?.displayName}
               src={user?.photoURL}
+              ref={ref}
               className={classes.large}
+              onClick={handlePhoto}
             />
           </div>
           <h3 className="profile__name">{user?.displayName}</h3>

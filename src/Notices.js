@@ -31,13 +31,6 @@ const mapDispatchToProps = (dispatch) => ({
 const RenderNotice = ({ notice }) => {
   if (notice) {
     return (
-      // <Grow
-      //   in={notice !== null}
-      //   style={{
-      //     transformOrigin: "0 0 0",
-      //   }}
-      //   {...(notice !== null ? { timeout: 1000 } : {})}
-      // >
       <Paper
         elevation={2}
         style={{ marginBottom: "1rem", backgroundColor: "#FFFAF0" }}
@@ -65,7 +58,6 @@ const RenderNotice = ({ notice }) => {
         </ListItem>
         <Divider variant="middle" component="li" />
       </Paper>
-      // </Grow>
     );
   } else {
     return <div></div>;

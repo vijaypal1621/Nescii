@@ -6,12 +6,12 @@ import { db } from "./firebase";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
-  var images = [
-    "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
-    "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
-    "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
-]
-var video=null;
+//   var images = [
+//     "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
+//     "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
+//     "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
+// ]
+// var video=null;
 
   useEffect(() => {
     db.collection("home")
@@ -30,7 +30,7 @@ var video=null;
   return (
     <div className="feed col-12">
       <MessageSender />
-      {/* {posts.map(({ post, id }) => {
+      {posts.map(({ post, id }) => {
         return (
           <Post
             key={id}
@@ -39,13 +39,13 @@ var video=null;
             message={post.message}
             profilePic={post.profilePic}
             timestamp={post.timestamp}
-            image={post.images}
+            images={post.images}
             video={post.video}
           />
         );
-      })} */}
+      })}
 
-      <Post
+      {/* <Post
         profilePic="https://s.yimg.com/fz/api/res/1.2/lX1NI08tfA8zoS_91rRWrQ--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpdDtoPTE4MDtxPTgwO3c9MTgw/https://s.yimg.com/zb/imgv1/22245df6-eb54-33c3-b1ff-64f879f287bf/t_500x300"
         message="Two Talented students updated their college website"
         timestamp="This is a Test timestamp"
@@ -53,7 +53,7 @@ var video=null;
         images={images}
         // video="https://youtu.be/Z79N1EWXx3E"
         video={video}
-      />
+      /> */}
       {/* <Post
         profilePic="https://lh3.googleusercontent.com/a-/AOh14Gh95KiyNVSSbq7jC1c5nNE1XbCyP1yryz-OC8M7Xg=s96-c-rg-br100"
         message="This gonna be insane this season"

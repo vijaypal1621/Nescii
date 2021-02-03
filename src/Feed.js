@@ -6,6 +6,12 @@ import { db } from "./firebase";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
+  var images = [
+    "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
+    "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
+    "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
+]
+var video=null;
 
   useEffect(() => {
     db.collection("home")
@@ -33,7 +39,8 @@ function Feed() {
             message={post.message}
             profilePic={post.profilePic}
             timestamp={post.timestamp}
-            image={post.image}
+            image={post.images}
+            video={post.video}
           />
         );
       })} */}
@@ -43,9 +50,11 @@ function Feed() {
         message="Two Talented students updated their college website"
         timestamp="This is a Test timestamp"
         username="nescii"
-        image="http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg"
+        images={images}
+        // video="https://youtu.be/Z79N1EWXx3E"
+        video={video}
       />
-      <Post
+      {/* <Post
         profilePic="https://lh3.googleusercontent.com/a-/AOh14Gh95KiyNVSSbq7jC1c5nNE1XbCyP1yryz-OC8M7Xg=s96-c-rg-br100"
         message="This gonna be insane this season"
         timestamp="This is a Test timestamp"
@@ -57,7 +66,7 @@ function Feed() {
         message="This is a test Message"
         timestamp="This is a Test timestamp"
         username="Vijay PAL"
-      />
+      /> */}
     </div>
   );
 }

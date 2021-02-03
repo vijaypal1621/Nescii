@@ -5,11 +5,77 @@ import firebase from "firebase";
 import ReactPlayer from 'react-player';
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
-function Post({ postId, profilePic, image, username, timestamp, message }) {
+import { ImageSearch } from "@material-ui/icons";
+function Post({ postId, profilePic, images, username, timestamp, message,video }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
 
+  
+  const body2 = ()=>{
+    images.map( (image, index)=>{
+      return (
+        <li data-target="#carouselExampleIndicators" data-slide-to={index}></li>
+      )
+    })
+  }
+
+  
+
+    
+    
+  
+
+  const body = (
+    <>
+    {
+      
+      <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel" data-interval="false">s
+      <ol className="carousel-indicators">
+        {images.map( (image,index) => {
+        return (
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" className={`${index===0?('active'):("")} `}></li>
+        )
+      })}
+      {video != null ? (<li data-target="#carouselExampleIndicators" data-slide-to={`${images.length}`}></li>):("")}
+      
+      </ol>
+      <div className="carousel-inner">
+      {images.map( (image,index) => {
+      return (
+          <div className = {`carousel-item col-8 offset-2 ${index===0?('active'):("")} `}>
+          <img style={{height:"250px",objectFit:"contain"}} src={image} className="d-block w-100" alt="..." />
+          </div>
+      )
+    })}  
+      {video !=null ? (
+        <>
+          <div className="carousel-item col-8 offset-2">
+        <ReactPlayer
+                    url=""
+                    width="250px"
+                    // height="100%"
+                    style={{height:"250px",objectFit:"contain" }}
+                    controls={true}
+                    className="d-block w-100"
+                  />
+        </div>
+        </>
+      ): ("") }
+      </div>
+      <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span className="carousel-control-prev-icon bg-primary" aria-hidden="true"></span>
+        <span className="sr-only">Previous</span>
+      </a>
+      <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span className="carousel-control-next-icon bg-dark text-danger" aria-hidden="true"></span>
+        <span className="sr-only">Next</span>
+      </a>
+    </div>
+    }
+    </>
+    
+  );
   // useEffect(() => {
   //   if (postId) {
   //     db.collection("home")
@@ -50,45 +116,7 @@ function Post({ postId, profilePic, image, username, timestamp, message }) {
         <img src={image} alt="" />
       </div> */}
       {/* Carousel */}
-      <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel" data-interval="false">s
-  <ol className="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div className="carousel-inner">
-    <div class="carousel-item col-8 offset-2 active">
-      <img style={{height:"250px",objectFit:"contain"}} src="http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg" className="d-block w-100" alt="..." />
-    </div>
-    <div className="carousel-item col-8 offset-2">
-      <img style={{height:"250px",objectFit:"contain" }} src="https://ipl2020schedule.co.in/wp-content/uploads/2019/07/Vivo-IPL-2020-Schedule.jpg" className="d-block w-100" alt="..." />
-    </div>
-    <div className="carousel-item col-8 offset-2">
-      <img style={{height:"250px",objectFit:"contain" }} src="https://lh3.googleusercontent.com/a-/AOh14Gh95KiyNVSSbq7jC1c5nNE1XbCyP1yryz-OC8M7Xg=s96-c-rg-br100" className="d-block w-100" alt="..." />
-    </div>
-    <div className="carousel-item col-8 offset-2">
-      <img style={{height:"250px",objectFit:"contain" }} src="https://lh3.googleusercontent.com/a-/AOh14Gh95KiyNVSSbq7jC1c5nNE1XbCyP1yryz-OC8M7Xg=s96-c-rg-br100" className="d-block w-100" alt="..." />
-    </div>
-    <div className="carousel-item col-8 offset-2">
-    <ReactPlayer
-                url="https://youtu.be/Z79N1EWXx3E"
-                width="250px"
-                // height="100%"
-                style={{height:"250px",objectFit:"contain" }}
-                controls={true}
-                className="d-block w-100"
-              />
-    </div>
-  </div>
-  <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span className="carousel-control-prev-icon bg-primary" aria-hidden="true"></span>
-    <span className="sr-only">Previous</span>
-  </a>
-  <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span className="carousel-control-next-icon bg-dark text-danger" aria-hidden="true"></span>
-    <span className="sr-only">Next</span>
-  </a>
-</div>
+      {body}
 
 
 

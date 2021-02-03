@@ -27,7 +27,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: 500,
+    // width: 500,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -74,10 +74,11 @@ function MessageSender() {
 
   const handleVideoOpen = (event) => {
     setVideo(URL.createObjectURL(event.target.files[0]));
+    setOpen(true);
   };
 
   const body = (
-    <div style={modalStyle} className={classes.paper}>
+    <div style={modalStyle}  className=" col-9 col-md-4 bg-light pt-1 pb-3">
       <div className="modal__top">
         <h2 id="simple-modal-title">Create Post</h2>
         <Button onClick={handleClose} style={{ outlineWidth: "0px" }}>
@@ -138,8 +139,8 @@ function MessageSender() {
                   position: "absolute",
                   color: "grey",
                   outlineWidth: "0px",
-                  top: "-2rem",
-                  right: "0",
+                  top: "0",
+                  right: "-46px",
                 }}
                 className="modal__input__photo__button"
                 onClick={handleVideoClose}

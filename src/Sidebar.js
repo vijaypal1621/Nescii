@@ -251,12 +251,15 @@ function Sidebar() {
             />
           </div>
           <h3 className="profile__name">{user?.displayName}</h3>
-          <div className='text-right'>
-          <EditIcon className="text-primary"  onClick={handleOpenModal} />
-          </div>
+          {user?.email.includes('gmail')===false?(
+            <div className='text-right'>  
+            <EditIcon className="text-primary"  onClick={handleOpenModal} />
+            </div>
+          ):("")}
+          
           
           {user?.email.includes('gmail')===true ? (
-            <h1>Guest</h1>
+            <h1 className='text-danger'>Guest</h1>
           ) : (
             <>
           <div className="row align-items-center">
@@ -285,9 +288,10 @@ function Sidebar() {
         </Modal>
             </>
           )}
-
+            <div className='pt-2'>
+            <button onClick={() => auth.signOut()} type="button" class="btn btn-dark">Logout</button>
+            </div>
           
-          <Button onClick={() => auth.signOut()}>Logout</Button>
          
         </div>
       </div>

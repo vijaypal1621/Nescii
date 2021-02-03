@@ -9,13 +9,9 @@ import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 import { useStateValue } from "./StateProvider";
 import ReactPlayer from "react-player";
 
-function rand() {
-  return Math.round(Math.random() * 15) - 10;
-}
-
 function getModalStyle() {
-  const top = 50 - rand();
-  const left = 50 - rand();
+  const top = 50 ;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -27,7 +23,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    // width: 500,
+    width: 500,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -78,7 +74,7 @@ function MessageSender() {
   };
 
   const body = (
-    <div style={modalStyle}  className=" col-9 col-md-4 bg-light pt-1 pb-3">
+    <div style={modalStyle}  className="col-10 col-md-4 bg-light pt-1 pb-3">
       <div className="modal__top">
         <h2 id="simple-modal-title">Create Post</h2>
         <Button onClick={handleClose} style={{ outlineWidth: "0px" }}>

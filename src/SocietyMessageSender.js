@@ -6,6 +6,7 @@ import EventIcon from "@material-ui/icons/Event";
 import DateFnsUtils from "@date-io/date-fns";
 import { useParams } from "react-router-dom";
 import { storage, db } from "./firebase";
+import ReactPlayer from "react-player";
 import {
   Avatar,
   Button,
@@ -21,13 +22,11 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 import { useStateValue } from "./StateProvider";
-function rand() {
-  return Math.round(Math.random() * 16) - 10;
-}
+
 
 function getModalStyle() {
-  const top = 50 - rand();
-  const left = 50 - rand();
+  const top = 50 ;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -39,7 +38,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: 340,
+    width: 500,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -56,7 +55,7 @@ function SocietyMessageSender() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState([]);
   const [video, setVideo] = useState(null);
   const [eventModal, setEventModal] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -84,40 +83,17 @@ function SocietyMessageSender() {
   };
 
   const handlePhotoOpen = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      let reader = new FileReader();
-      reader.onload = (e) => {
-        setPhoto(e.target.result);
-      };
-      reader.readAsDataURL(event.target.files[0]);
+    for (let i = 0; i < event.target.files.length; i++) {
+      let file = event.target.files[i];
+      setPhoto((array) => {
+        return [...array, URL.createObjectURL(file)];
+      });
     }
-    setOpen(true);
   };
 
-  const handleVideoOpen = (evt) => {
-    var reader = new window.FileReader(),
-      file = evt.target.files[0],
-      url;
-
-    reader = window.URL || window.webKitURL;
-
-    if (reader && reader.createObjectURL) {
-      url = reader.createObjectURL(file);
-      video.src = url;
-      reader.revokeObjectURL(url); //free up memory
-      return;
-    }
-
-    if (!window.FileReader) {
-      console.log("Sorry, not so much");
-      return;
-    }
-
-    reader = new window.FileReader();
-    reader.onload = function (evt) {
-      video.src = evt.target.result;
-    };
-    reader.readAsDataURL(file);
+  const handleVideoOpen = (event) => {
+    setVideo(URL.createObjectURL(event.target.files[0]));
+    setOpen(true);
   };
 
   const handleDateChange = (date) => {
@@ -137,15 +113,17 @@ function SocietyMessageSender() {
     x.value = "";
   };
 
-  const handlePhotoClose = () => {
-    setPhoto(null);
-    RemoveSelectedFile();
+  const handlePhotoClose = (file) => {
+    setPhoto(photo.filter((photo) => photo !== file));
   };
 
   const handleEventImage = (e) => {
     if (e.target.files[0]) {
       setEventPhoto(e.target.files[0]);
     }
+  };
+  const handleVideoClose = () => {
+    setVideo(null);
   };
 
   // const handleVideoOpen = (event) => {
@@ -207,7 +185,7 @@ function SocietyMessageSender() {
   };
 
   const body = (
-    <div style={modalStyle} className={classes.paper}>
+    <div style={modalStyle} className="col-10 col-md-4 bg-light pt-1 pb-3">
       <div className="modal__top">
         <h2 id="simple-modal-title">Create Post</h2>
         <Button onClick={handleClose}>
@@ -228,29 +206,62 @@ function SocietyMessageSender() {
         }}
       >
         <textarea
-          className="modal__input"
+          className="modal__input pl-2"
           rows="5"
           cols="20"
           style={{ width: "100%" }}
-          placeholder="Whats on your mind?"
+          placeholder=" Whats on your mind?"
         />
         <div className="modal__input__photo">
-          <Button
-            style={{ position: "absolute", color: "white" }}
-            className="modal__input__photo__button"
-            onClick={handlePhotoClose}
-          >
-            <CloseRoundedIcon />
-          </Button>
-          <img src={photo} alt="" />
-          {video != null ? (
-            <video width="400" controls>
-              <source src="mov_bbb.mp4" id="video_here" />
-              Your browser does not support HTML5 video.
-            </video>
-          ) : (
-            <> </>
-          )}
+        {photo.map((photo) => {
+            return (
+              <div style={{ position: "relative" }}>
+                <Button
+                  style={{
+                    position: "absolute",
+                    color: "grey",
+                    outlineWidth: "0px",
+                    top: "0",
+                    right: "0",
+                  }}
+                  className="modal__input__photo__button"
+                  onClick={() => {
+                    handlePhotoClose(photo);
+                  }}
+                >
+                  <CloseRoundedIcon />
+                </Button>
+                <img
+                  src={photo}
+                  alt=""
+                  style={{ objectFit: "cover", width: "100%" }}
+                />
+              </div>
+            );
+          })}
+          {video !== null ? (
+            <div style={{ position: "relative" }}>
+              <Button
+                style={{
+                  position: "absolute",
+                  color: "grey",
+                  outlineWidth: "0px",
+                  top: "0",
+                  right: "-46px",
+                }}
+                className="modal__input__photo__button"
+                onClick={handleVideoClose}
+              >
+                <CloseRoundedIcon />
+              </Button>
+              <ReactPlayer
+                url={video}
+                width="100%"
+                height="100%"
+                controls={true}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="messageSender__bottom row">
@@ -284,7 +295,7 @@ function SocietyMessageSender() {
             multiple
             type="file"
             name="file[]"
-            onChange={handlePhotoOpen}
+            onChange={handleVideoOpen}
           />
           <label htmlFor="postVideo" className="messageSender__option__label">
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -484,13 +495,16 @@ function SocietyMessageSender() {
             <input
               accept="video/*"
               className={classes.input}
-              id="postVideo"
+              id="postVideoIn"
               multiple
               type="file"
-              name="file[]"
-              onChange={handlePhotoOpen}
+              name="postVideoIn"
+              onChange={handleVideoOpen}
             />
-            <label htmlFor="postVideo" className="messageSender__option__label">
+            <label
+              htmlFor="postVideoIn"
+              className="messageSender__option__label"
+            >
               <div style={{ display: "flex", alignItems: "center" }}>
                 <IconButton
                   style={{ padding: "0" }}

@@ -22,7 +22,6 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
       </>
     )
     
-  
 
   const body = (
     <>
@@ -41,14 +40,14 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
       <div className="carousel-inner">
       {images?.map( (image,index) => {
       return (
-          <div className = {`carousel-item col-8 offset-2 ${index===0?('active'):("")} `}>
+          <div className = {`carousel-item col-sm-8 col-10 offset-1 offset-sm-2 ${index===0?('active'):("")} `}>
           <img style={{height:"250px",objectFit:"contain"}} src={image} className="d-block w-100" alt="..." />
           </div>
       )
     })}  
       {video !==undefined ? (
         <>
-          <div className="carousel-item col-8 offset-2">
+          <div className="carousel-item col-sm-8 col-10 offset-1 offset-sm-2">
         <ReactPlayer
                     url={video}
                     width="250px"
@@ -74,28 +73,64 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
     </>
     
   );
-  // useEffect(() => {
-  //   if (postId) {
-  //     db.collection("home")
-  //       .doc(postId)
-  //       .collection("comments")
-  //       .orderBy("timestamp", "desc")
-  //       .onSnapshot((snapshot) => {
-  //         setComments(snapshot.docs.map((doc) => doc.data()));
-  //       });
-  //   }
-  // }, [postId]);
 
-  // const postComment = (event) => {
-  //   event.preventDefault();
 
-  //   db.collection("home").doc(postId).collection("comments").add({
-  //     text: comment,
-  //     username: user?.displayName,
-  //     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  //   });
-  //   setComment("");
-  // };
+  
+  const condition = ()=> {
+    if(images===undefined && video===undefined){
+      return body2;
+    }
+    else if(images !== undefined && video === undefined && images.length===1){
+      return (
+        <>
+        <div className="post__image">
+        <img src={images[0]} alt="" />
+      </div>
+        </>
+      )
+    }
+    else if(images===undefined && video !== undefined){
+      return (
+        <>
+        <ReactPlayer
+                    url={video}
+                    width="250px"
+                    // height="100%"
+                    style={{height:"250px",objectFit:"contain" }}
+                    controls={true}
+                    
+                  />
+        </>
+      )
+    }
+    else {
+      return body;
+    }
+  }
+
+  useEffect(() => {
+    if (postId) {
+      db.collection("home")
+        .doc(postId)
+        .collection("comments")
+        .orderBy("timestamp", "desc")
+        .onSnapshot((snapshot) => {
+          setComments(snapshot.docs.map((doc) => doc.data()));
+        });
+    }
+  }, [postId]);
+
+  const postComment = (event) => {
+    event.preventDefault();
+
+    db.collection("home").doc(postId).collection("comments").add({
+      text: comment,
+      username: user?.displayName,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      url:user?.photoURL,
+    });
+    setComment("");
+  };
 
   return (
     <div className="post">
@@ -103,8 +138,8 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
         <Avatar src={profilePic} className="post__avatar" alt="Profile Pic" />
         <div className="post__topInfo">
           <h3 style={{ margin: "0" }}>{username}</h3>
-          {/* <p>{new Date(timestamp?.toDate()).toUTCString()}</p> */}
-          <p>timestamp....</p>
+          <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
+          {/* <p>timestamp....</p> */}
         </div>
       </div>
       <div className="post__bottom">
@@ -115,8 +150,15 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
       </div> */}
       {/* Carousel */}
       
-      {images.length===0 ? (body2): (body) }
+      {condition()}
+      {/* {images===undefined ? (body2): (body) } */ }
+      {/* cond-1 when both are null */}
+      {/* {images===undefined && video===undefined ? (body2): (body) } */}
 
+      {/* cond-2 when only one image is there , video being absent */}
+      {/* cond-3 when only video is present */}
+      {/* cond-4 when two or more images are present, video absent */}
+      {/* cond-5 all present */}
 
 
 
@@ -128,7 +170,7 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
           <ThumbUp />
           <p>..1..</p>
         </div> */}
-        {/* <form className="post__commentBox">
+        <form className="post__commentBox">
           <input
             className="post__input"
             type="text"
@@ -145,8 +187,8 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
           >
             Post
           </Button>
-        </form> */}
-        {/* <div className="post__comments">
+        </form>
+        <div className="post__comments">
           {!comments
             ? ""
             : comments.map((comment) => {
@@ -159,7 +201,7 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
                   </div>
                 );
               })}
-        </div> */}
+        </div>
       </div>
     </div>
   );

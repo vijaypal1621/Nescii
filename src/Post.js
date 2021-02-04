@@ -47,7 +47,7 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
     })}  
       {video !==undefined ? (
         <>
-          <div className="carousel-item col-sm-8 col-10 offset-1 offset-sm-2">
+          <div className="carousel-item col-sm-10 col-10 offset-1 offset-sm-1">
         <ReactPlayer
                     url={video}
                     width="250px"
@@ -83,8 +83,8 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
     else if(images !== undefined && video === undefined && images.length===1){
       return (
         <>
-        <div className="post__image">
-        <img src={images[0]} alt="" />
+        <div className="post__image row justify-content-center">
+        <img src={images[0]} alt=""  />
       </div>
         </>
       )
@@ -94,10 +94,9 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
         <>
         <ReactPlayer
                     url={video}
-                    width="250px"
-                    // height="100%"
                     style={{height:"250px",objectFit:"contain" }}
                     controls={true}
+                    className="col-10 offset-1"
                     
                   />
         </>

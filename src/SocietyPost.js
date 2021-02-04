@@ -64,8 +64,8 @@ function SocietyPost({
       <div className="post__bottom">
         <p>{message}</p>
       </div>
-      <div className="post__image">
-        <img src={image} alt="" />
+      <div className="post__image row justify-content-center">
+        <img src={image} alt=""  />
       </div>
       <div className="post__options">
         {/* <div className="post__option">

@@ -25,9 +25,10 @@
     color: gray;
 }
 .post__image > img {
-    width: 100%;
+    /* width: 100%;
     border-radius: 15px;
-    object-fit: cover;
+    object-fit: contain; */
+    height: 225px;
 }
 .post__bottom {
     padding: 0px 25px;

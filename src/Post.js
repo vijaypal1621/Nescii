@@ -11,8 +11,7 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
 
-  console.log(images);
-  console.log(video);
+
   
 
   

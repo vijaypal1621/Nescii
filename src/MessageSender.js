@@ -8,6 +8,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 import { useStateValue } from "./StateProvider";
 import ReactPlayer from "react-player";
+import { storage } from "./firebase";
+import {db} from './firebase';
+import firebase from 'firebase';
+
 
 function getModalStyle() {
   const top = 50 ;
@@ -39,8 +43,10 @@ function MessageSender() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
+  const [caption,setCaption] = useState('');
   const [photo, setPhoto] = useState([]);
   const [video, setVideo] = useState(null);
+  const [videoURL, setVideoURL] = useState(null);
   const [{ user }] = useStateValue();
 
   const handleOpen = () => {
@@ -69,9 +75,83 @@ function MessageSender() {
   };
 
   const handleVideoOpen = (event) => {
-    setVideo(URL.createObjectURL(event.target.files[0]));
+    
+    if (event.target.files[0]) {
+      setVideo(URL.createObjectURL(event.target.files[0]));
+      setVideoURL(event.target.files[0]);
+    }
     setOpen(true);
   };
+  
+  const handlePhotoSubmit = () => {
+    const arr=[];
+    
+    for(let i=0;i<photo.length;i++){
+      
+    }
+  }
+
+  const handlePostSubmit = (e) => {
+    e.preventDefault();
+    if(user?.email.includes('gmail')===false){
+      if(videoURL !==null){
+        const uploadTask = storage
+          .ref(`videos/${videoURL.name}`)
+          .put(videoURL);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // progress function
+          },
+          (error) => {
+            // error function...
+            console.log(error);
+            alert(error.message);
+          },
+          () => {
+            // complete function
+            storage
+              .ref("videos")
+              .child(videoURL?.name)
+              .getDownloadURL()
+              .then((url) => {
+                //post image inside db
+                db.collection("home")
+                  .add({
+                    message: caption,
+                    profilePic:user?.photoURL,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    username:user?.displayName,
+                    video:url,
+                  })
+                  .then(function () {
+                    console.log("Video Successfully Submitted!");
+                  })
+                  .catch(function (error) {
+                    // The document probably doesn't exist.
+                    console.error("Error updating document: ", error);
+                  });
+              });
+          }
+        );
+        
+      }
+      if(photo.length !==0){
+        handlePhotoSubmit();
+      }
+
+    }
+    else{
+      alert('Not a NSUT student! Please sign in with NSUT id to continue.')
+    }
+    setVideoURL(null)
+    setVideo(null);
+    setCaption('');
+    setOpen(false);
+  }
+
+
+
 
   const body = (
     <div style={modalStyle}  className="col-10 col-md-4 bg-light pt-1 pb-3">
@@ -96,6 +176,8 @@ function MessageSender() {
       >
         <textarea
           className="modal__input"
+          value={caption}
+          onChange={(e)=>{setCaption(e.target.value)}}
           rows="5"
           cols="20"
           style={{ width: "100%" }}
@@ -218,6 +300,7 @@ function MessageSender() {
       </div>
       <Button
         className="post__button"
+        onClick={handlePostSubmit}
         style={{ color: "white", backgroundColor: "#16a596" }}
       >
         Post

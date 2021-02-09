@@ -2,7 +2,7 @@ import React from "react";
 import "./Event.css";
 import { IconButton, Typography } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import { client_id, api_key, scopes, discovery_docs } from "./googleCalendar";
+import Calendar from "./googleCalendar";
 
 function Event({ url, title, timeline, place, description }) {
   const handleClick = ({ url, title, timeline, place, description }) => {
@@ -10,10 +10,10 @@ function Event({ url, title, timeline, place, description }) {
     gapi.load("client:auth2", () => {
       console.log("loaded client");
       gapi.client.init({
-        apiKey: api_key,
-        clientId: client_id,
-        discoveryDocs: discovery_docs,
-        scope: scopes,
+        apiKey: Calendar.api_key,
+        clientId: Calendar.client_id,
+        discoveryDocs: Calendar.discovery_docs,
+        scope: Calendar.scopes,
       });
       gapi.client.load("calendar", "v3", () => {
         console.log("calendar loaded");

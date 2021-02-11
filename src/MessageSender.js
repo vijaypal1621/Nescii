@@ -50,7 +50,7 @@ function MessageSender() {
   const [finalVideo,setFinalVideo] = useState(null);
   const [finalPhotos,setFinalPhotos] =useState([]);
   const [videoURL, setVideoURL] = useState(null);
-
+  const [docId,setDocId] =useState('');
   const [{ user }] = useStateValue();
 
   const handleOpen = () => {
@@ -69,6 +69,7 @@ function MessageSender() {
         return [...array, URL.createObjectURL(file)];
       });
       setPhotosURL((arr) => {
+        console.log(file);
         return [...arr, file];
       })
     }
@@ -90,53 +91,45 @@ function MessageSender() {
     }
     setOpen(true);
   };
-  
   const handlePhotoSubmit = () => {
     
+    
+    
+    // const promises = photosURL.map(file => {
+    //   const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+    //   return ref
+    //     .put(file)
+    //     .then(() => ref.getDownloadURL())
+    // });
+    // Promise.all(promises)
+    // .then((fileDownloadUrls) => {
+    //   db.collection("home")
+    //     .add({
+    //       message: caption,
+    //       profilePic:user?.photoURL,
+    //       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //       username:user?.displayName,
+    //       video:finalVideo,
+    //       images:fileDownloadUrls,
+    //     })
+    //     .then(function () {
+    //       console.log("Post Successfully Submitted!");
+    //     })
+    //     .catch(function (error) {
+    //       // The document probably doesn't exist.
+    //       console.error("Error updating document: ", error);
+    //     }); 
+    // })
+    // .catch(err => console.log(err));
 
-    for(let i=0;i<photosURL.length;i++){
-      const uploadTask = storage
-          .ref(`homeImages/${photosURL[i].name}`)
-          .put(photosURL[i]);
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            // progress function
-          },
-          (error) => {
-            // error function...
-            console.log(error);
-            alert(error.message);
-          },
-          () => {
-            // complete function
-            storage
-              .ref("homeImages")
-              .child(photosURL[i].name)
-              .getDownloadURL()
-              .then((url) => {
-                //post image inside db
-                setFinalPhotos((array) => {
-                  return [...array, url];
-                });
-                  })
-                  .then(function () {
-                    console.log("Photos successfully updated! "+ finalPhotos[i]);
-                  })
-                  .catch(function (error) {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                  });
-              });  
-  }
   
-  console.log(finalPhotos);
+  
 }
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
     if(user?.email.includes('gmail')===false){
-      var x="";
+      
       if(videoURL !==null){
         
         const uploadTask = storage
@@ -146,9 +139,8 @@ function MessageSender() {
           "state_changed",
           (snapshot) => {
             // progress function
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Video Upload is ' + progress + '% done');
           // setProgress(progress);
           },
           (error) => {
@@ -163,56 +155,72 @@ function MessageSender() {
               .child(videoURL?.name)
               .getDownloadURL()
               .then((url) => {
-                x=url;
+                
                 console.log(url + " video url is generated");
                 setFinalVideo(url);
                 console.log(finalVideo + " Finalvideo url is saved") ;
                 //post image inside db
-                // db.collection("home")
-                //   .add({
-                //     message: caption,
-                //     profilePic:user?.photoURL,
-                //     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                //     username:user?.displayName,
-                //     video:url,
-                //   })
-                //   .then(function () {
-                //     console.log("Video Successfully Submitted!");
-                //   })
-                //   .catch(function (error) {
-                //     // The document probably doesn't exist.
-                //     console.error("Error updating document: ", error);
-                //   });
+                db.collection("home")
+                  .add({
+                    message: caption,
+                    profilePic:user?.photoURL,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    username:user?.displayName,
+                    video:url,
+                  })
+                  .then((docRef)=>{
+                    setDocId(docRef.id);
+                    if(photosURL.length !==0){
+                      const promises = photosURL.map(file => {
+                        const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+                        return ref
+                          .put(file)
+                          .then(() => ref.getDownloadURL())
+                      });
+                      Promise.all(promises)
+                      .then((fileDownloadUrls) => {
+                        db.collection("home").doc(docRef.id)
+                          .update({
+                            message: caption,
+                            profilePic:user?.photoURL,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                            username:user?.displayName,
+                            images:fileDownloadUrls,
+                          })
+                          .then(function () {
+                            console.log("Post Successfully Submitted!");
+                          })
+                          .catch(function (error) {
+                            // The document probably doesn't exist.
+                            console.error("Error updating document: ", error);
+                          }); 
+                      })
+                      .catch(err => console.log(err));
+                  
+                    }
+                    console.log("Video Successfully Submitted!");
+                  })
+                  .catch(function (error) {
+                    // The document probably doesn't exist.
+                    console.error("Error updating document: ", error);
+                  });
               });
           }
         );
        console.log(finalVideo) ;
        console.log(finalPhotos);
       }
-      if(photosURL.length !==0){
-        handlePhotoSubmit();
-        console.log(finalPhotos);
-      }
+      
 
-      setTimeout(() => {
-        db.collection("home")
-        .add({
-          message: caption,
-          profilePic:user?.photoURL,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          username:user?.displayName,
-          video:finalVideo,
-          images:finalPhotos,
-        })
-        .then(function () {
-          console.log("Post Successfully Submitted!");
-        })
-        .catch(function (error) {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
-        }); 
-      },9000);
-
+      
+      setVideoURL(null)
+      setVideo(null);
+      setCaption('');
+      setOpen(false);
+      setFinalPhotos([]);
+      setFinalVideo(null);
+      setPhotosURL([]);
+      setPhoto([]);
        
 
     }

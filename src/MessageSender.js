@@ -50,7 +50,7 @@ function MessageSender() {
   const [finalVideo,setFinalVideo] = useState(null);
   const [finalPhotos,setFinalPhotos] =useState([]);
   const [videoURL, setVideoURL] = useState(null);
-  const [docId,setDocId] =useState('');
+  
   const [{ user }] = useStateValue();
 
   const handleOpen = () => {
@@ -69,7 +69,7 @@ function MessageSender() {
         return [...array, URL.createObjectURL(file)];
       });
       setPhotosURL((arr) => {
-        console.log(file);
+        // console.log(file);
         return [...arr, file];
       })
     }
@@ -91,47 +91,13 @@ function MessageSender() {
     }
     setOpen(true);
   };
-  const handlePhotoSubmit = () => {
-    
-    
-    
-    // const promises = photosURL.map(file => {
-    //   const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
-    //   return ref
-    //     .put(file)
-    //     .then(() => ref.getDownloadURL())
-    // });
-    // Promise.all(promises)
-    // .then((fileDownloadUrls) => {
-    //   db.collection("home")
-    //     .add({
-    //       message: caption,
-    //       profilePic:user?.photoURL,
-    //       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //       username:user?.displayName,
-    //       video:finalVideo,
-    //       images:fileDownloadUrls,
-    //     })
-    //     .then(function () {
-    //       console.log("Post Successfully Submitted!");
-    //     })
-    //     .catch(function (error) {
-    //       // The document probably doesn't exist.
-    //       console.error("Error updating document: ", error);
-    //     }); 
-    // })
-    // .catch(err => console.log(err));
-
-  
-  
-}
+ 
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
     if(user?.email.includes('gmail')===false){
       
       if(videoURL !==null){
-        
         const uploadTask = storage
           .ref(`videos/${videoURL.name}`)
           .put(videoURL);
@@ -139,13 +105,13 @@ function MessageSender() {
           "state_changed",
           (snapshot) => {
             // progress function
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Video Upload is ' + progress + '% done');
+            // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // console.log('Video Upload is ' + progress + '% done');
           // setProgress(progress);
           },
           (error) => {
             // error function...
-            console.log(error);
+            // console.log(error);
             alert(error.message);
           },
           () => {
@@ -156,9 +122,9 @@ function MessageSender() {
               .getDownloadURL()
               .then((url) => {
                 
-                console.log(url + " video url is generated");
+                // console.log(url + " video url is generated");
                 setFinalVideo(url);
-                console.log(finalVideo + " Finalvideo url is saved") ;
+                // console.log(finalVideo + " Finalvideo url is saved") ;
                 //post image inside db
                 db.collection("home")
                   .add({
@@ -169,7 +135,6 @@ function MessageSender() {
                     video:url,
                   })
                   .then((docRef)=>{
-                    setDocId(docRef.id);
                     if(photosURL.length !==0){
                       const promises = photosURL.map(file => {
                         const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
@@ -198,7 +163,7 @@ function MessageSender() {
                       .catch(err => console.log(err));
                   
                     }
-                    console.log("Video Successfully Submitted!");
+                    // console.log("Video Successfully Submitted!");
                   })
                   .catch(function (error) {
                     // The document probably doesn't exist.
@@ -207,21 +172,55 @@ function MessageSender() {
               });
           }
         );
-       console.log(finalVideo) ;
-       console.log(finalPhotos);
+      //  console.log(finalVideo) ;
+      //  console.log(finalPhotos);
+      }else if(photosURL.length !==0){
+          const promises = photosURL.map(file => {
+            const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+            return ref
+              .put(file)
+              .then(() => ref.getDownloadURL())
+          });
+          Promise.all(promises)
+          .then((fileDownloadUrls) => {
+            db.collection("home")
+              .add({
+                message: caption,
+                profilePic:user?.photoURL,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                username:user?.displayName,
+                images:fileDownloadUrls,
+              })
+              .then(function () {
+                // console.log("Post Successfully Submitted!");
+              })
+              .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+              }); 
+          })
+          .catch(err => console.log(err));
+      }
+      else if(caption !== ''){
+        db.collection("home")
+        .add({
+          message: caption,
+          profilePic:user?.photoURL,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          username:user?.displayName,
+        })
+        .then(function () {
+          console.log("Post Successfully Submitted!");
+        })
+        .catch(function (error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        }); 
+      }
+      else{
+        alert('Post is empty !')
       }
       
-
-      
-      setVideoURL(null)
-      setVideo(null);
-      setCaption('');
-      setOpen(false);
-      setFinalPhotos([]);
-      setFinalVideo(null);
-      setPhotosURL([]);
-      setPhoto([]);
-       
 
     }
     else{

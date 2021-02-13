@@ -39,19 +39,19 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
       <div className="carousel-inner">
       {images?.map( (image,index) => {
       return (
-          <div className = {`carousel-item col-sm-8 col-10 offset-1 offset-sm-2 ${index===0?('active'):("")} `}>
-          <img style={{height:"250px",objectFit:"contain"}} src={image} className="d-block w-100" alt="..." />
+          <div style={{minHeight:"400px",maxHeight:"400px"}} className = {`carousel-item col-sm-12 col-10  ${index===0?('active'):("")} `}>
+          <img style={{objectFit:"contain"}} src={image} className="d-block w-100" alt="..." />
           </div>
       )
     })}  
       {video !==undefined ? (
         <>
-          <div className="carousel-item col-sm-10 col-10 offset-1 offset-sm-1">
+          <div style={{minHeight:"400px",maxHeight:"400px"}} className="carousel-item col-sm-10 col-10 offset-1 offset-sm-1">
         <ReactPlayer
                     url={video}
-                    width="250px"
+                    // width="250px"
                     // height="100%"
-                    style={{height:"250px",objectFit:"contain" }}
+                    style={{objectFit:"cover" }}
                     controls={true}
                     className="d-block w-100"
                   />

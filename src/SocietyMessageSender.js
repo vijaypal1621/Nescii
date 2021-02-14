@@ -153,7 +153,7 @@ function SocietyMessageSender() {
                   .then((docRef)=>{
                     if(photosURL.length !==0){
                       const promises = photosURL.map(file => {
-                        const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+                        const ref = firebase.storage().ref().child(`societyImages/${file.name}`);
                         return ref
                           .put(file)
                           .then(() => ref.getDownloadURL())
@@ -299,7 +299,7 @@ function SocietyMessageSender() {
       console.log(societyId);
       if (societyId) {
         const uploadTask = storage
-          .ref(`images/${eventPhoto.name}`)
+          .ref(`eventImages/${eventPhoto.name}`)
           .put(eventPhoto);
         uploadTask.on(
           "state_changed",
@@ -314,7 +314,7 @@ function SocietyMessageSender() {
           () => {
             // complete function
             storage
-              .ref("images")
+              .ref("eventImages")
               .child(eventPhoto.name)
               .getDownloadURL()
               .then((url) => {

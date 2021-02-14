@@ -62,7 +62,7 @@ function Event({ url, title, timeline, place, description }) {
       style={{ borderWidth: "medium", borderColor: "yellowgreen" }}
     >
       <div className="row">
-        <div className="col-5 p-0">
+        <div className="col-3 p-0">
           <img
             className="card-img img-fluid"
             src={url}
@@ -72,28 +72,29 @@ function Event({ url, title, timeline, place, description }) {
             }}
           />
         </div>
-        <div className="col-7 p-0">
-          <div className="card-body">
+        <div className="col-9 p-0">
+          <div className="card-body" style={{padding:"4px 0px 4px 4px"}}>
             <Typography
               variant="subtitle1"
               color="secondary"
-              className="card-text"
+              className="card-text pr-4"
             >
               {new Date(timeline?.toDate()).toUTCString()}
-            </Typography>
-            <Typography variant="subtitle2" className="card-text">
-              {place}
-            </Typography>
-            <Typography paragraph className="card-text">
-              {description}
-            </Typography>
-            <IconButton
+              <IconButton style={{padding:"0px"}}
               onClick={() => {
                 handleClick({ url, title, timeline, place, description });
               }}
             >
-              <CalendarTodayIcon />
+              <CalendarTodayIcon  />
             </IconButton>
+            </Typography>
+            <Typography variant="subtitle2" className="card-text">
+              {place}
+            </Typography>
+            <Typography paragraph className="card-text mb-0">
+              {description}
+            </Typography>
+            
           </div>
         </div>
       </div>

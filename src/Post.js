@@ -14,12 +14,16 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import SwiperCore, { EffectFade , EffectFlip} from 'swiper';
+import SwiperCore, { EffectFade , EffectFlip,Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/effect-fade/effect-fade.scss';
 import 'swiper/components/effect-flip/effect-flip.scss';
-SwiperCore.use([EffectFlip]);
+import 'swiper/components/navigation/navigation.scss';
+import 'swiper/components/pagination/pagination.scss';
+import 'swiper/components/scrollbar/scrollbar.scss';
+SwiperCore.use([EffectFlip,Navigation, Pagination, Scrollbar, A11y]);
+
 
 function Post({ postId, profilePic, images, username, timestamp, message,video }) {
   const [comments, setComments] = useState([]);
@@ -36,7 +40,13 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
   const body = (
     <>
     {
-      <Swiper effect="flip" >
+      <Swiper effect="flip" 
+      spaceBetween={50}
+      slidesPerView={3}
+      navigation
+      pagination={{ clickable: true }}
+      scrollbar={{ draggable: true }} 
+      >
       {images?.map((image, el) => {
         return (
         <SwiperSlide >

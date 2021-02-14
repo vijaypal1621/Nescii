@@ -14,7 +14,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import SwiperCore, { EffectFade , EffectFlip,Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import SwiperCore, { EffectFade , EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom } from 'swiper';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/effect-fade/effect-fade.scss';
@@ -22,7 +22,8 @@ import 'swiper/components/effect-flip/effect-flip.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
-SwiperCore.use([EffectFlip,Navigation, Pagination, Scrollbar, A11y]);
+import 'swiper/components/zoom/zoom.scss';
+SwiperCore.use([EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom]);
 
 
 function Post({ postId, profilePic, images, username, timestamp, message,video }) {
@@ -41,27 +42,26 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
     <>
     {
       <Swiper effect="flip" 
-      spaceBetween={50}
-      slidesPerView={3}
       navigation
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }} 
+      className="col-12"
       >
       {images?.map((image, el) => {
         return (
         <SwiperSlide >
-        <img className="col-12" style={{objectFit:"contain",height:"300px"}} src={image} alt="" />
+          <img  style={{objectFit:"contain",height:"300px",padding:"0px 0px 0px 0px",width:"100%"}} src={image} alt="" />
         </SwiperSlide>)
       })}
       {video !==undefined ? (
-        <SwiperSlide>
+        <SwiperSlide className="col-12 ">
         <ReactPlayer
                     url={video}
                     // width="250px"
-                    // height="100%"
-                    style={{objectFit:"contain" }}
+                    objectFit="cover"
+                    style={{height:"300px",padding:"0px 0px 30px 0px" }}
                     controls={true}
-                    className="col-12"
+                    className="col-12 "
                   />
         </SwiperSlide>
       ): ("") }

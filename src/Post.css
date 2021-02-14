@@ -13,6 +13,9 @@
     padding: 15px;
     padding-bottom: 0 !important;
 }
+video{
+    object-fit: cover !important;
+}
 .post__avatar{
     margin-right: 10px;
 }

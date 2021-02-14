@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import { Avatar, Button } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import "./Post.css";
@@ -6,14 +7,24 @@ import ReactPlayer from 'react-player';
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import { ImageSearch } from "@material-ui/icons";
+import ArrowBackIosTwoToneIcon from '@material-ui/icons/ArrowBackIosTwoTone';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
+// swipper example
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import SwiperCore, { EffectFade , EffectFlip} from 'swiper';
+
+import 'swiper/swiper.scss';
+import 'swiper/components/effect-fade/effect-fade.scss';
+import 'swiper/components/effect-flip/effect-flip.scss';
+SwiperCore.use([EffectFlip]);
+
 function Post({ postId, profilePic, images, username, timestamp, message,video }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
-
-
-  
-
   
 
     const body2 = (
@@ -25,8 +36,36 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
   const body = (
     <>
     {
+      <Swiper effect="flip" >
+      {images?.map((image, el) => {
+        return (
+        <SwiperSlide >
+        <img className="col-12" style={{objectFit:"contain",height:"300px"}} src={image} alt="" />
+        </SwiperSlide>)
+      })}
+      {video !==undefined ? (
+        <SwiperSlide>
+        <ReactPlayer
+                    url={video}
+                    // width="250px"
+                    // height="100%"
+                    style={{objectFit:"contain" }}
+                    controls={true}
+                    className="col-12"
+                  />
+        </SwiperSlide>
+      ): ("") }
+
+    </Swiper>
+  
       
-      <div id={postId} className="carousel slide" data-ride="carousel" data-interval="false">
+    }
+    </>
+    
+  );
+
+
+{/* <div id={postId} className="carousel slide" data-ride="carousel" data-interval="false">
       <ol className="carousel-indicators">
         {images?.map( (image,index) => {
         return (
@@ -67,14 +106,9 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
         <span className="carousel-control-next-icon bg-dark text-danger" aria-hidden="true"></span>
         <span className="sr-only">Next</span>
       </a>
-    </div>
-    }
-    </>
-    
-  );
+    </div> */}
 
 
-  
   const condition = ()=> {
     if(images===undefined && video===undefined){
       return body2;
@@ -132,6 +166,7 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
 
   return (
     <div className="post">
+      
       <div className="post__top">
         <Avatar src={profilePic} className="post__avatar" alt="Profile Pic" />
         <div className="post__topInfo">

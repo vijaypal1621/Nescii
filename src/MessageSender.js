@@ -268,7 +268,7 @@ function MessageSender() {
           rows="5"
           cols="20"
           style={{ width: "100%" }}
-          placeholder="Whats on your mind?"
+          placeholder=" Whats on your mind?"
         />
         <div className="modal__input__photo">
           {photo.map((photo) => {

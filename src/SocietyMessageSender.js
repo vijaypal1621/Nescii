@@ -22,7 +22,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 import { useStateValue } from "./StateProvider";
-
+import firebase from 'firebase';
 
 function getModalStyle() {
   const top = 50 ;
@@ -55,8 +55,11 @@ function SocietyMessageSender() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
+  const [caption,setCaption] = useState('');
   const [photo, setPhoto] = useState([]);
   const [video, setVideo] = useState(null);
+  const [photosURL, setPhotosURL] = useState([]);
+  const [videoURL, setVideoURL] = useState(null);
   const [eventModal, setEventModal] = useState(false);
   const [date, setDate] = useState(new Date());
   const [start, setStart] = useState(new Date());
@@ -83,18 +86,178 @@ function SocietyMessageSender() {
   };
 
   const handlePhotoOpen = (event) => {
+    setOpen(true);
     for (let i = 0; i < event.target.files.length; i++) {
       let file = event.target.files[i];
       setPhoto((array) => {
         return [...array, URL.createObjectURL(file)];
       });
+      setPhotosURL((arr) => {
+        // console.log(file);
+        return [...arr, file];
+      })
     }
+    
   };
 
   const handleVideoOpen = (event) => {
-    setVideo(URL.createObjectURL(event.target.files[0]));
+    if (event.target.files[0]) {
+      setVideo(URL.createObjectURL(event.target.files[0]));
+      setVideoURL(event.target.files[0]);
+    }
     setOpen(true);
   };
+
+  const handlePostSubmit = (e) => {
+    e.preventDefault();
+    if(user?.email.includes('gmail')===false){
+      
+      if(videoURL !==null){
+        const uploadTask = storage
+          .ref(`videos/${videoURL.name}`)
+          .put(videoURL);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // progress function
+            // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // console.log('Video Upload is ' + progress + '% done');
+          // setProgress(progress);
+          },
+          (error) => {
+            // error function...
+            // console.log(error);
+            alert(error.message);
+          },
+          () => {
+            // complete function
+            storage
+              .ref("videos")
+              .child(videoURL?.name)
+              .getDownloadURL()
+              .then((url) => {
+                
+                // console.log(url + " video url is generated");
+                // console.log(finalVideo + " Finalvideo url is saved") ;
+                //post image inside db
+                db.collection("societies")
+                  .doc(societyId)
+                  .collection('posts')
+                  .add({
+                    message: caption,
+                    profilePic:user?.photoURL,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    username:user?.displayName,
+                    video:url,
+                  })
+                  .then((docRef)=>{
+                    if(photosURL.length !==0){
+                      const promises = photosURL.map(file => {
+                        const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+                        return ref
+                          .put(file)
+                          .then(() => ref.getDownloadURL())
+                      });
+                      Promise.all(promises)
+                      .then((fileDownloadUrls) => {
+                        db.collection("societies")
+                        .doc(societyId)
+                        .collection('posts')
+                        .doc(docRef.id)
+                          .update({
+                            message: caption,
+                            profilePic:user?.photoURL,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                            username:user?.displayName,
+                            images:fileDownloadUrls,
+                          })
+                          .then(function () {
+                            console.log("Post Successfully Submitted!");
+                          })
+                          .catch(function (error) {
+                            // The document probably doesn't exist.
+                            console.error("Error updating document: ", error);
+                          }); 
+                      })
+                      .catch(err => console.log(err));
+                  
+                    }
+                    // console.log("Video Successfully Submitted!");
+                  })
+                  .catch(function (error) {
+                    // The document probably doesn't exist.
+                    console.error("Error updating document: ", error);
+                  });
+              });
+          }
+        );
+      //  console.log(finalVideo) ;
+      //  console.log(finalPhotos);
+      }else if(photosURL.length !==0){
+          const promises = photosURL.map(file => {
+            const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+            return ref
+              .put(file)
+              .then(() => ref.getDownloadURL())
+          });
+          Promise.all(promises)
+          .then((fileDownloadUrls) => {
+            db.collection("societies")
+                  .doc(societyId)
+                  .collection('posts')
+              .add({
+                message: caption,
+                profilePic:user?.photoURL,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                username:user?.displayName,
+                images:fileDownloadUrls,
+              })
+              .then(function () {
+                // console.log("Post Successfully Submitted!");
+              })
+              .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+              }); 
+          })
+          .catch(err => console.log(err));
+      }
+      else if(caption !== ''){
+        db.collection("societies")
+        .doc(societyId)
+        .collection('posts')
+        .add({
+          message: caption,
+          profilePic:user?.photoURL,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          username:user?.displayName,
+        })
+        .then(function () {
+          console.log("Post Successfully Submitted!");
+        })
+        .catch(function (error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        }); 
+      }
+      else{
+        alert('Post is empty !')
+      }
+      
+
+    }
+    else{
+      alert('Not a NSUT student! Please sign in with NSUT id to continue.')
+    }
+    setVideoURL(null)
+    setVideo(null);
+    setCaption('');
+    setOpen(false);
+    setPhotosURL([]);
+    setPhoto([]);
+
+  }
+
 
   const handleDateChange = (date) => {
     setDate(date);
@@ -108,10 +271,7 @@ function SocietyMessageSender() {
   //   setEnd(date);
   // };
 
-  const RemoveSelectedFile = () => {
-    const x = document.getElementById("postImage");
-    x.value = "";
-  };
+
 
   const handlePhotoClose = (file) => {
     setPhoto(photo.filter((photo) => photo !== file));
@@ -164,6 +324,7 @@ function SocietyMessageSender() {
                   .collection("events")
                   .add({
                     description: eventDescription,
+                    message: caption,
                     timestamp: date,
                     place: place,
                     title: eventTitle,
@@ -207,6 +368,8 @@ function SocietyMessageSender() {
       >
         <textarea
           className="modal__input pl-2"
+          value={caption}
+          onChange={(e)=>{setCaption(e.target.value)}}
           rows="5"
           cols="20"
           style={{ width: "100%" }}
@@ -313,6 +476,7 @@ function SocietyMessageSender() {
       </div>
       <Button
         className="post__button"
+        onClick={handlePostSubmit}
         style={{ color: "white", backgroundColor: "#16a596" }}
       >
         Post

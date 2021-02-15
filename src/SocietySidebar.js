@@ -327,7 +327,7 @@ function SocietySidebar() {
         </div>
       </Modal>
       <List className="society-sidebar">
-        <ListItem>
+        <ListItem key="add">
           <ListItemIcon>
             <IconButton style={{ marginLeft: "100%" }}>
               <AddIcon className="add__button" onClick={handleOpen} />
@@ -340,6 +340,7 @@ function SocietySidebar() {
             <SocietySidebarOption
               title={channel.title}
               id={channel.id}
+              key={channel.id}
               url={channel.imageURL}
             />
             <Divider />

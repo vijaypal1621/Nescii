@@ -5,11 +5,50 @@ import Widgets from "./Widgets";
 import { useParams } from "react-router-dom";
 import db from "./firebase";
 import SocietySidebar from "./SocietySidebar";
+import { Button, Drawer } from "@material-ui/core";
+import Events from "./Events";
+import WidgetAbout from "./WidgetAbout";
 
 function SocietyChat() {
   const { societyId } = useParams();
   const [societyDetails, setSocietyDetails] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [socs, setSocs] = useState(false);
+  const [about, setAbout] = useState(false);
+  const [events, setEvents] = useState(false);
+
+  const toggleAboutDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setAbout(open);
+  };
+
+  const toggleEventsDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setEvents(open);
+  };
+
+  const toggleSocDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setSocs(open);
+  };
 
   //    1. changes URL with useHistory() Hook
   //    2. connects to databse using useEffect() and listens to the state changes using useState() hhok
@@ -38,36 +77,95 @@ function SocietyChat() {
   }, [societyId]);
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-2 d-md-block d-none p-0">
-          <SocietySidebar />
-        </div>
-        <div className="col-12 col-md-6">
-          <div className="row">
-            <div className="col-12">
-              <SocietyMessageSender />
-            </div>
-            <div className="col-12">
-              {posts.map(({ post, id }) => (
-                <SocietyPost
-                  postId={id}
-                  message={post.message}
-                  timestamp={post.timestamp}
-                  username={post.username}
-                  profilePic={post.profilePic}
-                  images={post.images}
-                  video={post.video}
-                />
-              ))}
+    <>
+      <Drawer
+        anchor="left"
+        open={socs}
+        onClick={toggleSocDrawer(false)}
+        onClose={toggleSocDrawer(false)}
+      >
+        <SocietySidebar />
+      </Drawer>
+      <Drawer
+        anchor="top"
+        open={about}
+        onClick={toggleAboutDrawer(false)}
+        onClose={toggleAboutDrawer(false)}
+      >
+        <WidgetAbout society={societyDetails} />
+      </Drawer>
+      <Drawer
+        anchor="right"
+        open={events}
+        onClick={toggleEventsDrawer(false)}
+        onClose={toggleEventsDrawer(false)}
+      >
+        <Events />
+      </Drawer>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-4 d-block d-md-none pt-3">
+            <center>
+              <Button
+                onClick={toggleSocDrawer(true)}
+                variant="contained"
+                color="primary"
+              >
+                Societies
+              </Button>
+            </center>
+          </div>
+          <div className="col-4 d-block d-md-none pt-3">
+            <center>
+              <Button
+                variant="contained"
+                onClick={toggleAboutDrawer(true)}
+                color="primary"
+              >
+                About
+              </Button>
+            </center>
+          </div>
+          <div className="col-4 d-block d-md-none pt-3">
+            <center>
+              <Button
+                variant="contained"
+                onClick={toggleEventsDrawer(true)}
+                color="primary"
+              >
+                Events
+              </Button>
+            </center>
+          </div>
+          <div className="col-2 d-md-block d-none p-0">
+            <SocietySidebar />
+          </div>
+          <div className="col-12 col-md-6">
+            <div className="row">
+              <div className="col-12">
+                <SocietyMessageSender />
+              </div>
+              <div className="col-12">
+                {posts.map(({ post, id }) => (
+                  <SocietyPost
+                    postId={id}
+                    message={post.message}
+                    timestamp={post.timestamp}
+                    username={post.username}
+                    profilePic={post.profilePic}
+                    images={post.images}
+                    video={post.video}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-12 col-md-4">
-          <Widgets society={societyDetails} />
+          <div className="col-md-4 d-none d-md-block">
+            <Widgets society={societyDetails} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -57,7 +57,8 @@ function SocietyChat() {
                     timestamp={post.timestamp}
                     username={post.username}
                     profilePic={post.profilePic}
-                    image={post.image}
+                    images={post.images}
+                    video={post.video}
                   />
                 ))}
               </div>

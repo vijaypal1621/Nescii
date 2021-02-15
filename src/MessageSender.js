@@ -8,6 +8,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 import { useStateValue } from "./StateProvider";
 import ReactPlayer from "react-player";
+import { storage } from "./firebase";
+import {db} from './firebase';
+import firebase from 'firebase';
+
 
 function getModalStyle() {
   const top = 50 ;
@@ -39,8 +43,14 @@ function MessageSender() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
+  const [caption,setCaption] = useState('');
   const [photo, setPhoto] = useState([]);
   const [video, setVideo] = useState(null);
+  const [photosURL, setPhotosURL] = useState([]);
+  const [finalVideo,setFinalVideo] = useState(null);
+  const [finalPhotos,setFinalPhotos] =useState([]);
+  const [videoURL, setVideoURL] = useState(null);
+  
   const [{ user }] = useStateValue();
 
   const handleOpen = () => {
@@ -52,11 +62,16 @@ function MessageSender() {
   };
 
   const handlePhotoOpen = (event) => {
+    setOpen(true);
     for (let i = 0; i < event.target.files.length; i++) {
       let file = event.target.files[i];
       setPhoto((array) => {
         return [...array, URL.createObjectURL(file)];
       });
+      setPhotosURL((arr) => {
+        // console.log(file);
+        return [...arr, file];
+      })
     }
   };
 
@@ -69,9 +84,161 @@ function MessageSender() {
   };
 
   const handleVideoOpen = (event) => {
-    setVideo(URL.createObjectURL(event.target.files[0]));
+    
+    if (event.target.files[0]) {
+      setVideo(URL.createObjectURL(event.target.files[0]));
+      setVideoURL(event.target.files[0]);
+    }
     setOpen(true);
   };
+ 
+
+  const handlePostSubmit = (e) => {
+    e.preventDefault();
+    if(user?.email.includes('gmail')===false){
+      
+      if(videoURL !==null){
+        const uploadTask = storage
+          .ref(`videos/${videoURL.name}`)
+          .put(videoURL);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // progress function
+            // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // console.log('Video Upload is ' + progress + '% done');
+          // setProgress(progress);
+          },
+          (error) => {
+            // error function...
+            // console.log(error);
+            alert(error.message);
+          },
+          () => {
+            // complete function
+            storage
+              .ref("videos")
+              .child(videoURL?.name)
+              .getDownloadURL()
+              .then((url) => {
+                
+                // console.log(url + " video url is generated");
+                setFinalVideo(url);
+                // console.log(finalVideo + " Finalvideo url is saved") ;
+                //post image inside db
+                db.collection("home")
+                  .add({
+                    message: caption,
+                    profilePic:user?.photoURL,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    username:user?.displayName,
+                    video:url,
+                  })
+                  .then((docRef)=>{
+                    if(photosURL.length !==0){
+                      const promises = photosURL.map(file => {
+                        const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+                        return ref
+                          .put(file)
+                          .then(() => ref.getDownloadURL())
+                      });
+                      Promise.all(promises)
+                      .then((fileDownloadUrls) => {
+                        db.collection("home").doc(docRef.id)
+                          .update({
+                            message: caption,
+                            profilePic:user?.photoURL,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                            username:user?.displayName,
+                            images:fileDownloadUrls,
+                          })
+                          .then(function () {
+                            console.log("Post Successfully Submitted!");
+                          })
+                          .catch(function (error) {
+                            // The document probably doesn't exist.
+                            console.error("Error updating document: ", error);
+                          }); 
+                      })
+                      .catch(err => console.log(err));
+                  
+                    }
+                    // console.log("Video Successfully Submitted!");
+                  })
+                  .catch(function (error) {
+                    // The document probably doesn't exist.
+                    console.error("Error updating document: ", error);
+                  });
+              });
+          }
+        );
+      //  console.log(finalVideo) ;
+      //  console.log(finalPhotos);
+      }else if(photosURL.length !==0){
+          const promises = photosURL.map(file => {
+            const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+            return ref
+              .put(file)
+              .then(() => ref.getDownloadURL())
+          });
+          Promise.all(promises)
+          .then((fileDownloadUrls) => {
+            db.collection("home")
+              .add({
+                message: caption,
+                profilePic:user?.photoURL,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                username:user?.displayName,
+                images:fileDownloadUrls,
+              })
+              .then(function () {
+                // console.log("Post Successfully Submitted!");
+              })
+              .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+              }); 
+          })
+          .catch(err => console.log(err));
+      }
+      else if(caption !== ''){
+        db.collection("home")
+        .add({
+          message: caption,
+          profilePic:user?.photoURL,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          username:user?.displayName,
+        })
+        .then(function () {
+          console.log("Post Successfully Submitted!");
+        })
+        .catch(function (error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        }); 
+      }
+      else{
+        alert('Post is empty !')
+      }
+      
+
+    }
+    else{
+      alert('Not a NSUT student! Please sign in with NSUT id to continue.')
+    }
+    setVideoURL(null)
+    setVideo(null);
+    setCaption('');
+    setOpen(false);
+    setFinalPhotos([]);
+    setFinalVideo(null);
+    setPhotosURL([]);
+    setPhoto([]);
+
+  }
+
+
+
 
   const body = (
     <div style={modalStyle}  className="col-10 col-md-4 bg-light pt-1 pb-3">
@@ -96,10 +263,12 @@ function MessageSender() {
       >
         <textarea
           className="modal__input"
+          value={caption}
+          onChange={(e)=>{setCaption(e.target.value)}}
           rows="5"
           cols="20"
           style={{ width: "100%" }}
-          placeholder="Whats on your mind?"
+          placeholder=" Whats on your mind?"
         />
         <div className="modal__input__photo">
           {photo.map((photo) => {
@@ -218,6 +387,7 @@ function MessageSender() {
       </div>
       <Button
         className="post__button"
+        onClick={handlePostSubmit}
         style={{ color: "white", backgroundColor: "#16a596" }}
       >
         Post

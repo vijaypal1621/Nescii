@@ -22,11 +22,11 @@
     font-size: small;
     color: gray;
 }
-.post__image > img {
+/* .post__image > img {
     width: 100%;
     border-radius: 15px;
     object-fit: cover;
-}
+} */
 .post__bottom {
     margin-top: 10px;
     margin-bottom: 10px;

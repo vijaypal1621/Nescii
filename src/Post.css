@@ -13,6 +13,9 @@
     padding: 15px;
     padding-bottom: 0 !important;
 }
+video{
+    object-fit: cover !important;
+}
 .post__avatar{
     margin-right: 10px;
 }
@@ -25,9 +28,10 @@
     color: gray;
 }
 .post__image > img {
-    width: 100%;
+    /* width: 100%;
     border-radius: 15px;
-    object-fit: cover;
+    object-fit: contain; */
+    height: 225px;
 }
 .post__bottom {
     padding: 0px 25px;
@@ -88,3 +92,27 @@
     margin:0;
     margin-left: 5px;
 }
+
+/* .carousel-fade .carousel-inner .item {
+    opacity: 0;
+    -webkit-transition-property: opacity;
+    -moz-transition-property: opacity;
+    -o-transition-property: opacity;
+    transition-property: opacity;
+  }
+  .carousel-fade .carousel-inner .active {
+    opacity: 1;
+  }
+  .carousel-fade .carousel-inner .active.left,
+  .carousel-fade .carousel-inner .active.right {
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+  }
+  .carousel-fade .carousel-inner .next.left,
+  .carousel-fade .carousel-inner .prev.right {
+    opacity: 1;
+  }
+  .carousel-fade .carousel-control {
+    z-index: 2;
+  } */

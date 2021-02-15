@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./SocietyMessageSender.css";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SocietyMessageSender() {
+function SocietyMessageSender( {title} ) {
   const classes = useStyles();
   const [{ user }] = useStateValue();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -67,8 +67,20 @@ function SocietyMessageSender() {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [token, setToken] = useState("");
+  const [tokens,setTokens] =useState({});
   const [eventPhoto, setEventPhoto] = useState(null);
   const { societyId } = useParams();
+
+  //for token collection
+  useEffect(() => {
+      db.collection("token")
+        .doc("token@nescii-101")
+        .onSnapshot((snapshot) => setTokens(snapshot.data())); 
+        console.log(tokens.society[title]);
+  },[title]);
+
+
+
   const handleEventModalOpen = () => {
     setEventModal(true);
   };
@@ -298,7 +310,7 @@ function SocietyMessageSender() {
 
   const handleEventSubmit = (e) => {
     e.preventDefault();
-    if (token === "nescii@102" || token === "nescii@101") {
+    if (token === tokens.society[title]) {
       console.log(societyId);
       if (societyId) {
         const uploadTask = storage
@@ -345,6 +357,9 @@ function SocietyMessageSender() {
           }
         );
       }
+    }
+    else{
+      alert(`Society Token did not match! Please contact ${title} Society head.   `)
     }
     handleEventModalClose();
   };

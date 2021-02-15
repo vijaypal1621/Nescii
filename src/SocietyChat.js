@@ -47,7 +47,7 @@ function SocietyChat() {
           <div className="col-12 col-md-6">
             <div className="row">
               <div className="col-12">
-                <SocietyMessageSender />
+                <SocietyMessageSender title={societyDetails?.title} />
               </div>
               <div className="col-12">
                 {posts.map(({ post, id }) => (

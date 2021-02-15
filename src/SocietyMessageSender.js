@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SocietyMessageSender( {title} ) {
+function SocietyMessageSender( {title, imageURL} ) {
   const classes = useStyles();
   const [{ user }] = useStateValue();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -76,7 +76,7 @@ function SocietyMessageSender( {title} ) {
       db.collection("token")
         .doc("token@nescii-101")
         .onSnapshot((snapshot) => setTokens(snapshot.data())); 
-        console.log(tokens.society[title]);
+      
   },[title]);
 
 
@@ -313,8 +313,9 @@ function SocietyMessageSender( {title} ) {
     if (token === tokens.society[title]) {
       console.log(societyId);
       if (societyId) {
-        const uploadTask = storage
-          .ref(`eventImages/${eventPhoto.name}`)
+        if(eventPhoto !== null){
+          const uploadTask = storage
+          .ref(`eventImages/${eventPhoto?.name}`)
           .put(eventPhoto);
         uploadTask.on(
           "state_changed",
@@ -356,6 +357,28 @@ function SocietyMessageSender( {title} ) {
               });
           }
         );
+        }else{
+          db.collection("societies")
+                    .doc(societyId)
+                    .collection("events")
+                    .add({
+                      description: eventDescription,
+                      message: caption,
+                      timestamp: date,
+                      place: place,
+                      title: eventTitle,
+                      url: imageURL,
+                      uid:user?.uid,
+                    })
+                    .then(function () {
+                      console.log("Document successfully updated!");
+                    })
+                    .catch(function (error) {
+                      // The document probably doesn't exist.
+                      console.error("Error updating document: ", error);
+                    });
+        }
+        
       }
     }
     else{

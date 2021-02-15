@@ -6,6 +6,7 @@ import ReactPlayer from 'react-player';
 import { useStateValue } from "./StateProvider";
 import { useParams } from "react-router-dom";
 import firebase from "firebase";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 // swipper example
@@ -31,6 +32,7 @@ function SocietyPost({
   images,
   video,
   username,
+  uid,
   timestamp,
   message,
 }) {
@@ -69,10 +71,19 @@ function SocietyPost({
       });
     setComment("");
   };
+  const handlePostDelete = ()=>{
+    
+    db.collection("societies")
+      .doc(societyId)
+      .collection("posts")
+      .doc(postId).delete().then(() => {
+      console.log("Document successfully deleted!");
+  }).catch((error) => {
+      console.error("Error removing document: ", error);
+  });
+ 
+  }
 
-  console.log(societyId);
-  console.log(postId);
-  console.log(comments);
 
   const body2 = (
     <>
@@ -151,11 +162,17 @@ function SocietyPost({
   return (
     <div className="post">
       <div className="post__top">
-        <Avatar src={profilePic} className="post__avatar" />
+      <div className="post__info__container">
+        <Avatar src={profilePic} className="post__avatar" alt="Profile Pic" />
         <div className="post__topInfo">
-          <h3>{username}</h3>
+          <h3 style={{ margin: "0" }}>{username}</h3>
           <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
+          {/* <p>timestamp....</p> */}
         </div>
+        
+        </div>
+        {uid === user?.uid ? (<DeleteIcon onClick={handlePostDelete} />):("")}
+        
       </div>
       <div className="post__bottom">
       <p style={{ overflowWrap: "anywhere" }}>{message}</p>

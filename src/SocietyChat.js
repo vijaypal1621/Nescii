@@ -25,7 +25,7 @@ function SocietyChat() {
       db.collection("societies")
         .doc(societyId)
         .collection("posts")
-        .orderBy("timestamp", "asc")
+        .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) =>
           setPosts(
             snapshot.docs.map((doc) => ({
@@ -53,6 +53,7 @@ function SocietyChat() {
                 {posts.map(({ post, id }) => (
                   <SocietyPost
                     postId={id}
+                    uid={post.uid}
                     message={post.message}
                     timestamp={post.timestamp}
                     username={post.username}

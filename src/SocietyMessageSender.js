@@ -149,6 +149,7 @@ function SocietyMessageSender() {
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     username:user?.displayName,
                     video:url,
+                    uid:user?.uid,
                   })
                   .then((docRef)=>{
                     if(photosURL.length !==0){
@@ -211,6 +212,7 @@ function SocietyMessageSender() {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 username:user?.displayName,
                 images:fileDownloadUrls,
+                uid:user?.uid,
               })
               .then(function () {
                 // console.log("Post Successfully Submitted!");
@@ -231,6 +233,7 @@ function SocietyMessageSender() {
           profilePic:user?.photoURL,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           username:user?.displayName,
+          uid:user?.uid,
         })
         .then(function () {
           console.log("Post Successfully Submitted!");
@@ -329,6 +332,7 @@ function SocietyMessageSender() {
                     place: place,
                     title: eventTitle,
                     url: url,
+                    uid:user?.uid,
                   })
                   .then(function () {
                     console.log("Document successfully updated!");

@@ -6,7 +6,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Fade,
-  Grow,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import SocietySidebar from "./SocietySidebar";

@@ -38,38 +38,36 @@ function SocietyChat() {
   }, [societyId]);
 
   return (
-    <>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-2 d-md-block d-none p-0">
-            <SocietySidebar />
-          </div>
-          <div className="col-12 col-md-6">
-            <div className="row">
-              <div className="col-12">
-                <SocietyMessageSender />
-              </div>
-              <div className="col-12">
-                {posts.map(({ post, id }) => (
-                  <SocietyPost
-                    postId={id}
-                    message={post.message}
-                    timestamp={post.timestamp}
-                    username={post.username}
-                    profilePic={post.profilePic}
-                    images={post.images}
-                    video={post.video}
-                  />
-                ))}
-              </div>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-2 d-md-block d-none p-0">
+          <SocietySidebar />
+        </div>
+        <div className="col-12 col-md-6">
+          <div className="row">
+            <div className="col-12">
+              <SocietyMessageSender />
+            </div>
+            <div className="col-12">
+              {posts.map(({ post, id }) => (
+                <SocietyPost
+                  postId={id}
+                  message={post.message}
+                  timestamp={post.timestamp}
+                  username={post.username}
+                  profilePic={post.profilePic}
+                  images={post.images}
+                  video={post.video}
+                />
+              ))}
             </div>
           </div>
-          <div className="col-12 col-md-4">
-            <Widgets society={societyDetails} />
-          </div>
+        </div>
+        <div className="col-12 col-md-4">
+          <Widgets society={societyDetails} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

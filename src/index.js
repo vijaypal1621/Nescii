@@ -11,7 +11,6 @@ ReactDOM.render(
     <StateProvider initialState={{ user: null }} reducer={User}>
       <App />
     </StateProvider>
-    s
   </React.StrictMode>,
   document.getElementById("root")
 );

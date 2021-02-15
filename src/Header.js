@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from "react";
 import "./Header.css";
 import HomeIcon from "@material-ui/icons/Home";
-import { Avatar, Tooltip } from "@material-ui/core";
+import { Avatar, Tooltip, IconButton } from "@material-ui/core";
 import ApartmentIcon from "@material-ui/icons/Apartment";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavLink } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { auth } from "./firebase";
+import Notices from "./Notices";
+import Sidebar from "./Sidebar";
 
 function Header() {
   const [current, setCurrent] = useState("home");
-  const [{ user }] = useStateValue();
+  const [menu, setMenu] = useState(null);
 
+  const handleClick = (event) => {
+    setMenu(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setMenu(null);
+  };
+
+  const [{ user }] = useStateValue();
 
   useEffect(() => {
     const currentPage = document.getElementById(current);
@@ -70,20 +84,35 @@ function Header() {
             </NavLink>
           </Tooltip>
         </div>
-        <div className="header__option d-block d-md-none" id="resources">
-          <Tooltip title="Resources">
-            <NavLink
-              to="/resources"
-              onClick={() => {
-                const currentPage = document.getElementById(current);
-                currentPage.classList.remove("header__option--active");
-                setCurrent("resources");
-              }}
-            >
-              <MenuIcon style={{ color: " #16a596" }} fontSize="large" />
-            </NavLink>
-          </Tooltip>
-        </div>
+        <IconButton
+          className="header__option d-block d-md-none"
+          onClick={handleClick}
+        >
+          <MenuIcon style={{ color: " #16a596" }} fontSize="large" />
+        </IconButton>
+        <Menu
+          id="simple-menu"
+          anchorEl={menu}
+          keepMounted
+          open={Boolean(menu)}
+          onClose={handleClose}
+        >
+          <MenuItem
+            onClick={() => {
+              return <Sidebar />;
+            }}
+          >
+            Profile
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              return <Notices />;
+            }}
+          >
+            Notices
+          </MenuItem>
+          <MenuItem onClick={() => auth.signOut()}>Logout</MenuItem>
+        </Menu>
       </div>
       <div className="header__right col-6 order-1 order-md-3 col-md-4">
         <div className="header__info">

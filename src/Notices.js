@@ -10,7 +10,6 @@ import {
   ListItemText,
   Paper,
   Typography,
-  Grow,
 } from "@material-ui/core";
 import { fetchNotices } from "./redux/ActionCreators";
 import { withRouter } from "react-router-dom";

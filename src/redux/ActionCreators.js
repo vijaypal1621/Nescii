@@ -42,3 +42,7 @@ export const noticesFailed = (errmess) => ({
   type: ActionTypes.NOTICES_FAILED,
   payload: errmess,
 });
+
+// export const setUser = () => (dispatch, user) => {
+
+// }

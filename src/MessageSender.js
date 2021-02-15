@@ -132,6 +132,7 @@ function MessageSender() {
                     profilePic:user?.photoURL,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     username:user?.displayName,
+                    uid:user?.uid,
                     video:url,
                   })
                   .then((docRef)=>{
@@ -190,6 +191,7 @@ function MessageSender() {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 username:user?.displayName,
                 images:fileDownloadUrls,
+                uid:user?.uid,
               })
               .then(function () {
                 // console.log("Post Successfully Submitted!");
@@ -208,6 +210,7 @@ function MessageSender() {
           profilePic:user?.photoURL,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           username:user?.displayName,
+          uid:user?.uid,
         })
         .then(function () {
           console.log("Post Successfully Submitted!");

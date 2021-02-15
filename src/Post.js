@@ -7,6 +7,7 @@ import ReactPlayer from 'react-player';
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import { ImageSearch } from "@material-ui/icons";
+import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowBackIosTwoToneIcon from '@material-ui/icons/ArrowBackIosTwoTone';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
@@ -26,7 +27,7 @@ import 'swiper/components/zoom/zoom.scss';
 SwiperCore.use([EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom]);
 
 
-function Post({ postId, profilePic, images, username, timestamp, message,video }) {
+function Post({ postId,uid, profilePic, images, username, timestamp, message,video }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
@@ -37,6 +38,7 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
       </>
     )
     
+  
 
   const body = (
     <>
@@ -74,6 +76,15 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
     
   );
 
+  const handlePostDelete = ()=>{
+    
+    db.collection("home").doc(postId).delete().then(() => {
+      console.log("Document successfully deleted!");
+  }).catch((error) => {
+      console.error("Error removing document: ", error);
+  });
+ 
+  }
 
 {/* <div id={postId} className="carousel slide" data-ride="carousel" data-interval="false">
       <ol className="carousel-indicators">
@@ -178,12 +189,17 @@ function Post({ postId, profilePic, images, username, timestamp, message,video }
     <div className="post">
       
       <div className="post__top">
+      <div className="post__info__container">
         <Avatar src={profilePic} className="post__avatar" alt="Profile Pic" />
         <div className="post__topInfo">
           <h3 style={{ margin: "0" }}>{username}</h3>
           <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
           {/* <p>timestamp....</p> */}
         </div>
+        
+        </div>
+        {uid === user?.uid ? (<DeleteIcon onClick={handlePostDelete} />):("")}
+        
       </div>
       <div className="post__bottom">
         <p style={{ overflowWrap: "anywhere" }}>{message}</p>

@@ -5,8 +5,8 @@ import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField } from "@material-ui/core";
 import { useStateValue } from "./StateProvider";
-import { actionTypes } from "./reducer";
-import {db} from './firebase';
+import { SET_USER } from "./redux/ActionTypes";
+import { db } from "./firebase";
 
 function getModalStyle() {
   const top = 50;
@@ -51,7 +51,7 @@ function Login() {
         setUser(null);
       }
       dispatch({
-        type: actionTypes.SET_USER,
+        type: SET_USER,
         user: user,
       });
     });
@@ -63,40 +63,35 @@ function Login() {
       .then((result) => {
         console.log(result);
         dispatch({
-          type: actionTypes.SET_USER,
+          type: SET_USER,
           user: result.user,
         });
       })
       .catch((error) => alert(error.message));
-    
   };
 
   const signUp = (event) => {
     event.preventDefault();
 
-    if(email.includes('@nsut.ac.in')===false){
-      alert('Not a valid NSUT Id! Please SignUp using a valid NSUT id')
-    }else{
+    if (email.includes("@nsut.ac.in") === false) {
+      alert("Not a valid NSUT Id! Please SignUp using a valid NSUT id");
+    } else {
       auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((authUser) => {
-        console.log(authUser.user);
-        db
-        .collection('users')
-        .doc(authUser.user.uid)
-        .set({
-          branch:"",
-          section:"",
-          year:"",
-        });
-        return authUser.user.updateProfile({
-          displayName: username,
-        });
-      })
-      .catch((error) => alert(error.message));
+        .createUserWithEmailAndPassword(email, password)
+        .then((authUser) => {
+          console.log(authUser.user);
+          db.collection("users").doc(authUser.user.uid).set({
+            branch: "",
+            section: "",
+            year: "",
+          });
+          return authUser.user.updateProfile({
+            displayName: username,
+          });
+        })
+        .catch((error) => alert(error.message));
     }
 
-    
     setOpen(false);
   };
 
@@ -107,7 +102,7 @@ function Login() {
       .then((result) => {
         console.log(result);
         dispatch({
-          type: actionTypes.SET_USER,
+          type: SET_USER,
           user: result.user,
         });
       })

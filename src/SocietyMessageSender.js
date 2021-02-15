@@ -22,10 +22,10 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import CloseRoundedIcon from "@material-ui/icons/CancelRounded";
 import { useStateValue } from "./StateProvider";
-import firebase from 'firebase';
+import firebase from "firebase";
 
 function getModalStyle() {
-  const top = 50 ;
+  const top = 50;
   const left = 50;
 
   return {
@@ -55,7 +55,7 @@ function SocietyMessageSender( {title, imageURL} ) {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
-  const [caption,setCaption] = useState('');
+  const [caption, setCaption] = useState("");
   const [photo, setPhoto] = useState([]);
   const [video, setVideo] = useState(null);
   const [photosURL, setPhotosURL] = useState([]);
@@ -107,9 +107,8 @@ function SocietyMessageSender( {title, imageURL} ) {
       setPhotosURL((arr) => {
         // console.log(file);
         return [...arr, file];
-      })
+      });
     }
-    
   };
 
   const handleVideoOpen = (event) => {
@@ -122,19 +121,16 @@ function SocietyMessageSender( {title, imageURL} ) {
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
-    if(user?.email.includes('gmail')===false){
-      
-      if(videoURL !==null){
-        const uploadTask = storage
-          .ref(`videos/${videoURL.name}`)
-          .put(videoURL);
+    if (user?.email.includes("gmail") === false) {
+      if (videoURL !== null) {
+        const uploadTask = storage.ref(`videos/${videoURL.name}`).put(videoURL);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
             // progress function
             // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             // console.log('Video Upload is ' + progress + '% done');
-          // setProgress(progress);
+            // setProgress(progress);
           },
           (error) => {
             // error function...
@@ -148,52 +144,51 @@ function SocietyMessageSender( {title, imageURL} ) {
               .child(videoURL?.name)
               .getDownloadURL()
               .then((url) => {
-                
                 // console.log(url + " video url is generated");
                 // console.log(finalVideo + " Finalvideo url is saved") ;
                 //post image inside db
                 db.collection("societies")
                   .doc(societyId)
-                  .collection('posts')
+                  .collection("posts")
                   .add({
                     message: caption,
-                    profilePic:user?.photoURL,
+                    profilePic: user?.photoURL,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     username:user?.displayName,
                     video:url,
                     uid:user?.uid,
                   })
-                  .then((docRef)=>{
-                    if(photosURL.length !==0){
-                      const promises = photosURL.map(file => {
-                        const ref = firebase.storage().ref().child(`societyImages/${file.name}`);
-                        return ref
-                          .put(file)
-                          .then(() => ref.getDownloadURL())
+                  .then((docRef) => {
+                    if (photosURL.length !== 0) {
+                      const promises = photosURL.map((file) => {
+                        const ref = firebase
+                          .storage()
+                          .ref()
+                          .child(`societyImages/${file.name}`);
+                        return ref.put(file).then(() => ref.getDownloadURL());
                       });
                       Promise.all(promises)
-                      .then((fileDownloadUrls) => {
-                        db.collection("societies")
-                        .doc(societyId)
-                        .collection('posts')
-                        .doc(docRef.id)
-                          .update({
-                            message: caption,
-                            profilePic:user?.photoURL,
-                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                            username:user?.displayName,
-                            images:fileDownloadUrls,
-                          })
-                          .then(function () {
-                            console.log("Post Successfully Submitted!");
-                          })
-                          .catch(function (error) {
-                            // The document probably doesn't exist.
-                            console.error("Error updating document: ", error);
-                          }); 
-                      })
-                      .catch(err => console.log(err));
-                  
+                        .then((fileDownloadUrls) => {
+                          db.collection("societies")
+                            .doc(societyId)
+                            .collection("posts")
+                            .doc(docRef.id)
+                            .update({
+                              message: caption,
+                              profilePic: user?.photoURL,
+                              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                              username: user?.displayName,
+                              images: fileDownloadUrls,
+                            })
+                            .then(function () {
+                              console.log("Post Successfully Submitted!");
+                            })
+                            .catch(function (error) {
+                              // The document probably doesn't exist.
+                              console.error("Error updating document: ", error);
+                            });
+                        })
+                        .catch((err) => console.log(err));
                     }
                     // console.log("Video Successfully Submitted!");
                   })
@@ -204,23 +199,21 @@ function SocietyMessageSender( {title, imageURL} ) {
               });
           }
         );
-      //  console.log(finalVideo) ;
-      //  console.log(finalPhotos);
-      }else if(photosURL.length !==0){
-          const promises = photosURL.map(file => {
-            const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
-            return ref
-              .put(file)
-              .then(() => ref.getDownloadURL())
-          });
-          Promise.all(promises)
+        //  console.log(finalVideo) ;
+        //  console.log(finalPhotos);
+      } else if (photosURL.length !== 0) {
+        const promises = photosURL.map((file) => {
+          const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+          return ref.put(file).then(() => ref.getDownloadURL());
+        });
+        Promise.all(promises)
           .then((fileDownloadUrls) => {
             db.collection("societies")
-                  .doc(societyId)
-                  .collection('posts')
+              .doc(societyId)
+              .collection("posts")
               .add({
                 message: caption,
-                profilePic:user?.photoURL,
+                profilePic: user?.photoURL,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 username:user?.displayName,
                 images:fileDownloadUrls,
@@ -232,11 +225,10 @@ function SocietyMessageSender( {title, imageURL} ) {
               .catch(function (error) {
                 // The document probably doesn't exist.
                 console.error("Error updating document: ", error);
-              }); 
+              });
           })
-          .catch(err => console.log(err));
-      }
-      else if(caption !== ''){
+          .catch((err) => console.log(err));
+      } else if (caption !== "") {
         db.collection("societies")
         .doc(societyId)
         .collection('posts')
@@ -258,21 +250,16 @@ function SocietyMessageSender( {title, imageURL} ) {
       else{
         alert('Post is empty !')
       }
-      
-
+    } else {
+      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
     }
-    else{
-      alert('Not a NSUT student! Please sign in with NSUT id to continue.')
-    }
-    setVideoURL(null)
+    setVideoURL(null);
     setVideo(null);
-    setCaption('');
+    setCaption("");
     setOpen(false);
     setPhotosURL([]);
     setPhoto([]);
-
-  }
-
+  };
 
   const handleDateChange = (date) => {
     setDate(date);
@@ -285,8 +272,6 @@ function SocietyMessageSender( {title, imageURL} ) {
   // const handleEndChange = (date) => {
   //   setEnd(date);
   // };
-
-
 
   const handlePhotoClose = (file) => {
     setPhoto(photo.filter((photo) => photo !== file));
@@ -411,14 +396,16 @@ function SocietyMessageSender( {title, imageURL} ) {
         <textarea
           className="modal__input pl-2"
           value={caption}
-          onChange={(e)=>{setCaption(e.target.value)}}
+          onChange={(e) => {
+            setCaption(e.target.value);
+          }}
           rows="5"
           cols="20"
           style={{ width: "100%" }}
           placeholder=" Whats on your mind?"
         />
         <div className="modal__input__photo">
-        {photo.map((photo) => {
+          {photo.map((photo) => {
             return (
               <div style={{ position: "relative" }}>
                 <Button

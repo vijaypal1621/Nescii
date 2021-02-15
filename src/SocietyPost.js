@@ -90,7 +90,7 @@ function SocietyPost({
       {images?.map((image, el) => {
         return (
         <SwiperSlide >
-          <img  style={{objectFit:"contain",height:"300px",padding:"0px 0px 0px 0px",width:"100%"}} src={image} alt="" />
+          <img  style={{objectFit:"contain",height:"300px",padding:"0px 0px 15px 0px",width:"100%"}} src={image} alt="" />
         </SwiperSlide>)
       })}
       {video !==undefined ? (
@@ -99,7 +99,7 @@ function SocietyPost({
                     url={video}
                     // width="250px"
                     objectFit="cover"
-                    style={{height:"300px",padding:"0px 0px 30px 0px" }}
+                    style={{height:"300px",padding:"0px 0px 15px 0px" }}
                     controls={true}
                     className="col-12 "
                   />

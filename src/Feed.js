@@ -15,7 +15,7 @@ function Feed() {
 
   useEffect(() => {
     db.collection("home")
-      .orderBy("timestamp", "desc")
+      .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
         // every time a new post is added , this code fires off
         setPosts(
@@ -34,6 +34,7 @@ function Feed() {
         return (
           <Post
             key={id}
+            uid={post.uid}
             username={post.username}
             postId={id}
             message={post.message}

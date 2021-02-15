@@ -5,39 +5,38 @@ import firebase from "firebase";
 import ReactPlayer from "react-player";
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, {
-  EffectFlip,
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Zoom,
-} from "swiper";
-import "swiper/swiper.scss";
-import "swiper/components/effect-fade/effect-fade.scss";
-import "swiper/components/effect-flip/effect-flip.scss";
-import "swiper/components/navigation/navigation.scss";
-import "swiper/components/pagination/pagination.scss";
-import "swiper/components/scrollbar/scrollbar.scss";
-import "swiper/components/zoom/zoom.scss";
+import { ImageSearch } from "@material-ui/icons";
+import DeleteIcon from '@material-ui/icons/Delete';
+import ArrowBackIosTwoToneIcon from '@material-ui/icons/ArrowBackIosTwoTone';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
-SwiperCore.use([EffectFlip, Navigation, Pagination, Scrollbar, A11y, Zoom]);
+// swipper example
 
-function Post({
-  postId,
-  profilePic,
-  images,
-  username,
-  timestamp,
-  message,
-  video,
-}) {
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import SwiperCore, { EffectFade , EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom } from 'swiper';
+
+import 'swiper/swiper.scss';
+import 'swiper/components/effect-fade/effect-fade.scss';
+import 'swiper/components/effect-flip/effect-flip.scss';
+import 'swiper/components/navigation/navigation.scss';
+import 'swiper/components/pagination/pagination.scss';
+import 'swiper/components/scrollbar/scrollbar.scss';
+import 'swiper/components/zoom/zoom.scss';
+SwiperCore.use([EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom]);
+
+
+function Post({ postId,uid, profilePic, images, username, timestamp, message,video }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
 
-  const body2 = <></>;
+    const body2 = (
+      <>
+      </>
+    )
+    
+  
 
   const body = (
     <>
@@ -83,8 +82,62 @@ function Post({
     </>
   );
 
-  const condition = () => {
-    if (images === undefined && video === undefined) {
+  const handlePostDelete = ()=>{
+    
+    db.collection("home").doc(postId).delete().then(() => {
+      console.log("Document successfully deleted!");
+  }).catch((error) => {
+      console.error("Error removing document: ", error);
+  });
+ 
+  }
+
+{/* <div id={postId} className="carousel slide" data-ride="carousel" data-interval="false">
+      <ol className="carousel-indicators">
+        {images?.map( (image,index) => {
+        return (
+            <li data-target={`#${postId}`} data-slide-to="0" className={`${index===0?('active'):("")} `}></li>
+        )
+      })}
+      {video !== undefined ? (<li data-target={`#${postId}`} data-slide-to={`${images?.length}`}></li>):("")}
+      
+      </ol>
+      <div className="carousel-inner">
+      {images?.map( (image,index) => {
+      return (
+          <div style={{minHeight:"400px",maxHeight:"400px"}} className = {`carousel-item col-sm-12 col-10  ${index===0?('active'):("")} `}>
+          <img style={{objectFit:"contain"}} src={image} className="d-block w-100" alt="..." />
+          </div>
+      )
+    })}  
+      {video !==undefined ? (
+        <>
+          <div style={{minHeight:"400px",maxHeight:"400px"}} className="carousel-item col-sm-10 col-10 offset-1 offset-sm-1">
+        <ReactPlayer
+                    url={video}
+                    // width="250px"
+                    // height="100%"
+                    style={{objectFit:"cover" }}
+                    controls={true}
+                    className="d-block w-100"
+                  />
+        </div>
+        </>
+      ): ("") }
+      </div>
+      <a className="carousel-control-prev" href={`#${postId}`} role="button" data-slide="prev">
+        <span className="carousel-control-prev-icon bg-primary" aria-hidden="true"></span>
+        <span className="sr-only">Previous</span>
+      </a>
+      <a className="carousel-control-next" href={`#${postId}`} role="button" data-slide="next">
+        <span className="carousel-control-next-icon bg-dark text-danger" aria-hidden="true"></span>
+        <span className="sr-only">Next</span>
+      </a>
+    </div> */}
+
+
+  const condition = ()=> {
+    if(images===undefined && video===undefined){
       return body2;
     } else if (
       images !== undefined &&
@@ -137,11 +190,16 @@ function Post({
   return (
     <div className="post">
       <div className="post__top">
+      <div className="post__info__container">
         <Avatar src={profilePic} className="post__avatar" alt="Profile Pic" />
         <div className="post__topInfo">
           <h3 style={{ margin: "0" }}>{username}</h3>
           <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
         </div>
+        
+        </div>
+        {uid === user?.uid ? (<DeleteIcon onClick={handlePostDelete} />):("")}
+        
       </div>
       <div className="post__bottom">
         <p style={{ overflowWrap: "anywhere" }}>{message}</p>

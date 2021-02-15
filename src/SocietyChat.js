@@ -64,7 +64,7 @@ function SocietyChat() {
       db.collection("societies")
         .doc(societyId)
         .collection("posts")
-        .orderBy("timestamp", "asc")
+        .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) =>
           setPosts(
             snapshot.docs.map((doc) => ({
@@ -143,12 +143,13 @@ function SocietyChat() {
           <div className="col-12 col-md-6">
             <div className="row">
               <div className="col-12">
-                <SocietyMessageSender />
+                <SocietyMessageSender title={societyDetails?.title} imageURL={societyDetails?.imageURL} />
               </div>
               <div className="col-12">
                 {posts.map(({ post, id }) => (
                   <SocietyPost
                     postId={id}
+                    uid={post.uid}
                     message={post.message}
                     timestamp={post.timestamp}
                     username={post.username}

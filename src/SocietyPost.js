@@ -6,24 +6,25 @@ import ReactPlayer from "react-player";
 import { useStateValue } from "./StateProvider";
 import { useParams } from "react-router-dom";
 import firebase from "firebase";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, {
-  EffectFlip,
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Zoom,
-} from "swiper";
-import "swiper/swiper.scss";
-import "swiper/components/effect-fade/effect-fade.scss";
-import "swiper/components/effect-flip/effect-flip.scss";
-import "swiper/components/navigation/navigation.scss";
-import "swiper/components/pagination/pagination.scss";
-import "swiper/components/scrollbar/scrollbar.scss";
-import "swiper/components/zoom/zoom.scss";
+import DeleteIcon from '@material-ui/icons/Delete';
 
-SwiperCore.use([EffectFlip, Navigation, Pagination, Scrollbar, A11y, Zoom]);
+
+// swipper example
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import SwiperCore, { EffectFade , EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom } from 'swiper';
+
+import 'swiper/swiper.scss';
+import 'swiper/components/effect-fade/effect-fade.scss';
+import 'swiper/components/effect-flip/effect-flip.scss';
+import 'swiper/components/navigation/navigation.scss';
+import 'swiper/components/pagination/pagination.scss';
+import 'swiper/components/scrollbar/scrollbar.scss';
+import 'swiper/components/zoom/zoom.scss';
+SwiperCore.use([EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom]);
+
+
 
 function SocietyPost({
   postId,
@@ -31,6 +32,7 @@ function SocietyPost({
   images,
   video,
   username,
+  uid,
   timestamp,
   message,
 }) {
@@ -69,10 +71,19 @@ function SocietyPost({
       });
     setComment("");
   };
+  const handlePostDelete = ()=>{
+    
+    db.collection("societies")
+      .doc(societyId)
+      .collection("posts")
+      .doc(postId).delete().then(() => {
+      console.log("Document successfully deleted!");
+  }).catch((error) => {
+      console.error("Error removing document: ", error);
+  });
+ 
+  }
 
-  console.log(societyId);
-  console.log(postId);
-  console.log(comments);
 
   const body2 = <></>;
   const body = (
@@ -154,11 +165,17 @@ function SocietyPost({
   return (
     <div className="post">
       <div className="post__top">
-        <Avatar src={profilePic} className="post__avatar" />
+      <div className="post__info__container">
+        <Avatar src={profilePic} className="post__avatar" alt="Profile Pic" />
         <div className="post__topInfo">
-          <h3>{username}</h3>
+          <h3 style={{ margin: "0" }}>{username}</h3>
           <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
+          {/* <p>timestamp....</p> */}
         </div>
+        
+        </div>
+        {uid === user?.uid ? (<DeleteIcon onClick={handlePostDelete} />):("")}
+        
       </div>
       <div className="post__bottom">
         <p style={{ overflowWrap: "anywhere" }}>{message}</p>

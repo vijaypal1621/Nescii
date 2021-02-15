@@ -124,8 +124,9 @@ function MessageSender() {
                     message: caption,
                     profilePic: user?.photoURL,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    username: user?.displayName,
-                    video: url,
+                    username:user?.displayName,
+                    uid:user?.uid,
+                    video:url,
                   })
                   .then((docRef) => {
                     if (photosURL.length !== 0) {
@@ -180,8 +181,9 @@ function MessageSender() {
                 message: caption,
                 profilePic: user?.photoURL,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                username: user?.displayName,
-                images: fileDownloadUrls,
+                username:user?.displayName,
+                images:fileDownloadUrls,
+                uid:user?.uid,
               })
               .then(function () {
                 // console.log("Post Successfully Submitted!");
@@ -194,21 +196,23 @@ function MessageSender() {
           .catch((err) => console.log(err));
       } else if (caption !== "") {
         db.collection("home")
-          .add({
-            message: caption,
-            profilePic: user?.photoURL,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            username: user?.displayName,
-          })
-          .then(function () {
-            console.log("Post Successfully Submitted!");
-          })
-          .catch(function (error) {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-          });
-      } else {
-        alert("Post is empty !");
+        .add({
+          message: caption,
+          profilePic:user?.photoURL,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          username:user?.displayName,
+          uid:user?.uid,
+        })
+        .then(function () {
+          console.log("Post Successfully Submitted!");
+        })
+        .catch(function (error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        }); 
+      }
+      else{
+        alert('Post is empty !')
       }
     } else {
       alert("Not a NSUT student! Please sign in with NSUT id to continue.");

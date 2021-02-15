@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./SocietyMessageSender.css";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SocietyMessageSender() {
+function SocietyMessageSender( {title, imageURL} ) {
   const classes = useStyles();
   const [{ user }] = useStateValue();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -67,8 +67,20 @@ function SocietyMessageSender() {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [token, setToken] = useState("");
+  const [tokens,setTokens] =useState({});
   const [eventPhoto, setEventPhoto] = useState(null);
   const { societyId } = useParams();
+
+  //for token collection
+  useEffect(() => {
+      db.collection("token")
+        .doc("token@nescii-101")
+        .onSnapshot((snapshot) => setTokens(snapshot.data())); 
+      
+  },[title]);
+
+
+
   const handleEventModalOpen = () => {
     setEventModal(true);
   };
@@ -142,8 +154,9 @@ function SocietyMessageSender() {
                     message: caption,
                     profilePic: user?.photoURL,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    username: user?.displayName,
-                    video: url,
+                    username:user?.displayName,
+                    video:url,
+                    uid:user?.uid,
                   })
                   .then((docRef) => {
                     if (photosURL.length !== 0) {
@@ -202,8 +215,9 @@ function SocietyMessageSender() {
                 message: caption,
                 profilePic: user?.photoURL,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                username: user?.displayName,
-                images: fileDownloadUrls,
+                username:user?.displayName,
+                images:fileDownloadUrls,
+                uid:user?.uid,
               })
               .then(function () {
                 // console.log("Post Successfully Submitted!");
@@ -216,23 +230,25 @@ function SocietyMessageSender() {
           .catch((err) => console.log(err));
       } else if (caption !== "") {
         db.collection("societies")
-          .doc(societyId)
-          .collection("posts")
-          .add({
-            message: caption,
-            profilePic: user?.photoURL,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            username: user?.displayName,
-          })
-          .then(function () {
-            console.log("Post Successfully Submitted!");
-          })
-          .catch(function (error) {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-          });
-      } else {
-        alert("Post is empty !");
+        .doc(societyId)
+        .collection('posts')
+        .add({
+          message: caption,
+          profilePic:user?.photoURL,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          username:user?.displayName,
+          uid:user?.uid,
+        })
+        .then(function () {
+          console.log("Post Successfully Submitted!");
+        })
+        .catch(function (error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        }); 
+      }
+      else{
+        alert('Post is empty !')
       }
     } else {
       alert("Not a NSUT student! Please sign in with NSUT id to continue.");
@@ -279,11 +295,12 @@ function SocietyMessageSender() {
 
   const handleEventSubmit = (e) => {
     e.preventDefault();
-    if (token === "nescii@102" || token === "nescii@101") {
+    if (token === tokens.society[title]) {
       console.log(societyId);
       if (societyId) {
-        const uploadTask = storage
-          .ref(`eventImages/${eventPhoto.name}`)
+        if(eventPhoto !== null){
+          const uploadTask = storage
+          .ref(`eventImages/${eventPhoto?.name}`)
           .put(eventPhoto);
         uploadTask.on(
           "state_changed",
@@ -313,6 +330,7 @@ function SocietyMessageSender() {
                     place: place,
                     title: eventTitle,
                     url: url,
+                    uid:user?.uid,
                   })
                   .then(function () {
                     console.log("Document successfully updated!");
@@ -324,7 +342,32 @@ function SocietyMessageSender() {
               });
           }
         );
+        }else{
+          db.collection("societies")
+                    .doc(societyId)
+                    .collection("events")
+                    .add({
+                      description: eventDescription,
+                      message: caption,
+                      timestamp: date,
+                      place: place,
+                      title: eventTitle,
+                      url: imageURL,
+                      uid:user?.uid,
+                    })
+                    .then(function () {
+                      console.log("Document successfully updated!");
+                    })
+                    .catch(function (error) {
+                      // The document probably doesn't exist.
+                      console.error("Error updating document: ", error);
+                    });
+        }
+        
       }
+    }
+    else{
+      alert(`Society Token did not match! Please contact ${title} Society head.   `)
     }
     handleEventModalClose();
   };

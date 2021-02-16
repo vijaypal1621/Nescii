@@ -127,7 +127,12 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
         .collection("comments")
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
-          setComments(snapshot.docs.map((doc) => doc.data()));
+          setComments(
+              snapshot.docs.map((doc) => ({
+              id: doc.id,
+              comment: doc.data(),
+            }))
+          );
         });
     }
   }, [postId]);
@@ -140,6 +145,7 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
         username: user?.displayName,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         url: user?.photoURL,
+        uid:user?.uid,
       });
     }
     else{
@@ -148,6 +154,13 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
     
     setComment("");
   };
+  const handleCommentDelete = (commentId)=>{
+    db.collection("home").doc(postId).collection("comments").doc(commentId).delete().then(() => {
+      console.log("Document successfully deleted!");
+  }).catch((error) => {
+      console.error("Error removing document: ", error);
+  });
+  }
 
   return (
     <div className="post">
@@ -191,14 +204,19 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
         <div className="post__comments">
           {!comments
             ? ""
-            : comments.map((comment) => {
+            : comments.map(({ comment, id }) => {
                 return (
-                  <div className="comment__div">
-                    <Avatar src={comment.url} alt="" />
-                    <p>
-                      <strong>{comment.username}</strong> {comment.text}
-                    </p>
+                  <div className="comment__div__container">
+                    <div className="comment__div">
+                        <Avatar src={comment.url} alt="" />
+                        <p>
+                          <strong>{comment.username}</strong> {comment.text}
+                        </p>
+                    </div>
+                    {user?.uid===comment.uid? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
+                    
                   </div>
+                  
                 );
               })}
         </div>

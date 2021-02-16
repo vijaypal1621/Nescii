@@ -50,10 +50,28 @@ function SocietyPost({
         .collection("comments")
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
-          setComments(snapshot.docs.map((doc) => doc.data()));
+          setComments(
+            snapshot.docs.map((doc) => ({
+            id: doc.id,
+            comment: doc.data(),
+          }))
+        );
         });
     }
   }, [postId, societyId]);
+
+
+  const handleCommentDelete = (commentId)=>{
+    db.collection("societies")
+      .doc(societyId)
+      .collection("posts")
+      .doc(postId)
+      .collection("comments").doc(commentId).delete().then(() => {
+      console.log("Document successfully deleted!");
+  }).catch((error) => {
+      console.error("Error removing document: ", error);
+  });
+  }
 
   const societyPostComment = (event) => {
     event.preventDefault();
@@ -68,6 +86,7 @@ function SocietyPost({
         url: user?.photoURL,
         username: user?.displayName,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        uid:user?.uid,
       });
     }
     else{
@@ -224,16 +243,21 @@ function SocietyPost({
           </Button>
         </form>
         <div className="post__comments">
-          {!comments
+        {!comments
             ? ""
-            : comments.map((comment) => {
+            : comments.map(({ comment, id }) => {
                 return (
-                  <div className="comment__div">
-                    <Avatar src={comment.url} alt="" />
-                    <p>
-                      <strong>{comment.username}</strong> {comment.text}
-                    </p>
+                  <div className="comment__div__container">
+                    <div className="comment__div">
+                        <Avatar src={comment.url} alt="" />
+                        <p>
+                          <strong>{comment.username}</strong> {comment.text}
+                        </p>
+                    </div>
+                    {user?.uid===comment.uid? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
+                    
                   </div>
+                  
                 );
               })}
         </div>

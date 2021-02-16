@@ -57,8 +57,8 @@ function SocietyPost({
 
   const societyPostComment = (event) => {
     event.preventDefault();
-
-    db.collection("societies")
+    if (user?.email.includes("gmail") === false) {
+      db.collection("societies")
       .doc(societyId)
       .collection("posts")
       .doc(postId)
@@ -69,6 +69,11 @@ function SocietyPost({
         username: user?.displayName,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
+    }
+    else{
+      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
+    }
+    
     setComment("");
   };
   const handlePostDelete = ()=>{

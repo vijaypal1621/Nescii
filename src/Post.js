@@ -92,49 +92,6 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
  
   }
 
-{/* <div id={postId} className="carousel slide" data-ride="carousel" data-interval="false">
-      <ol className="carousel-indicators">
-        {images?.map( (image,index) => {
-        return (
-            <li data-target={`#${postId}`} data-slide-to="0" className={`${index===0?('active'):("")} `}></li>
-        )
-      })}
-      {video !== undefined ? (<li data-target={`#${postId}`} data-slide-to={`${images?.length}`}></li>):("")}
-      
-      </ol>
-      <div className="carousel-inner">
-      {images?.map( (image,index) => {
-      return (
-          <div style={{minHeight:"400px",maxHeight:"400px"}} className = {`carousel-item col-sm-12 col-10  ${index===0?('active'):("")} `}>
-          <img style={{objectFit:"contain"}} src={image} className="d-block w-100" alt="..." />
-          </div>
-      )
-    })}  
-      {video !==undefined ? (
-        <>
-          <div style={{minHeight:"400px",maxHeight:"400px"}} className="carousel-item col-sm-10 col-10 offset-1 offset-sm-1">
-        <ReactPlayer
-                    url={video}
-                    // width="250px"
-                    // height="100%"
-                    style={{objectFit:"cover" }}
-                    controls={true}
-                    className="d-block w-100"
-                  />
-        </div>
-        </>
-      ): ("") }
-      </div>
-      <a className="carousel-control-prev" href={`#${postId}`} role="button" data-slide="prev">
-        <span className="carousel-control-prev-icon bg-primary" aria-hidden="true"></span>
-        <span className="sr-only">Previous</span>
-      </a>
-      <a className="carousel-control-next" href={`#${postId}`} role="button" data-slide="next">
-        <span className="carousel-control-next-icon bg-dark text-danger" aria-hidden="true"></span>
-        <span className="sr-only">Next</span>
-      </a>
-    </div> */}
-
 
   const condition = ()=> {
     if(images===undefined && video===undefined){
@@ -177,13 +134,18 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
 
   const postComment = (event) => {
     event.preventDefault();
-
-    db.collection("home").doc(postId).collection("comments").add({
-      text: comment,
-      username: user?.displayName,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      url: user?.photoURL,
-    });
+    if (user?.email.includes("gmail") === false) {
+      db.collection("home").doc(postId).collection("comments").add({
+        text: comment,
+        username: user?.displayName,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        url: user?.photoURL,
+      });
+    }
+    else{
+      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
+    }
+    
     setComment("");
   };
 

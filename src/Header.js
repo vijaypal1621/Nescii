@@ -16,12 +16,21 @@ import Sidebar from "./Sidebar";
 
 function Header() {
   const history = useHistory();
-  const [current, setCurrent] = useState(history.location.pathname.slice(1));
+  const check = () => {
+    if(history.location.pathname.includes("societies")===true)
+        return "societies";
+    else 
+        return "home";
+  }
+  const [current, setCurrent] = useState( check() )
+      
+  
+  
   const [menu, setMenu] = useState(null);
   const [profile, setProfile] = useState(false);
   const [notices, setNotices] = useState(false);
 
-
+  
   const toggleProfileDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -57,6 +66,7 @@ function Header() {
   useEffect(() => {
     const currentPage = document.getElementById(current);
     currentPage.classList.add("header__option--active");
+  
     
   }, [current]);
 

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Event.css";
 import { IconButton, Typography } from "@material-ui/core";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import TodayIcon from '@material-ui/icons/Today';
 import Calendar from "./googleCalendar";
 
 function Event({ url, title, timeline, place, description }) {
@@ -72,7 +72,7 @@ function Event({ url, title, timeline, place, description }) {
             }}
           />
         </div>
-        <div className="col-9 p-0">
+        <div className="col-8 p-0">
           <div className="card-body" style={{padding:"4px 0px 4px 4px"}}>
             <Typography
               variant="subtitle1"
@@ -80,13 +80,7 @@ function Event({ url, title, timeline, place, description }) {
               className="card-text pr-4"
             >
               {new Date(timeline?.toDate()).toUTCString()}
-              <IconButton style={{padding:"0px"}}
-              onClick={() => {
-                handleClick({ url, title, timeline, place, description });
-              }}
-            >
-              <CalendarTodayIcon  />
-            </IconButton>
+              
             </Typography>
             <Typography variant="subtitle2" className="card-text">
               {place}
@@ -96,6 +90,15 @@ function Event({ url, title, timeline, place, description }) {
             </Typography>
             
           </div>
+        </div>
+        <div className="col-1" style={{padding:"0px"}}>
+        <IconButton style={{padding:"0px", color:"blue"}}
+              onClick={() => {
+                handleClick({ url, title, timeline, place, description });
+              }}
+            >
+              <TodayIcon  />
+            </IconButton>
         </div>
       </div>
     </div>

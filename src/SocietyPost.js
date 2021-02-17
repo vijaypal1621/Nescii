@@ -7,8 +7,14 @@ import { useStateValue } from "./StateProvider";
 import { useParams } from "react-router-dom";
 import firebase from "firebase";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
+
+// swipper example
+
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import SwiperCore, {
+  EffectFade,
   EffectFlip,
   Navigation,
   Pagination,
@@ -16,6 +22,7 @@ import SwiperCore, {
   A11y,
   Zoom,
 } from "swiper";
+
 import "swiper/swiper.scss";
 import "swiper/components/effect-fade/effect-fade.scss";
 import "swiper/components/effect-flip/effect-flip.scss";
@@ -23,7 +30,6 @@ import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
 import "swiper/components/scrollbar/scrollbar.scss";
 import "swiper/components/zoom/zoom.scss";
-
 SwiperCore.use([EffectFlip, Navigation, Pagination, Scrollbar, A11y, Zoom]);
 
 function SocietyPost({
@@ -32,6 +38,7 @@ function SocietyPost({
   images,
   video,
   username,
+  likes,
   uid,
   timestamp,
   message,
@@ -39,6 +46,7 @@ function SocietyPost({
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
+  const [liked, setLiked] = useState(false);
   const { societyId } = useParams();
 
   useEffect(() => {
@@ -50,25 +58,82 @@ function SocietyPost({
         .collection("comments")
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
-          setComments(snapshot.docs.map((doc) => doc.data()));
+          setComments(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              comment: doc.data(),
+            }))
+          );
         });
+
+      //if likes is undefined
+      // if(likes===undefined){
+      //   likes=[]
+      // }
+
+      for (let i = 0; i < likes?.length; i++) {
+        if (user?.uid === likes[i]) {
+          setLiked(true);
+        }
+      }
+
+      db.collection("societies")
+        .doc(societyId)
+        .collection("posts")
+        .doc(postId)
+        .update({
+          likes: likes,
+        })
+        .then(function () {
+          console.log("Post Successfully Submitted!");
+        })
+        .catch(function (error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        });
+      console.log(liked);
     }
-  }, [postId, societyId]);
+  }, [postId, societyId, user?.uid, liked]);
 
-  const societyPostComment = (event) => {
-    event.preventDefault();
-
+  const checkColor = () => {
+    if (liked === true) return "blue";
+    else return "gray";
+  };
+  const handleCommentDelete = (commentId) => {
     db.collection("societies")
       .doc(societyId)
       .collection("posts")
       .doc(postId)
       .collection("comments")
-      .add({
-        text: comment,
-        url: user?.photoURL,
-        username: user?.displayName,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      .doc(commentId)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
       });
+  };
+
+  const societyPostComment = (event) => {
+    event.preventDefault();
+    if (user?.email.includes("gmail") === false) {
+      db.collection("societies")
+        .doc(societyId)
+        .collection("posts")
+        .doc(postId)
+        .collection("comments")
+        .add({
+          text: comment,
+          url: user?.photoURL,
+          username: user?.displayName,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          uid: user?.uid,
+        });
+    } else {
+      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
+    }
+
     setComment("");
   };
   const handlePostDelete = () => {
@@ -162,6 +227,21 @@ function SocietyPost({
     }
   };
 
+  const handleLikes = () => {
+    if (liked) {
+      for (var i = 0; i < likes.length; i++) {
+        if (likes[i] === user?.uid) {
+          likes.splice(i, 1);
+        }
+      }
+      setLiked(false);
+    } else {
+      likes.push(user?.uid);
+      setLiked(true);
+    }
+    // console.log(db.collection("home").doc(postId))
+  };
+
   return (
     <div className="post">
       <div className="post__top">
@@ -194,10 +274,13 @@ function SocietyPost({
       {/* cond-5 all present */}
 
       <div className="post__options">
-        {/* <div className="post__option">
-          <ThumbUp />
-          <p>..1..</p>
-        </div> */}
+        <div style={{ display: "flex" }}>
+          <ThumbUpAltOutlinedIcon
+            onClick={handleLikes}
+            style={{ color: checkColor(), marginRight: "8px" }}
+          />
+          <p>{likes?.length}</p>
+        </div>
         <form className="post__commentBox">
           <input
             className="post__input"
@@ -219,7 +302,7 @@ function SocietyPost({
         <div className="post__comments">
           {!comments
             ? ""
-            : comments.map((comment) => {
+            : comments.map(({ comment, id }) => {
                 return (
                   <div className="comment__div">
                     <Avatar src={comment.url} alt="" />

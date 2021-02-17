@@ -6,6 +6,7 @@ import ReactPlayer from "react-player";
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
   EffectFlip,
@@ -30,6 +31,7 @@ function Post({
   uid,
   profilePic,
   images,
+  likes,
   username,
   timestamp,
   message,
@@ -38,6 +40,8 @@ function Post({
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
+
+  const [liked, setLiked] = useState(false);
 
   const body2 = <></>;
 
@@ -131,21 +135,83 @@ function Post({
         .collection("comments")
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
-          setComments(snapshot.docs.map((doc) => doc.data()));
+          setComments(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              comment: doc.data(),
+            }))
+          );
         });
+
+      for (let i = 0; i < likes.length; i++) {
+        if (user?.uid === likes[i]) {
+          setLiked(true);
+        }
+      }
+
+      db.collection("home")
+        .doc(postId)
+        .update({
+          likes: likes,
+        })
+        .then(function () {
+          console.log("Post Successfully Submitted!");
+        })
+        .catch(function (error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        });
+      console.log(liked);
     }
-  }, [postId]);
+  }, [postId, user?.uid, liked]);
+
+  const handleLikes = () => {
+    if (liked) {
+      for (var i = 0; i < likes.length; i++) {
+        if (likes[i] === user?.uid) {
+          likes.splice(i, 1);
+        }
+      }
+      setLiked(false);
+    } else {
+      likes.push(user?.uid);
+      setLiked(true);
+    }
+    // console.log(db.collection("home").doc(postId))
+  };
 
   const postComment = (event) => {
     event.preventDefault();
+    if (user?.email.includes("gmail") === false) {
+      db.collection("home").doc(postId).collection("comments").add({
+        text: comment,
+        username: user?.displayName,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        url: user?.photoURL,
+        uid: user?.uid,
+      });
+    } else {
+      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
+    }
 
-    db.collection("home").doc(postId).collection("comments").add({
-      text: comment,
-      username: user?.displayName,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      url: user?.photoURL,
-    });
     setComment("");
+  };
+  const handleCommentDelete = (commentId) => {
+    db.collection("home")
+      .doc(postId)
+      .collection("comments")
+      .doc(commentId)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  };
+  const checkColor = () => {
+    if (liked === true) return "blue";
+    else return "gray";
   };
 
   return (
@@ -167,6 +233,13 @@ function Post({
       {condition()}
 
       <div className="post__options">
+        <div style={{ display: "flex" }}>
+          <ThumbUpAltOutlinedIcon
+            onClick={handleLikes}
+            style={{ color: checkColor(), marginRight: "8px" }}
+          />
+          <p>{likes.length}</p>
+        </div>
         <form className="post__commentBox">
           <input
             className="post__input"
@@ -188,7 +261,7 @@ function Post({
         <div className="post__comments">
           {!comments
             ? ""
-            : comments.map((comment) => {
+            : comments.map(({ comment, id }) => {
                 return (
                   <div className="comment__div">
                     <Avatar src={comment.url} alt="" />

@@ -190,7 +190,7 @@ function MessageSender() {
         </div>
       </div>
       <div className="messageSender__bottom row">
-        <div className="messageSender__option col-4">
+        <div className="messageSender__option col-6">
           <input
             accept="image/*"
             className={classes.input}
@@ -213,7 +213,7 @@ function MessageSender() {
             </div>
           </label>
         </div>
-        <div className="messageSender__option col-4">
+        <div className="messageSender__option col-6">
           <input
             accept="video/*"
             className={classes.input}
@@ -233,21 +233,6 @@ function MessageSender() {
                 <PlayCircleFilledIcon style={{ color: "red" }} />
               </IconButton>
               <h4>Video</h4>
-            </div>
-          </label>
-        </div>
-        <div className="messageSender__option col-4">
-          <input accept="" className={classes.input} id="postArticle" />
-          <label htmlFor="postEvent" className="messageSender__option__label">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <IconButton
-                style={{ padding: "0" }}
-                color="primary"
-                component="div"
-              >
-                <DescriptionIcon style={{ color: "blue" }} />
-              </IconButton>
-              <h4>Article</h4>
             </div>
           </label>
         </div>
@@ -280,7 +265,7 @@ function MessageSender() {
           </Modal>
         </div>
         <div className="messageSender__bottom row">
-          <div className="messageSender__option col-4">
+          <div className="messageSender__option col-6">
             <input
               accept="image/*"
               className={classes.input}
@@ -306,7 +291,7 @@ function MessageSender() {
               </div>
             </label>
           </div>
-          <div className="messageSender__option col-4">
+          <div className="messageSender__option col-6">
             <input
               accept="video/*"
               className={classes.input}
@@ -329,22 +314,6 @@ function MessageSender() {
                   <PlayCircleFilledIcon style={{ color: "red" }} />
                 </IconButton>
                 <h4>Video</h4>
-              </div>
-            </label>
-          </div>
-
-          <div className="messageSender__option col-4">
-            <input accept="" className={classes.input} id="postArticleIn" />
-            <label htmlFor="postEvent" className="messageSender__option__label">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <IconButton
-                  style={{ padding: "0" }}
-                  color="primary"
-                  component="div"
-                >
-                  <DescriptionIcon style={{ color: "blue" }} />
-                </IconButton>
-                <h4>Article</h4>
               </div>
             </label>
           </div>

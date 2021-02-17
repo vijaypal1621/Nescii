@@ -11,14 +11,26 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { auth } from "./firebase";
 import Notices from "./Notices";
+import { useHistory } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
 function Header() {
-  const [current, setCurrent] = useState("home");
+  const history = useHistory();
+  const check = () => {
+    if(history.location.pathname.includes("societies")===true)
+        return "societies";
+    else 
+        return "home";
+  }
+  const [current, setCurrent] = useState( check() )
+      
+  
+  
   const [menu, setMenu] = useState(null);
   const [profile, setProfile] = useState(false);
   const [notices, setNotices] = useState(false);
 
+  
   const toggleProfileDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -54,6 +66,8 @@ function Header() {
   useEffect(() => {
     const currentPage = document.getElementById(current);
     currentPage.classList.add("header__option--active");
+  
+    
   }, [current]);
 
   return (

@@ -84,6 +84,10 @@ video{
   outline-width: 0;
   padding-left: 10px;
 }
+.comment__div__container {
+  display: flex;
+  justify-content: space-between;
+}
 .comment__div {
   display: flex;
   align-items: center;

@@ -127,6 +127,7 @@ function MessageSender() {
                     username:user?.displayName,
                     uid:user?.uid,
                     video:url,
+                    likes:[]
                   })
                   .then((docRef) => {
                     if (photosURL.length !== 0) {
@@ -184,6 +185,7 @@ function MessageSender() {
                 username:user?.displayName,
                 images:fileDownloadUrls,
                 uid:user?.uid,
+                likes:[]
               })
               .then(function () {
                 // console.log("Post Successfully Submitted!");
@@ -202,6 +204,7 @@ function MessageSender() {
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           username:user?.displayName,
           uid:user?.uid,
+          likes:[],
         })
         .then(function () {
           console.log("Post Successfully Submitted!");

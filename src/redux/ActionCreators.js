@@ -1,5 +1,6 @@
 import * as ActionTypes from "./ActionTypes";
 import cheerioModule from "cheerio";
+import { db } from "../firebase";
 
 export const addNotices = (notices) => ({
   type: ActionTypes.ADD_NOTICES,
@@ -43,6 +44,36 @@ export const noticesFailed = (errmess) => ({
   payload: errmess,
 });
 
-// export const setUser = () => (dispatch, user) => {
+export const fetchPosts = () => (dispatch) => {
+  dispatch(postsLoading(true));
+  db.collection("home")
+    .orderBy("timestamp", "asc")
+    .onSnapshot(
+      (snapshot) => {
+        // every time a new post is added , this code fires off
+        var posts = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          post: doc.data(),
+        }));
+        console.log(posts);
+        dispatch(addPosts(posts));
+      },
+      (error) => {
+        dispatch(postsFailed(error.message));
+      }
+    );
+};
 
-// }
+export const addPosts = (posts) => ({
+  type: ActionTypes.ADD_POSTS,
+  payload: posts,
+});
+
+export const postsLoading = () => ({
+  type: ActionTypes.POSTS_LOADING,
+});
+
+export const postsFailed = (errmess) => ({
+  type: ActionTypes.POSTS_FAILED,
+  payload: errmess,
+});

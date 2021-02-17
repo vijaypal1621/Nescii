@@ -1,36 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./Feed.css";
 import MessageSender from "./MessageSender";
 import Post from "./Post";
-import { db } from "./firebase";
+import { fetchPosts } from "./redux/ActionCreators";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "./Loading";
 
-function Feed() {
-  const [posts, setPosts] = useState([]);
-  //   var images = [
-  //     "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
-  //     "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
-  //     "http://en.wikipedia.org/wiki/Special:FilePath/Netaji_Subhas_University_of_Technology.svg",
-  // ]
-  // var video=null;
-
-  useEffect(() => {
-    db.collection("home")
-      .orderBy("timestamp", "asc")
-      .onSnapshot((snapshot) => {
-        // every time a new post is added , this code fires off
-        setPosts(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            post: doc.data(),
-          }))
-        );
-      });
-  }, []);
-
-  return (
-    <div className="feed col-12">
-      <MessageSender />
-      {posts.map(({ post, id }) => {
+function DisplayPosts({ posts, isLoading, errMess }) {
+  if (isLoading) {
+    return (
+      <center>
+        <Loading type={"spinningBubbles"} color={"#ff0000"} />
+      </center>
+    );
+  } else if (errMess) {
+    return (
+      <center>
+        <h4>{errMess}</h4>
+      </center>
+    );
+  } else {
+    {
+      return posts.map(({ post, id }) => {
         return (
           <Post
             key={id}
@@ -44,7 +35,27 @@ function Feed() {
             video={post.video}
           />
         );
-      })}
+      });
+    }
+  }
+}
+
+function Feed() {
+  const posts = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
+  return (
+    <div className="feed col-12">
+      <MessageSender />
+      <DisplayPosts
+        posts={posts.posts}
+        isLoading={posts.isLoading}
+        errMess={posts.errMess}
+      />
     </div>
   );
 }

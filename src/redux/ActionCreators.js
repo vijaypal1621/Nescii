@@ -1,6 +1,7 @@
 import * as ActionTypes from "./ActionTypes";
 import cheerioModule from "cheerio";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
+import firebase from "firebase";
 
 export const addNotices = (notices) => ({
   type: ActionTypes.ADD_NOTICES,
@@ -47,7 +48,7 @@ export const noticesFailed = (errmess) => ({
 export const fetchPosts = () => (dispatch) => {
   dispatch(postsLoading(true));
   db.collection("home")
-    .orderBy("timestamp", "asc")
+    .orderBy("timestamp", "desc")
     .onSnapshot(
       (snapshot) => {
         // every time a new post is added , this code fires off
@@ -55,7 +56,6 @@ export const fetchPosts = () => (dispatch) => {
           id: doc.id,
           post: doc.data(),
         }));
-        console.log(posts);
         dispatch(addPosts(posts));
       },
       (error) => {
@@ -77,3 +77,170 @@ export const postsFailed = (errmess) => ({
   type: ActionTypes.POSTS_FAILED,
   payload: errmess,
 });
+
+export const addPost = (post) => ({
+  type: ActionTypes.ADD_POST,
+  payload: post,
+});
+
+export const postPost = (user, caption, videoURL, photosURL) => (dispatch) => {
+  if (videoURL !== null) {
+    const uploadTask = storage.ref(`videos/${videoURL.name}`).put(videoURL);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // progress function
+        // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        // console.log('Video Upload is ' + progress + '% done');
+        // setProgress(progress);
+      },
+      (error) => {
+        // error function...
+        // console.log(error);
+        alert(error.message);
+      },
+      () => {
+        // complete function
+        storage
+          .ref("videos")
+          .child(videoURL?.name)
+          .getDownloadURL()
+          .then((url) => {
+            // console.log(url + " video url is generated");
+            // console.log(finalVideo + " Finalvideo url is saved") ;
+            //post image inside db
+            db.collection("home")
+              .add({
+                message: caption,
+                profilePic: user?.photoURL,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                username: user?.displayName,
+                uid: user?.uid,
+                video: url,
+              })
+              .then((docRef) => {
+                if (photosURL.length !== 0) {
+                  const promises = photosURL.map((file) => {
+                    const ref = firebase
+                      .storage()
+                      .ref()
+                      .child(`homeImages/${file.name}`);
+                    return ref.put(file).then(() => ref.getDownloadURL());
+                  });
+                  Promise.all(promises)
+                    .then((fileDownloadUrls) => {
+                      db.collection("home")
+                        .doc(docRef.id)
+                        .update({
+                          message: caption,
+                          profilePic: user?.photoURL,
+                          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                          username: user?.displayName,
+                          images: fileDownloadUrls,
+                        })
+                        .then((docRef) => {
+                          db.collection("home")
+                            .doc(docRef.id)
+                            .get()
+                            .then((doc) => {
+                              if (doc.exists) {
+                                const data = doc.data();
+                                const _id = doc.id;
+                                let post = { _id, ...data };
+                                dispatch(addPost(post));
+                              } else {
+                                // doc.data() will be undefined in this case
+                                console.log("No such document!");
+                              }
+                            });
+                        })
+                        .catch((error) => {
+                          console.log("Post posts ", error.message);
+                          alert(
+                            "Your post could not be posted\nError: " +
+                              error.message
+                          );
+                        });
+                    })
+                    .catch((err) => console.log(err));
+                }
+                // console.log("Video Successfully Submitted!");
+              })
+              .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+              });
+          });
+      }
+    );
+  } else if (photosURL.length !== 0) {
+    const promises = photosURL.map((file) => {
+      const ref = firebase.storage().ref().child(`homeImages/${file.name}`);
+      return ref.put(file).then(() => ref.getDownloadURL());
+    });
+    Promise.all(promises)
+      .then((fileDownloadUrls) => {
+        db.collection("home")
+          .add({
+            message: caption,
+            profilePic: user?.photoURL,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            username: user?.displayName,
+            images: fileDownloadUrls,
+            uid: user?.uid,
+          })
+          .then((docRef) => {
+            db.collection("home")
+              .doc(docRef.id)
+              .get()
+              .then((doc) => {
+                if (doc.exists) {
+                  const data = doc.data();
+                  const _id = doc.id;
+                  let post = { _id, ...data };
+                  dispatch(addPost(post));
+                } else {
+                  // doc.data() will be undefined in this case
+                  console.log("No such document!");
+                }
+              });
+          })
+          .catch((error) => {
+            console.log("Post posts ", error.message);
+            alert("Your post could not be posted\nError: " + error.message);
+          });
+      })
+      .catch((err) => console.log(err));
+  } else if (caption !== "") {
+    db.collection("home")
+      .add({
+        message: caption,
+        profilePic: user?.photoURL,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        username: user?.displayName,
+        uid: user?.uid,
+      })
+      .then((docRef) => {
+        db.collection("home")
+          .doc(docRef.id)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              const data = doc.data();
+              const _id = doc.id;
+              let post = { _id, ...data };
+              dispatch(addPost(post));
+            } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+            }
+          });
+      })
+      .catch((error) => {
+        console.log("Post posts ", error.message);
+        alert("Your post could not be posted\nError: " + error.message);
+      });
+  } else {
+    alert("Post is empty !");
+  }
+};

@@ -5,6 +5,7 @@ import Post from "./Post";
 import { fetchPosts } from "./redux/ActionCreators";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "./Loading";
+import { AnimatedList } from "react-animated-list";
 
 function DisplayPosts({ posts, isLoading, errMess }) {
   if (isLoading) {
@@ -21,21 +22,25 @@ function DisplayPosts({ posts, isLoading, errMess }) {
     );
   } else {
     {
-      return posts.map(({ post, id }) => {
-        return (
-          <Post
-            key={id}
-            uid={post.uid}
-            username={post.username}
-            postId={id}
-            message={post.message}
-            profilePic={post.profilePic}
-            timestamp={post.timestamp}
-            images={post.images}
-            video={post.video}
-          />
-        );
-      });
+      return (
+        <AnimatedList initialAnimationDuration={2000}>
+          {posts.map(({ post, id }) => {
+            return (
+              <Post
+                key={id}
+                uid={post.uid}
+                username={post.username}
+                postId={id}
+                message={post.message}
+                profilePic={post.profilePic}
+                timestamp={post.timestamp}
+                images={post.images}
+                video={post.video}
+              />
+            );
+          })}
+        </AnimatedList>
+      );
     }
   }
 }

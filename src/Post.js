@@ -23,11 +23,11 @@ import 'swiper/components/zoom/zoom.scss';
 SwiperCore.use([EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom]);
 
 
-function Post({ postId,uid, profilePic, images, username, timestamp, message,video }) {
+function Post({ postId,uid, profilePic, images,likes, username, timestamp, message,video }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
-  const [likes,setLikes] = useState([]);
+  
   const [liked,setLiked] =useState(false);
 
     const body2 = (
@@ -134,43 +134,47 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
           );
         });
       
-        db.collection("home")
-        .doc(postId)
-        .collection("likes")
-        .onSnapshot((snapshot) => {
-          setLikes(
-              snapshot.docs.map((doc) => ({
-              id: doc.id,
-            })) 
-          );
-        });
+        
 
         for(let i=0;i<likes.length;i++)
         {
-           if(user?.uid === likes[i].id){
+           if(user?.uid === likes[i]){
               setLiked(true);
            }
         }
-      
+
+        db.collection("home")
+          .doc(postId)
+          .update({
+            likes:likes,
+          })
+          .then(function () {
+            console.log("Post Successfully Submitted!");
+          })
+          .catch(function (error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+          });
+        console.log(liked);
 
       
     }
-  }, [likes, postId, user?.uid,liked]);
+  }, [postId, user?.uid, liked]);
 
   const handleLikes = () => {
       if(liked){
-        db.collection("home").doc(postId).collection("likes").doc(user?.uid).delete().then(() => {
-          console.log("Document successfully deleted!");
-      }).catch((error) => {
-          console.error("Error removing document: ", error);
-      });
+        for( var i = 0; i < likes.length; i++){ 
+          if ( likes[i] === user?.uid) { 
+              likes.splice(i, 1); 
+          }
+      }
         setLiked(false);
       }
       else{
-        db.collection("home").doc(postId).collection("likes").doc(user?.uid).set({
-        }).then(console.log("Added succesfully"))
+       likes.push(user?.uid);
         setLiked(true);
       }
+      // console.log(db.collection("home").doc(postId))
   }
 
   

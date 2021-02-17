@@ -35,6 +35,7 @@ function Feed() {
           <Post
             key={id}
             uid={post.uid}
+            likes={post.likes}
             username={post.username}
             postId={id}
             message={post.message}

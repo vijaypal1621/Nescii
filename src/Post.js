@@ -5,16 +5,13 @@ import firebase from "firebase";
 import ReactPlayer from "react-player";
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
-import { ImageSearch } from "@material-ui/icons";
 import DeleteIcon from '@material-ui/icons/Delete';
-import ArrowBackIosTwoToneIcon from '@material-ui/icons/ArrowBackIosTwoTone';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-
+import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 // swipper example
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import SwiperCore, { EffectFade , EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom } from 'swiper';
+import SwiperCore, { EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom } from 'swiper';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/effect-fade/effect-fade.scss';
@@ -30,6 +27,8 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
+  const [likes,setLikes] = useState([]);
+  const [liked,setLiked] =useState(false);
 
     const body2 = (
       <>
@@ -134,9 +133,47 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
             }))
           );
         });
-    }
-  }, [postId]);
+      
+        db.collection("home")
+        .doc(postId)
+        .collection("likes")
+        .onSnapshot((snapshot) => {
+          setLikes(
+              snapshot.docs.map((doc) => ({
+              id: doc.id,
+            })) 
+          );
+        });
 
+        for(let i=0;i<likes.length;i++)
+        {
+           if(user?.uid === likes[i].id){
+              setLiked(true);
+           }
+        }
+      
+
+      
+    }
+  }, [likes, postId, user?.uid,liked]);
+
+  const handleLikes = () => {
+      if(liked){
+        db.collection("home").doc(postId).collection("likes").doc(user?.uid).delete().then(() => {
+          console.log("Document successfully deleted!");
+      }).catch((error) => {
+          console.error("Error removing document: ", error);
+      });
+        setLiked(false);
+      }
+      else{
+        db.collection("home").doc(postId).collection("likes").doc(user?.uid).set({
+        }).then(console.log("Added succesfully"))
+        setLiked(true);
+      }
+  }
+
+  
   const postComment = (event) => {
     event.preventDefault();
     if (user?.email.includes("gmail") === false) {
@@ -183,6 +220,8 @@ function Post({ postId,uid, profilePic, images, username, timestamp, message,vid
       {condition()}
 
       <div className="post__options">
+      <ThumbUpAltOutlinedIcon onClick={handleLikes} style={{color:"blue"}} /> 
+      <p>{likes.length}</p>
         <form className="post__commentBox">
           <input
             className="post__input"

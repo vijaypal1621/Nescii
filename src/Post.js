@@ -202,6 +202,10 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
       console.error("Error removing document: ", error);
   });
   }
+  const checkColor=()=>{
+    if(liked===true)return "blue";
+    else return "gray";
+  }
 
   return (
     <div className="post">
@@ -224,8 +228,10 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
       {condition()}
 
       <div className="post__options">
-      <ThumbUpAltOutlinedIcon onClick={handleLikes} style={{color:"blue"}} /> 
-      <p>{likes.length}</p>
+        <div style={{display:"flex"}}>
+          <ThumbUpAltOutlinedIcon onClick={handleLikes} style={{color:checkColor() , marginRight:"8px" }} /> 
+          <p>{likes.length}</p>
+        </div>
         <form className="post__commentBox">
           <input
             className="post__input"

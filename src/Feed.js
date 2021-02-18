@@ -21,23 +21,21 @@ function DisplayPosts({ posts, isLoading, errMess }) {
       </center>
     );
   } else {
-    // eslint-disable-next-line no-lone-blocks
-    {
       return (
         <AnimatedList initialAnimationDuration={2000}>
-          {posts.map(({ post, id }) => {
+          {posts?.map(({ post, id }) => {
             return (
               <Post
                 key={id}
-                uid={post.uid}
-                username={post.username}
+                uid={post?.uid}
+                username={post?.username}
                 postId={id}
-                likes={post.likes}
-                message={post.message}
-                profilePic={post.profilePic}
-                timestamp={post.timestamp}
-                images={post.images}
-                video={post.video}
+                likes={post?.likes}
+                message={post?.message}
+                profilePic={post?.profilePic}
+                timestamp={post?.timestamp}
+                images={post?.images}
+                video={post?.video}
               />
             );
           })}
@@ -45,7 +43,7 @@ function DisplayPosts({ posts, isLoading, errMess }) {
       );
     }
   }
-}
+
 
 function Feed() {
   const posts = useSelector((state) => state.posts);

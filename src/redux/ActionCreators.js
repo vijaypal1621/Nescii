@@ -83,7 +83,7 @@ export const addPost = (post) => ({
   payload: post,
 });
 
-export const postPost = (user, caption, videoURL, photosURL) => (dispatch) => {
+export const postPost = (user, caption,uid, videoURL, photosURL) => (dispatch) => {
   if (videoURL !== null) {
     const uploadTask = storage.ref(`videos/${videoURL.name}`).put(videoURL);
     uploadTask.on(
@@ -147,7 +147,7 @@ export const postPost = (user, caption, videoURL, photosURL) => (dispatch) => {
                                 const data = doc.data();
                                 const _id = doc.id;
                                 let post = { _id, ...data };
-                                dispatch(addPost(post));
+                                // dispatch(addPost(post));
                               } else {
                                 // doc.data() will be undefined in this case
                                 console.log("No such document!");
@@ -198,7 +198,7 @@ export const postPost = (user, caption, videoURL, photosURL) => (dispatch) => {
                   const data = doc.data();
                   const _id = doc.id;
                   let post = { _id, ...data };
-                  dispatch(addPost(post));
+                  // dispatch(addPost(post));
                 } else {
                   // doc.data() will be undefined in this case
                   console.log("No such document!");
@@ -229,7 +229,7 @@ export const postPost = (user, caption, videoURL, photosURL) => (dispatch) => {
               const data = doc.data();
               const _id = doc.id;
               let post = { _id, ...data };
-              dispatch(addPost(post));
+              // dispatch(addPost(post));
             } else {
               // doc.data() will be undefined in this case
               console.log("No such document!");

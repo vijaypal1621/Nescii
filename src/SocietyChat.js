@@ -151,7 +151,7 @@ function SocietyChat() {
                     postId={id}
                     uid={post.uid}
                     message={post.message}
-                    likes={post.likes}
+                    likes={post?.likes}
                     timestamp={post.timestamp}
                     username={post.username}
                     profilePic={post.profilePic}

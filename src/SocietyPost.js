@@ -68,14 +68,16 @@ function SocietyPost({
 
       //if likes is undefined
       if(likes===undefined){
-        likes=[]
+        likes=[];
       }
 
-      for (let i = 0; i < likes?.length; i++) {
+      for (let i = 0; i < likes.length; i++) {
         if (user?.uid === likes[i]) {
           setLiked(true);
+          break;
         }
       }
+      
 
       db.collection("societies")
         .doc(societyId)
@@ -97,10 +99,6 @@ function SocietyPost({
 
 
 
-  const checkColor=()=>{
-    if(liked===true)return "blue";
-    else return "gray";
-  }
   const handleCommentDelete = (commentId)=>{
     db.collection("societies")
       .doc(societyId)
@@ -230,21 +228,24 @@ function SocietyPost({
   };
   
   const handleLikes = () => {
-    if(liked){
-      for( var i = 0; i < likes.length; i++){ 
-        if ( likes[i] === user?.uid) { 
-            likes.splice(i, 1); 
+    if (liked) {
+      for (var i = 0; i < likes.length; i++) {
+        if (likes[i] === user?.uid) {
+          likes.splice(i, 1);
         }
-    }
+      }
       setLiked(false);
-    }
-    else{
-     likes.push(user?.uid);
+    } else {
+      likes.push(user?.uid);
       setLiked(true);
     }
     // console.log(db.collection("home").doc(postId))
-}
+  };
 
+  const checkColor = () => {
+    if (liked === true) return "blue";
+    else return "gray";
+  };
 
 
 

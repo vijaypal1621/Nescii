@@ -94,7 +94,7 @@ function MessageSender() {
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
-    dispatch(postPost(user, caption, videoURL, photosURL));
+    dispatch(postPost(user, caption,user?.uid, videoURL, photosURL));
     setVideoURL(null);
     setVideo(null);
     setCaption("");

@@ -21,6 +21,7 @@ function DisplayPosts({ posts, isLoading, errMess }) {
       </center>
     );
   } else {
+    // eslint-disable-next-line no-lone-blocks
     {
       return (
         <AnimatedList initialAnimationDuration={2000}>
@@ -31,6 +32,7 @@ function DisplayPosts({ posts, isLoading, errMess }) {
                 uid={post.uid}
                 username={post.username}
                 postId={id}
+                likes={post.likes}
                 message={post.message}
                 profilePic={post.profilePic}
                 timestamp={post.timestamp}

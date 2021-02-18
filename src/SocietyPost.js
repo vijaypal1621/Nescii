@@ -7,7 +7,7 @@ import { useStateValue } from "./StateProvider";
 import { useParams } from "react-router-dom";
 import firebase from "firebase";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 
 // swipper example
 
@@ -281,7 +281,7 @@ function SocietyPost({
 
       <div className="post__options">
         <div style={{ display: "flex" }}>
-          <ThumbUpAltOutlinedIcon
+          <ThumbUpAltIcon
             onClick={handleLikes}
             style={{ color: checkColor(), marginRight: "8px" }}
           />

@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
   EffectFlip,
@@ -239,11 +239,11 @@ function Post({
 
       <div className="post__options">
         <div style={{ display: "flex" }}>
-          <ThumbUpAltOutlinedIcon
+          <ThumbUpAltIcon
             onClick={handleLikes}
             style={{ color: checkColor(), marginRight: "8px" }}
           />
-          <p>{likes.length}</p>
+          <p>{likes?.length}</p>
         </div>
         <form className="post__commentBox">
           <input

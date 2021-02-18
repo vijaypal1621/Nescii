@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
   EffectFlip,
@@ -146,22 +146,26 @@ function Post({
       for (let i = 0; i < likes?.length; i++) {
         if (user?.uid === likes[i]) {
           setLiked(true);
-        }
-      }
 
-      db.collection("home")
-        .doc(postId)
-        .update({
-          likes: likes,
-        })
-        .then(function () {
-          console.log("Post Successfully Submitted!");
-        })
-        .catch(function (error) {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
-        });
-      console.log(liked);
+        }
+        if(likes===undefined){
+          likes=[];
+        }
+        db.collection("home")
+          .doc(postId)
+          .update({
+            likes:likes,
+          })
+          .then(function () {
+            console.log("Post Successfully Submitted!");
+          })
+          .catch(function (error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+          });
+        console.log(liked);
+
+      
     }
   }, [postId, user?.uid, liked]);
 
@@ -234,7 +238,7 @@ function Post({
 
       <div className="post__options">
         <div style={{ display: "flex" }}>
-          <ThumbUpAltOutlinedIcon
+          <ThumbUpAltIcon
             onClick={handleLikes}
             style={{ color: checkColor(), marginRight: "8px" }}
           />
@@ -259,16 +263,21 @@ function Post({
           </Button>
         </form>
         <div className="post__comments">
-          {!comments
+        {!comments
             ? ""
             : comments.map(({ comment, id }) => {
                 return (
-                  <div className="comment__div">
-                    <Avatar src={comment.url} alt="" />
-                    <Typography paragraph>
-                      <strong>{comment.username}</strong> {comment.text}
-                    </Typography>
+                  <div className="comment__div__container">
+                    <div className="comment__div">
+                        <Avatar src={comment.url} alt="" />
+                        <p>
+                          <strong>{comment.username}</strong> {comment.text}
+                        </p>
+                    </div>
+                    {user?.uid===comment.uid? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
+                    
                   </div>
+                  
                 );
               })}
         </div>

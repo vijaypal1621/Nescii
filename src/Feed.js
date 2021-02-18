@@ -21,6 +21,7 @@ function DisplayPosts({ posts, isLoading, errMess }) {
       </center>
     );
   } else {
+    // eslint-disable-next-line no-lone-blocks
     {
       return (
         <AnimatedList initialAnimationDuration={2000}>
@@ -41,7 +42,7 @@ function DisplayPosts({ posts, isLoading, errMess }) {
                 />
               );
             }
-          })}
+                  })}
         </AnimatedList>
       );
     }

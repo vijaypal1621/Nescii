@@ -67,6 +67,7 @@ function Header() {
     const currentPage = document.getElementById(current);
     currentPage.classList.add("header__option--active");
   
+    console.log(current);
     
   }, [current]);
 

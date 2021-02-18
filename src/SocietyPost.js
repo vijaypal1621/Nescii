@@ -7,7 +7,7 @@ import { useStateValue } from "./StateProvider";
 import { useParams } from "react-router-dom";
 import firebase from "firebase";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 
 // swipper example
 
@@ -67,15 +67,17 @@ function SocietyPost({
         });
 
       //if likes is undefined
-      // if(likes===undefined){
-      //   likes=[]
-      // }
+      if(likes===undefined){
+        likes=[];
+      }
 
-      for (let i = 0; i < likes?.length; i++) {
+      for (let i = 0; i < likes.length; i++) {
         if (user?.uid === likes[i]) {
           setLiked(true);
+          break;
         }
       }
+      
 
       db.collection("societies")
         .doc(societyId)
@@ -95,11 +97,9 @@ function SocietyPost({
     }
   }, [postId, societyId, user?.uid, liked]);
 
-  const checkColor = () => {
-    if (liked === true) return "blue";
-    else return "gray";
-  };
-  const handleCommentDelete = (commentId) => {
+
+
+  const handleCommentDelete = (commentId)=>{
     db.collection("societies")
       .doc(societyId)
       .collection("posts")
@@ -226,7 +226,7 @@ function SocietyPost({
       return body;
     }
   };
-
+  
   const handleLikes = () => {
     if (liked) {
       for (var i = 0; i < likes.length; i++) {
@@ -241,6 +241,13 @@ function SocietyPost({
     }
     // console.log(db.collection("home").doc(postId))
   };
+
+  const checkColor = () => {
+    if (liked === true) return "blue";
+    else return "gray";
+  };
+
+
 
   return (
     <div className="post">
@@ -275,7 +282,7 @@ function SocietyPost({
 
       <div className="post__options">
         <div style={{ display: "flex" }}>
-          <ThumbUpAltOutlinedIcon
+          <ThumbUpAltIcon
             onClick={handleLikes}
             style={{ color: checkColor(), marginRight: "8px" }}
           />
@@ -300,16 +307,21 @@ function SocietyPost({
           </Button>
         </form>
         <div className="post__comments">
-          {!comments
+        {!comments
             ? ""
             : comments.map(({ comment, id }) => {
                 return (
-                  <div className="comment__div">
-                    <Avatar src={comment.url} alt="" />
-                    <Typography paragraph>
-                      <strong>{comment.username}</strong> {comment.text}
-                    </Typography>
+                  <div className="comment__div__container">
+                    <div className="comment__div">
+                        <Avatar src={comment.url} alt="" />
+                        <p>
+                          <strong>{comment.username}</strong> {comment.text}
+                        </p>
+                    </div>
+                    {user?.uid===comment.uid? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
+                    
                   </div>
+                  
                 );
               })}
         </div>

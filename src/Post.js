@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
   EffectFlip,
@@ -148,7 +148,9 @@ function Post({
           setLiked(true);
         }
       }
-
+      if (likes === undefined) {
+        likes = [];
+      }
       db.collection("home")
         .doc(postId)
         .update({
@@ -234,7 +236,7 @@ function Post({
 
       <div className="post__options">
         <div style={{ display: "flex" }}>
-          <ThumbUpAltOutlinedIcon
+          <ThumbUpAltIcon
             onClick={handleLikes}
             style={{ color: checkColor(), marginRight: "8px" }}
           />
@@ -263,11 +265,18 @@ function Post({
             ? ""
             : comments.map(({ comment, id }) => {
                 return (
-                  <div className="comment__div">
-                    <Avatar src={comment.url} alt="" />
-                    <Typography paragraph>
-                      <strong>{comment.username}</strong> {comment.text}
-                    </Typography>
+                  <div className="comment__div__container">
+                    <div className="comment__div">
+                      <Avatar src={comment.url} alt="" />
+                      <p>
+                        <strong>{comment.username}</strong> {comment.text}
+                      </p>
+                    </div>
+                    {user?.uid === comment.uid ? (
+                      <DeleteIcon onClick={() => handleCommentDelete(id)} />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 );
               })}

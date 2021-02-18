@@ -21,30 +21,28 @@ function DisplayPosts({ posts, isLoading, errMess }) {
       </center>
     );
   } else {
-    {
-      return (
-        <AnimatedList initialAnimationDuration={2000}>
-          {posts.map(({ post, id }) => {
-            if (post !== null) {
-              return (
-                <Post
-                  key={id}
-                  uid={post?.uid}
-                  username={post?.username}
-                  postId={id}
-                  likes={post?.likes}
-                  message={post?.message}
-                  profilePic={post?.profilePic}
-                  timestamp={post?.timestamp}
-                  images={post?.images}
-                  video={post?.video}
-                />
-              );
-            }
-          })}
-        </AnimatedList>
-      );
-    }
+    return (
+      <AnimatedList initialAnimationDuration={2000}>
+        {posts.map(({ post, id }) => {
+          if (post !== null) {
+            return (
+              <Post
+                key={id}
+                uid={post?.uid}
+                username={post?.username}
+                postId={id}
+                likes={post?.likes}
+                message={post?.message}
+                profilePic={post?.profilePic}
+                timestamp={post?.timestamp}
+                images={post?.images}
+                video={post?.video}
+              />
+            );
+          }
+        })}
+      </AnimatedList>
+    );
   }
 }
 

@@ -15,7 +15,7 @@ function Feed() {
 
   useEffect(() => {
     db.collection("home")
-      .orderBy("timestamp", "asc")
+      .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
         // every time a new post is added , this code fires off
         setPosts(

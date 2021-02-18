@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import DeleteIcon from '@material-ui/icons/Delete';
-import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 // swipper example
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -136,13 +136,15 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
       
         
 
-        for(let i=0;i<likes.length;i++)
+        for(let i=0;i<likes?.length;i++)
         {
            if(user?.uid === likes[i]){
               setLiked(true);
            }
         }
-
+        if(likes===undefined){
+          likes=[];
+        }
         db.collection("home")
           .doc(postId)
           .update({
@@ -163,7 +165,7 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
 
   const handleLikes = () => {
       if(liked){
-        for( var i = 0; i < likes.length; i++){ 
+        for( var i = 0; i < likes?.length; i++){ 
           if ( likes[i] === user?.uid) { 
               likes.splice(i, 1); 
           }
@@ -229,8 +231,8 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
 
       <div className="post__options">
         <div style={{display:"flex"}}>
-          <ThumbUpAltOutlinedIcon onClick={handleLikes} style={{color:checkColor() , marginRight:"8px" }} /> 
-          <p>{likes.length}</p>
+          <ThumbUpAltIcon onClick={handleLikes} style={{color:checkColor() , marginRight:"8px" }} /> 
+          <p>{likes?.length}</p>
         </div>
         <form className="post__commentBox">
           <input

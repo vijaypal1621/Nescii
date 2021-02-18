@@ -7,6 +7,7 @@ import { useStateValue } from "./StateProvider";
 import { useParams } from "react-router-dom";
 import firebase from "firebase";
 import DeleteIcon from '@material-ui/icons/Delete';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 
 
 // swipper example
@@ -32,6 +33,7 @@ function SocietyPost({
   images,
   video,
   username,
+  likes,
   uid,
   timestamp,
   message,
@@ -39,6 +41,7 @@ function SocietyPost({
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
+  const [liked,setLiked] = useState(false);
   const { societyId } = useParams();
 
   useEffect(() => {
@@ -57,10 +60,44 @@ function SocietyPost({
           }))
         );
         });
+
+        //if likes is undefined
+        if(likes===undefined){
+          likes=[]
+        }
+        
+        for(let i=0;i<likes?.length;i++)
+        {
+           if(user?.uid === likes[i]){
+              setLiked(true);
+           }
+        }
+
+        db.collection("societies")
+          .doc(societyId)
+          .collection("posts")
+          .doc(postId)
+          .update({
+            likes:likes,
+          })
+          .then(function () {
+            console.log("Post Successfully Submitted!");
+          })
+          .catch(function (error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+          });
+        console.log(liked);
+
+
+
     }
-  }, [postId, societyId]);
+  }, [postId, societyId, user?.uid, liked]);
 
-
+  const checkColor=()=>{
+    if(liked===true)return "blue";
+    else return "gray";
+  }
   const handleCommentDelete = (commentId)=>{
     db.collection("societies")
       .doc(societyId)
@@ -185,6 +222,24 @@ function SocietyPost({
       return body;
     }
   };
+  
+  const handleLikes = () => {
+    if(liked){
+      for( var i = 0; i < likes.length; i++){ 
+        if ( likes[i] === user?.uid) { 
+            likes.splice(i, 1); 
+        }
+    }
+      setLiked(false);
+    }
+    else{
+     likes.push(user?.uid);
+      setLiked(true);
+    }
+    // console.log(db.collection("home").doc(postId))
+}
+
+
 
   return (
     <div className="post">
@@ -220,10 +275,10 @@ function SocietyPost({
       {/* cond-5 all present */}
 
       <div className="post__options">
-        {/* <div className="post__option">
-          <ThumbUp />
-          <p>..1..</p>
-        </div> */}
+      <div style={{display:"flex"}}>
+          <ThumbUpAltIcon onClick={handleLikes} style={{color:checkColor() , marginRight:"8px" }} /> 
+          <p>{likes?.length}</p>
+        </div>
         <form className="post__commentBox">
           <input
             className="post__input"

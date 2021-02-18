@@ -1,41 +1,49 @@
-import { Avatar, Button } from "@material-ui/core";
+import { Avatar, Button, Typography } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import "./Post.css";
 import firebase from "firebase";
 import ReactPlayer from "react-player";
 import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
-import DeleteIcon from '@material-ui/icons/Delete';
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-// swipper example
+import DeleteIcon from "@material-ui/icons/Delete";
+import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, {
+  EffectFlip,
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Zoom,
+} from "swiper";
+import "swiper/swiper.scss";
+import "swiper/components/effect-fade/effect-fade.scss";
+import "swiper/components/effect-flip/effect-flip.scss";
+import "swiper/components/navigation/navigation.scss";
+import "swiper/components/pagination/pagination.scss";
+import "swiper/components/scrollbar/scrollbar.scss";
+import "swiper/components/zoom/zoom.scss";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
+SwiperCore.use([EffectFlip, Navigation, Pagination, Scrollbar, A11y, Zoom]);
 
-import SwiperCore, { EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom } from 'swiper';
-
-import 'swiper/swiper.scss';
-import 'swiper/components/effect-fade/effect-fade.scss';
-import 'swiper/components/effect-flip/effect-flip.scss';
-import 'swiper/components/navigation/navigation.scss';
-import 'swiper/components/pagination/pagination.scss';
-import 'swiper/components/scrollbar/scrollbar.scss';
-import 'swiper/components/zoom/zoom.scss';
-SwiperCore.use([EffectFlip,Navigation, Pagination, Scrollbar, A11y,Zoom]);
-
-
-function Post({ postId,uid, profilePic, images,likes, username, timestamp, message,video }) {
+function Post({
+  postId,
+  uid,
+  profilePic,
+  images,
+  likes,
+  username,
+  timestamp,
+  message,
+  video,
+}) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [{ user }] = useStateValue();
-  
-  const [liked,setLiked] =useState(false);
 
-    const body2 = (
-      <>
-      </>
-    )
-    
-  
+  const [liked, setLiked] = useState(false);
+
+  const body2 = <></>;
 
   const body = (
     <>
@@ -81,19 +89,20 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
     </>
   );
 
-  const handlePostDelete = ()=>{
-    
-    db.collection("home").doc(postId).delete().then(() => {
-      console.log("Document successfully deleted!");
-  }).catch((error) => {
-      console.error("Error removing document: ", error);
-  });
- 
-  }
+  const handlePostDelete = () => {
+    db.collection("home")
+      .doc(postId)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  };
 
-
-  const condition = ()=> {
-    if(images===undefined && video===undefined){
+  const condition = () => {
+    if (images === undefined && video === undefined) {
       return body2;
     } else if (
       images !== undefined &&
@@ -127,14 +136,12 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
           setComments(
-              snapshot.docs.map((doc) => ({
+            snapshot.docs.map((doc) => ({
               id: doc.id,
               comment: doc.data(),
             }))
           );
         });
-      
-        
 
         for(let i=0;i<likes?.length;i++)
         {
@@ -164,22 +171,20 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
   }, [postId, user?.uid, liked]);
 
   const handleLikes = () => {
-      if(liked){
-        for( var i = 0; i < likes?.length; i++){ 
-          if ( likes[i] === user?.uid) { 
-              likes.splice(i, 1); 
-          }
+    if (liked) {
+      for (var i = 0; i < likes.length; i++) {
+        if (likes[i] === user?.uid) {
+          likes.splice(i, 1);
+        }
       }
-        setLiked(false);
-      }
-      else{
-       likes.push(user?.uid);
-        setLiked(true);
-      }
-      // console.log(db.collection("home").doc(postId))
-  }
+      setLiked(false);
+    } else {
+      likes.push(user?.uid);
+      setLiked(true);
+    }
+    // console.log(db.collection("home").doc(postId))
+  };
 
-  
   const postComment = (event) => {
     event.preventDefault();
     if (user?.email.includes("gmail") === false) {
@@ -188,40 +193,43 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
         username: user?.displayName,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         url: user?.photoURL,
-        uid:user?.uid,
+        uid: user?.uid,
       });
-    }
-    else{
+    } else {
       alert("Not a NSUT student! Please sign in with NSUT id to continue.");
     }
-    
+
     setComment("");
   };
-  const handleCommentDelete = (commentId)=>{
-    db.collection("home").doc(postId).collection("comments").doc(commentId).delete().then(() => {
-      console.log("Document successfully deleted!");
-  }).catch((error) => {
-      console.error("Error removing document: ", error);
-  });
-  }
-  const checkColor=()=>{
-    if(liked===true)return "blue";
+  const handleCommentDelete = (commentId) => {
+    db.collection("home")
+      .doc(postId)
+      .collection("comments")
+      .doc(commentId)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  };
+  const checkColor = () => {
+    if (liked === true) return "blue";
     else return "gray";
-  }
+  };
 
   return (
     <div className="post">
       <div className="post__top">
-      <div className="post__info__container">
-        <Avatar src={profilePic} className="post__avatar" alt="Profile Pic" />
-        <div className="post__topInfo">
-          <h3 style={{ margin: "0" }}>{username}</h3>
-          <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
+        <div className="post__info__container">
+          <Avatar src={profilePic} className="post__avatar" alt="Profile Pic" />
+          <div className="post__topInfo">
+            <h3 style={{ margin: "0" }}>{username}</h3>
+            <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
+          </div>
         </div>
-        
-        </div>
-        {uid === user?.uid ? (<DeleteIcon onClick={handlePostDelete} />):("")}
-        
+        {uid === user?.uid ? <DeleteIcon onClick={handlePostDelete} /> : ""}
       </div>
       <div className="post__bottom">
         <p style={{ overflowWrap: "anywhere" }}>{message}</p>
@@ -230,9 +238,12 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
       {condition()}
 
       <div className="post__options">
-        <div style={{display:"flex"}}>
-          <ThumbUpAltIcon onClick={handleLikes} style={{color:checkColor() , marginRight:"8px" }} /> 
-          <p>{likes?.length}</p>
+        <div style={{ display: "flex" }}>
+          <ThumbUpAltOutlinedIcon
+            onClick={handleLikes}
+            style={{ color: checkColor(), marginRight: "8px" }}
+          />
+          <p>{likes.length}</p>
         </div>
         <form className="post__commentBox">
           <input
@@ -253,7 +264,7 @@ function Post({ postId,uid, profilePic, images,likes, username, timestamp, messa
           </Button>
         </form>
         <div className="post__comments">
-          {!comments
+        {!comments
             ? ""
             : comments.map(({ comment, id }) => {
                 return (

@@ -78,12 +78,7 @@ export const postsFailed = (errmess) => ({
   payload: errmess,
 });
 
-export const addPost = (post) => ({
-  type: ActionTypes.ADD_POST,
-  payload: post,
-});
-
-export const postPost = (user, caption, videoURL, photosURL) => (dispatch) => {
+export const postPost = (user, caption, videoURL, photosURL) => () => {
   if (videoURL !== null) {
     const uploadTask = storage.ref(`videos/${videoURL.name}`).put(videoURL);
     uploadTask.on(
@@ -111,6 +106,7 @@ export const postPost = (user, caption, videoURL, photosURL) => (dispatch) => {
             //post image inside db
             db.collection("home")
               .add({
+                likes: [],
                 message: caption,
                 profilePic: user?.photoURL,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -129,38 +125,9 @@ export const postPost = (user, caption, videoURL, photosURL) => (dispatch) => {
                   });
                   Promise.all(promises)
                     .then((fileDownloadUrls) => {
-                      db.collection("home")
-                        .doc(docRef.id)
-                        .update({
-                          message: caption,
-                          profilePic: user?.photoURL,
-                          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                          username: user?.displayName,
-                          images: fileDownloadUrls,
-                        })
-                        .then((docRef) => {
-                          db.collection("home")
-                            .doc(docRef.id)
-                            .get()
-                            .then((doc) => {
-                              if (doc.exists) {
-                                const data = doc.data();
-                                const _id = doc.id;
-                                let post = { _id, ...data };
-                                dispatch(addPost(post));
-                              } else {
-                                // doc.data() will be undefined in this case
-                                console.log("No such document!");
-                              }
-                            });
-                        })
-                        .catch((error) => {
-                          console.log("Post posts ", error.message);
-                          alert(
-                            "Your post could not be posted\nError: " +
-                              error.message
-                          );
-                        });
+                      db.collection("home").doc(docRef.id).update({
+                        images: fileDownloadUrls,
+                      });
                     })
                     .catch((err) => console.log(err));
                 }
@@ -180,66 +147,26 @@ export const postPost = (user, caption, videoURL, photosURL) => (dispatch) => {
     });
     Promise.all(promises)
       .then((fileDownloadUrls) => {
-        db.collection("home")
-          .add({
-            message: caption,
-            profilePic: user?.photoURL,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            username: user?.displayName,
-            images: fileDownloadUrls,
-            uid: user?.uid,
-          })
-          .then((docRef) => {
-            db.collection("home")
-              .doc(docRef.id)
-              .get()
-              .then((doc) => {
-                if (doc.exists) {
-                  const data = doc.data();
-                  const _id = doc.id;
-                  let post = { _id, ...data };
-                  dispatch(addPost(post));
-                } else {
-                  // doc.data() will be undefined in this case
-                  console.log("No such document!");
-                }
-              });
-          })
-          .catch((error) => {
-            console.log("Post posts ", error.message);
-            alert("Your post could not be posted\nError: " + error.message);
-          });
+        db.collection("home").add({
+          likes: [],
+          message: caption,
+          profilePic: user?.photoURL,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          username: user?.displayName,
+          images: fileDownloadUrls,
+          uid: user?.uid,
+        });
       })
       .catch((err) => console.log(err));
   } else if (caption !== "") {
-    db.collection("home")
-      .add({
-        message: caption,
-        profilePic: user?.photoURL,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        username: user?.displayName,
-        uid: user?.uid,
-      })
-      .then((docRef) => {
-        db.collection("home")
-          .doc(docRef.id)
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              const data = doc.data();
-              const _id = doc.id;
-              let post = { _id, ...data };
-              dispatch(addPost(post));
-            } else {
-              // doc.data() will be undefined in this case
-              console.log("No such document!");
-            }
-          });
-      })
-      .catch((error) => {
-        console.log("Post posts ", error.message);
-        alert("Your post could not be posted\nError: " + error.message);
-      });
+    db.collection("home").add({
+      likes: [],
+      message: caption,
+      profilePic: user?.photoURL,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      username: user?.displayName,
+      uid: user?.uid,
+    });
   } else {
     alert("Post is empty !");
   }

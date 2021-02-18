@@ -143,7 +143,7 @@ function Post({
           );
         });
 
-      for (let i = 0; i < likes.length; i++) {
+      for (let i = 0; i < likes?.length; i++) {
         if (user?.uid === likes[i]) {
           setLiked(true);
         }
@@ -167,7 +167,7 @@ function Post({
 
   const handleLikes = () => {
     if (liked) {
-      for (var i = 0; i < likes.length; i++) {
+      for (var i = 0; i < likes?.length; i++) {
         if (likes[i] === user?.uid) {
           likes.splice(i, 1);
         }
@@ -238,7 +238,7 @@ function Post({
             onClick={handleLikes}
             style={{ color: checkColor(), marginRight: "8px" }}
           />
-          <p>{likes.length}</p>
+          <p>{likes?.length}</p>
         </div>
         <form className="post__commentBox">
           <input

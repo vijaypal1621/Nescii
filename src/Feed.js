@@ -25,19 +25,22 @@ function DisplayPosts({ posts, isLoading, errMess }) {
       return (
         <AnimatedList initialAnimationDuration={2000}>
           {posts.map(({ post, id }) => {
-            return (
-              <Post
-                key={id}
-                uid={post.uid}
-                username={post.username}
-                postId={id}
-                message={post.message}
-                profilePic={post.profilePic}
-                timestamp={post.timestamp}
-                images={post.images}
-                video={post.video}
-              />
-            );
+            if (post !== null) {
+              return (
+                <Post
+                  key={id}
+                  uid={post?.uid}
+                  username={post?.username}
+                  postId={id}
+                  likes={post?.likes}
+                  message={post?.message}
+                  profilePic={post?.profilePic}
+                  timestamp={post?.timestamp}
+                  images={post?.images}
+                  video={post?.video}
+                />
+              );
+            }
           })}
         </AnimatedList>
       );
@@ -51,7 +54,7 @@ function Feed() {
 
   useEffect(() => {
     dispatch(fetchPosts());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="feed col-12">

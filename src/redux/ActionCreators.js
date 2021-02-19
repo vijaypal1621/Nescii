@@ -78,8 +78,7 @@ export const postsFailed = (errmess) => ({
   payload: errmess,
 });
 
-
-export const postPost = (user, caption,uid, videoURL, photosURL) => () => {
+export const postPost = (user, caption, uid, videoURL, photosURL) => () => {
   if (videoURL !== null) {
     const uploadTask = storage.ref(`videos/${videoURL.name}`).put(videoURL);
     uploadTask.on(
@@ -125,15 +124,13 @@ export const postPost = (user, caption,uid, videoURL, photosURL) => () => {
                   });
                   Promise.all(promises)
                     .then((fileDownloadUrls) => {
-                      db.collection("home")
-                        .doc(docRef.id)
-                        .update({
-                          message: caption,
-                          profilePic: user?.photoURL,
-                          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                          username: user?.displayName,
-                          images: fileDownloadUrls,
-                        })
+                      db.collection("home").doc(docRef.id).update({
+                        message: caption,
+                        profilePic: user?.photoURL,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        username: user?.displayName,
+                        images: fileDownloadUrls,
+                      });
                     })
                     .catch((err) => console.log(err));
                 }
@@ -153,27 +150,75 @@ export const postPost = (user, caption,uid, videoURL, photosURL) => () => {
     });
     Promise.all(promises)
       .then((fileDownloadUrls) => {
-        db.collection("home")
-          .add({
-            message: caption,
-            profilePic: user?.photoURL,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            username: user?.displayName,
-            images: fileDownloadUrls,
-            uid: user?.uid,
-          })
+        db.collection("home").add({
+          message: caption,
+          profilePic: user?.photoURL,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          username: user?.displayName,
+          images: fileDownloadUrls,
+          uid: user?.uid,
+        });
       })
       .catch((err) => console.log(err));
   } else if (caption !== "") {
-    db.collection("home")
-      .add({
-        message: caption,
-        profilePic: user?.photoURL,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        username: user?.displayName,
-        uid: user?.uid,
-      })
+    db.collection("home").add({
+      message: caption,
+      profilePic: user?.photoURL,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      username: user?.displayName,
+      uid: user?.uid,
+    });
   } else {
     alert("Post is empty !");
   }
 };
+
+export const fetchSocPosts = (societyId) => (dispatch) => {
+  dispatch(socPostsLoading(true));
+  var societyDetails = null;
+  var socPosts = [];
+  db.collection("societies")
+    .doc(societyId)
+    .onSnapshot(
+      (snapshot) => {
+        societyDetails = snapshot.data();
+      },
+      (error) => {
+        dispatch(socPostsFailed(error.message));
+      }
+    );
+  db.collection("societies")
+    .doc(societyId)
+    .collection("posts")
+    .orderBy("timestamp", "desc")
+    .onSnapshot(
+      (snapshot) => {
+        socPosts = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          post: doc.data(),
+        }));
+        var society = {
+          socPosts: socPosts,
+          societyDetails: societyDetails,
+        };
+        dispatch(addSocPosts(society));
+      },
+      (error) => {
+        dispatch(socPostsFailed(error.message));
+      }
+    );
+};
+
+export const addSocPosts = (society) => ({
+  type: ActionTypes.ADD_SOCPOSTS,
+  payload: society,
+});
+
+export const socPostsLoading = () => ({
+  type: ActionTypes.SOCPOSTS_LOADING,
+});
+
+export const socPostsFailed = (errmess) => ({
+  type: ActionTypes.SOCPOSTS_FAILED,
+  payload: errmess,
+});

@@ -21,6 +21,7 @@
     "react": "^17.0.1",
     "react-animated-list": "^0.1.4",
     "react-dom": "^17.0.1",
+    "react-intersection-observer": "^8.31.0",
     "react-loading": "^2.0.3",
     "react-player": "^2.8.2",
     "react-redux": "^7.2.2",

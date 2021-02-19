@@ -328,8 +328,8 @@ function SocietySidebar() {
       </Modal>
       <List className="society-sidebar">
         <ListItem key="add">
-          <ListItemIcon>
-            <IconButton style={{ marginLeft: "100%" }}>
+          <ListItemIcon style={{width:"96%"}}>
+            <IconButton style={{ marginLeft:"auto",marginRight:"auto" }}>
               <AddIcon className="add__button" onClick={handleOpen} />
             </IconButton>
           </ListItemIcon>

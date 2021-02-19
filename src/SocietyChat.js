@@ -3,16 +3,56 @@ import SocietyMessageSender from "./SocietyMessageSender";
 import SocietyPost from "./SocietyPost";
 import Widgets from "./Widgets";
 import { useParams } from "react-router-dom";
-import db from "./firebase";
 import SocietySidebar from "./SocietySidebar";
 import { Button, Drawer } from "@material-ui/core";
 import Events from "./Events";
 import WidgetAbout from "./WidgetAbout";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSocPosts } from "./redux/ActionCreators";
+import Loading from "./Loading";
+import { AnimatedList } from "react-animated-list";
+
+function DisplaySocPosts({ socPosts, isLoading, errMess }) {
+  if (isLoading) {
+    return (
+      <center>
+        <Loading type={"spinningBubbles"} color={"#ff0000"} />
+      </center>
+    );
+  } else if (errMess) {
+    return (
+      <center>
+        <h4>{errMess}</h4>
+      </center>
+    );
+  } else {
+    return (
+      <AnimatedList initialAnimationDuration={2000}>
+        {socPosts?.map(({ post, id }) => {
+          return (
+            <SocietyPost
+              key={id}
+              uid={post?.uid}
+              username={post?.username}
+              postId={id}
+              likes={post?.likes}
+              message={post?.message}
+              profilePic={post?.profilePic}
+              timestamp={post?.timestamp}
+              images={post?.images}
+              video={post?.video}
+            />
+          );
+        })}
+      </AnimatedList>
+    );
+  }
+}
 
 function SocietyChat() {
+  const socPosts = useSelector((state) => state.socPosts);
+  const dispatch = useDispatch();
   const { societyId } = useParams();
-  const [societyDetails, setSocietyDetails] = useState(null);
-  const [posts, setPosts] = useState([]);
   const [socs, setSocs] = useState(false);
   const [about, setAbout] = useState(false);
   const [events, setEvents] = useState(false);
@@ -58,21 +98,7 @@ function SocietyChat() {
 
   useEffect(() => {
     if (societyId) {
-      db.collection("societies")
-        .doc(societyId)
-        .onSnapshot((snapshot) => setSocietyDetails(snapshot.data()));
-      db.collection("societies")
-        .doc(societyId)
-        .collection("posts")
-        .orderBy("timestamp", "desc")
-        .onSnapshot((snapshot) =>
-          setPosts(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              post: doc.data(),
-            }))
-          )
-        );
+      dispatch(fetchSocPosts(societyId));
     }
   }, [societyId]);
 
@@ -92,7 +118,7 @@ function SocietyChat() {
         onClick={toggleAboutDrawer(false)}
         onClose={toggleAboutDrawer(false)}
       >
-        <WidgetAbout society={societyDetails} />
+        <WidgetAbout society={socPosts.societyDetails} />
       </Drawer>
       <Drawer
         anchor="right"
@@ -143,27 +169,22 @@ function SocietyChat() {
           <div className="col-12 col-md-6">
             <div className="row">
               <div className="col-12">
-                <SocietyMessageSender title={societyDetails?.title} imageURL={societyDetails?.imageURL} />
+                <SocietyMessageSender
+                  title={socPosts.societyDetails?.title}
+                  imageURL={socPosts.societyDetails?.imageURL}
+                />
               </div>
               <div className="col-12">
-                {posts.map(({ post, id }) => (
-                  <SocietyPost
-                    postId={id}
-                    uid={post.uid}
-                    message={post.message}
-                    likes={post.likes}
-                    timestamp={post.timestamp}
-                    username={post.username}
-                    profilePic={post.profilePic}
-                    images={post.images}
-                    video={post.video}
-                  />
-                ))}
+                <DisplaySocPosts
+                  socPosts={socPosts.socPosts}
+                  isLoading={socPosts.isLoading}
+                  errMess={socPosts.errMess}
+                />
               </div>
             </div>
           </div>
           <div className="col-md-4 d-none d-md-block">
-            <Widgets society={societyDetails} />
+            <Widgets society={socPosts?.societyDetails} />
           </div>
         </div>
       </div>

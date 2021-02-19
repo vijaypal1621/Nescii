@@ -67,16 +67,18 @@ function SocietyPost({
         });
 
       //if likes is undefined
+
+      
+      for (let i = 0; i < likes?.length; i++) {
+        if (user?.uid === likes[i]) {
+          setLiked(true);
+        }
+      }
+
       if(likes===undefined){
         likes=[];
       }
 
-      for (let i = 0; i < likes.length; i++) {
-        if (user?.uid === likes[i]) {
-          setLiked(true);
-          break;
-        }
-      }
       
 
       db.collection("societies")

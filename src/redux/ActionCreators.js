@@ -78,7 +78,8 @@ export const postsFailed = (errmess) => ({
   payload: errmess,
 });
 
-export const postPost = (user, caption, videoURL, photosURL) => () => {
+
+export const postPost = (user, caption,uid, videoURL, photosURL) => () => {
   if (videoURL !== null) {
     const uploadTask = storage.ref(`videos/${videoURL.name}`).put(videoURL);
     uploadTask.on(
@@ -106,7 +107,6 @@ export const postPost = (user, caption, videoURL, photosURL) => () => {
             //post image inside db
             db.collection("home")
               .add({
-                likes: [],
                 message: caption,
                 profilePic: user?.photoURL,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -125,9 +125,15 @@ export const postPost = (user, caption, videoURL, photosURL) => () => {
                   });
                   Promise.all(promises)
                     .then((fileDownloadUrls) => {
-                      db.collection("home").doc(docRef.id).update({
-                        images: fileDownloadUrls,
-                      });
+                      db.collection("home")
+                        .doc(docRef.id)
+                        .update({
+                          message: caption,
+                          profilePic: user?.photoURL,
+                          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                          username: user?.displayName,
+                          images: fileDownloadUrls,
+                        })
                     })
                     .catch((err) => console.log(err));
                 }
@@ -147,26 +153,26 @@ export const postPost = (user, caption, videoURL, photosURL) => () => {
     });
     Promise.all(promises)
       .then((fileDownloadUrls) => {
-        db.collection("home").add({
-          likes: [],
-          message: caption,
-          profilePic: user?.photoURL,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          username: user?.displayName,
-          images: fileDownloadUrls,
-          uid: user?.uid,
-        });
+        db.collection("home")
+          .add({
+            message: caption,
+            profilePic: user?.photoURL,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            username: user?.displayName,
+            images: fileDownloadUrls,
+            uid: user?.uid,
+          })
       })
       .catch((err) => console.log(err));
   } else if (caption !== "") {
-    db.collection("home").add({
-      likes: [],
-      message: caption,
-      profilePic: user?.photoURL,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      username: user?.displayName,
-      uid: user?.uid,
-    });
+    db.collection("home")
+      .add({
+        message: caption,
+        profilePic: user?.photoURL,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        username: user?.displayName,
+        uid: user?.uid,
+      })
   } else {
     alert("Post is empty !");
   }

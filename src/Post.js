@@ -143,33 +143,36 @@ function Post({
           );
         });
 
-      for (let i = 0; i < likes?.length; i++) {
-        if (user?.uid === likes[i]) {
-          setLiked(true);
+        for(let i=0;i<likes?.length;i++)
+        {
+           if(user?.uid === likes[i]){
+              setLiked(true);
+           }
         }
-      }
-      if (likes === undefined) {
-        likes = [];
-      }
-      db.collection("home")
-        .doc(postId)
-        .update({
-          likes: likes,
-        })
-        .then(function () {
-          console.log("Post Successfully Submitted!");
-        })
-        .catch(function (error) {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
-        });
-      console.log(liked);
+        if(likes===undefined){
+          likes=[];
+        }
+        db.collection("home")
+          .doc(postId)
+          .update({
+            likes:likes,
+          })
+          .then(function () {
+            console.log("Post Successfully Submitted!");
+          })
+          .catch(function (error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+          });
+        console.log(liked);
+
+      
     }
   }, [postId, user?.uid, liked]);
 
   const handleLikes = () => {
     if (liked) {
-      for (var i = 0; i < likes?.length; i++) {
+      for (var i = 0; i < likes.length; i++) {
         if (likes[i] === user?.uid) {
           likes.splice(i, 1);
         }
@@ -261,23 +264,21 @@ function Post({
           </Button>
         </form>
         <div className="post__comments">
-          {!comments
+        {!comments
             ? ""
             : comments.map(({ comment, id }) => {
                 return (
                   <div className="comment__div__container">
                     <div className="comment__div">
-                      <Avatar src={comment.url} alt="" />
-                      <p>
-                        <strong>{comment.username}</strong> {comment.text}
-                      </p>
+                        <Avatar src={comment.url} alt="" />
+                        <p>
+                          <strong>{comment.username}</strong> {comment.text}
+                        </p>
                     </div>
-                    {user?.uid === comment.uid ? (
-                      <DeleteIcon onClick={() => handleCommentDelete(id)} />
-                    ) : (
-                      ""
-                    )}
+                    {user?.uid===comment.uid? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
+                    
                   </div>
+                  
                 );
               })}
         </div>

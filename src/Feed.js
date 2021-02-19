@@ -21,10 +21,9 @@ function DisplayPosts({ posts, isLoading, errMess }) {
       </center>
     );
   } else {
-    return (
-      <AnimatedList initialAnimationDuration={2000}>
-        {posts.map(({ post, id }) => {
-          if (post !== null) {
+      return (
+        <AnimatedList initialAnimationDuration={2000}>
+          {posts?.map(({ post, id }) => {
             return (
               <Post
                 key={id}
@@ -39,12 +38,12 @@ function DisplayPosts({ posts, isLoading, errMess }) {
                 video={post?.video}
               />
             );
-          }
-        })}
-      </AnimatedList>
-    );
+          })}
+        </AnimatedList>
+      );
+    }
   }
-}
+
 
 function Feed() {
   const posts = useSelector((state) => state.posts);

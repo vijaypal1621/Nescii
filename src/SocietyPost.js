@@ -65,13 +65,15 @@ function SocietyPost({
             }))
           );
         });
+    }
+  }, [postId, societyId, liked]);
 
-      //if likes is undefined
-
-      
+  useEffect(() => {
+    if (postId) {      
       for (let i = 0; i < likes?.length; i++) {
         if (user?.uid === likes[i]) {
           setLiked(true);
+          console.log(message + " is liked");
         }
       }
 
@@ -89,15 +91,15 @@ function SocietyPost({
           likes: likes,
         })
         .then(function () {
-          console.log("Post Successfully Submitted!");
+          console.log(message + " Like Updated Successfully!");
         })
         .catch(function (error) {
           // The document probably doesn't exist.
           console.error("Error updating document: ", error);
         });
-      console.log(liked);
+      // console.log(liked);
     }
-  }, [postId, societyId, user?.uid, liked]);
+  }, [postId,liked]);
 
 
 
@@ -245,8 +247,12 @@ function SocietyPost({
   };
 
   const checkColor = () => {
-    if (liked === true) return "blue";
-    else return "gray";
+    for (let i = 0; i < likes?.length; i++) {
+      if (user?.uid === likes[i]) {
+        return "blue";
+      }
+    }
+    return "gray";
   };
 
 

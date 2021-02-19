@@ -61,15 +61,12 @@ function SocietyPost({
             }))
           );
         });
-    }
-  }, [postId, societyId, liked]);
 
-  useEffect(() => {
-    if (postId) {      
+      //if likes is undefined
+
       for (let i = 0; i < likes?.length; i++) {
         if (user?.uid === likes[i]) {
           setLiked(true);
-          console.log(message + " is liked");
         }
       }
 
@@ -85,15 +82,15 @@ function SocietyPost({
           likes: likes,
         })
         .then(function () {
-          console.log(message + " Like Updated Successfully!");
+          console.log(message + " Likes updated Successfully!");
         })
         .catch(function (error) {
           // The document probably doesn't exist.
           console.error("Error updating document: ", error);
         });
-      // console.log(liked);
+      console.log(liked);
     }
-  }, [postId,liked]);
+  }, [postId, societyId, liked]);
 
   const handleCommentDelete = (commentId) => {
     db.collection("societies")

@@ -157,7 +157,6 @@ function SocietyMessageSender( {title, imageURL} ) {
                     username:user?.displayName,
                     video:url,
                     uid:user?.uid,
-                    likes:[]
                   })
                   .then((docRef) => {
                     if (photosURL.length !== 0) {
@@ -219,7 +218,6 @@ function SocietyMessageSender( {title, imageURL} ) {
                 username:user?.displayName,
                 images:fileDownloadUrls,
                 uid:user?.uid,
-                likes:[],
               })
               .then(function () {
                 // console.log("Post Successfully Submitted!");
@@ -240,7 +238,6 @@ function SocietyMessageSender( {title, imageURL} ) {
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           username:user?.displayName,
           uid:user?.uid,
-          likes:[],
         })
         .then(function () {
           console.log("Post Successfully Submitted!");

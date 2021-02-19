@@ -51,7 +51,7 @@ function Feed() {
 
   useEffect(() => {
     dispatch(fetchPosts());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="feed col-12">

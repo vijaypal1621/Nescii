@@ -78,12 +78,8 @@ export const postsFailed = (errmess) => ({
   payload: errmess,
 });
 
-export const addPost = (post) => ({
-  type: ActionTypes.ADD_POST,
-  payload: post,
-});
 
-export const postPost = (user, caption,uid, videoURL, photosURL) => (dispatch) => {
+export const postPost = (user, caption,uid, videoURL, photosURL) => () => {
   if (videoURL !== null) {
     const uploadTask = storage.ref(`videos/${videoURL.name}`).put(videoURL);
     uploadTask.on(
@@ -138,29 +134,6 @@ export const postPost = (user, caption,uid, videoURL, photosURL) => (dispatch) =
                           username: user?.displayName,
                           images: fileDownloadUrls,
                         })
-                        .then((docRef) => {
-                          db.collection("home")
-                            .doc(docRef.id)
-                            .get()
-                            .then((doc) => {
-                              if (doc.exists) {
-                                const data = doc.data();
-                                const _id = doc.id;
-                                let post = { _id, ...data };
-                                // dispatch(addPost(post));
-                              } else {
-                                // doc.data() will be undefined in this case
-                                console.log("No such document!");
-                              }
-                            });
-                        })
-                        .catch((error) => {
-                          console.log("Post posts ", error.message);
-                          alert(
-                            "Your post could not be posted\nError: " +
-                              error.message
-                          );
-                        });
                     })
                     .catch((err) => console.log(err));
                 }
@@ -189,26 +162,6 @@ export const postPost = (user, caption,uid, videoURL, photosURL) => (dispatch) =
             images: fileDownloadUrls,
             uid: user?.uid,
           })
-          .then((docRef) => {
-            db.collection("home")
-              .doc(docRef.id)
-              .get()
-              .then((doc) => {
-                if (doc.exists) {
-                  const data = doc.data();
-                  const _id = doc.id;
-                  let post = { _id, ...data };
-                  // dispatch(addPost(post));
-                } else {
-                  // doc.data() will be undefined in this case
-                  console.log("No such document!");
-                }
-              });
-          })
-          .catch((error) => {
-            console.log("Post posts ", error.message);
-            alert("Your post could not be posted\nError: " + error.message);
-          });
       })
       .catch((err) => console.log(err));
   } else if (caption !== "") {
@@ -220,26 +173,6 @@ export const postPost = (user, caption,uid, videoURL, photosURL) => (dispatch) =
         username: user?.displayName,
         uid: user?.uid,
       })
-      .then((docRef) => {
-        db.collection("home")
-          .doc(docRef.id)
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              const data = doc.data();
-              const _id = doc.id;
-              let post = { _id, ...data };
-              // dispatch(addPost(post));
-            } else {
-              // doc.data() will be undefined in this case
-              console.log("No such document!");
-            }
-          });
-      })
-      .catch((error) => {
-        console.log("Post posts ", error.message);
-        alert("Your post could not be posted\nError: " + error.message);
-      });
   } else {
     alert("Post is empty !");
   }

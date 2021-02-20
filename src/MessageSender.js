@@ -94,7 +94,13 @@ function MessageSender() {
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
-    dispatch(postPost(user, caption,user?.uid, videoURL, photosURL));
+    if(user?.email.includes("@nsut.ac.in") === false ){
+      alert("Not a NSUT student! Please sign in with NSUT id to continue.")
+    }else if(user?.emailVerified === false){
+      alert("Please verify your email id first!")
+    }else{
+      dispatch(postPost(user, caption,user?.uid, videoURL, photosURL));
+    }
     setVideoURL(null);
     setVideo(null);
     setCaption("");

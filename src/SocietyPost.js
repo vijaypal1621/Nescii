@@ -110,7 +110,11 @@ function SocietyPost({
 
   const societyPostComment = (event) => {
     event.preventDefault();
-    if (user?.email.includes("gmail") === false) {
+    if (user?.email.includes("@nsut.ac.in") === false) {
+      alert("Not a NSUT student! Please sign in with NSUT id to continue."); 
+    } else if(user?.emailVerified === false){
+      alert("Please verify your email id first!")
+    }else {
       db.collection("societies")
         .doc(societyId)
         .collection("posts")
@@ -123,8 +127,6 @@ function SocietyPost({
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           uid: user?.uid,
         });
-    } else {
-      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
     }
 
     setComment("");

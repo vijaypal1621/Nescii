@@ -73,7 +73,7 @@ function Sidebar() {
   const [section, setSection] = useState("");
 
   const handlePopClick = (event) => {
-    if (user?.email.includes("gmail") === false) {
+    if (user?.email.includes("@nsut.ac.in") === true) {
       setAnchorEl(event.currentTarget);
     }
   };
@@ -84,7 +84,7 @@ function Sidebar() {
   const id = open ? "simple-popover" : undefined;
 
   useEffect(() => {
-    if (user?.email.includes("gmail") === false) {
+    if (user?.email.includes("@nsut.ac.in") === true) {
       db.collection("users")
         .doc(user?.uid)
         .onSnapshot((snapshot) => {
@@ -148,10 +148,8 @@ function Sidebar() {
     var user = firebase.auth().currentUser;
 
     user.sendEmailVerification().then(function() {
-      // Email sent.
       alert("Verification email sent to your email id!");
     }).catch(function(error) {
-      // An error happened.
       alert("error "+ error.message);
     });
   }
@@ -312,6 +310,7 @@ function Sidebar() {
             <Avatar
               alt={user?.displayName}
               src={user?.photoURL}
+              style={{cursor:"pointer"}}
               ref={ref}
               className={classes.large}
               aria-describedby={id}
@@ -322,7 +321,7 @@ function Sidebar() {
             />
           </div>
           <h3 className="profile__name">{user?.displayName}</h3>
-          {user?.email.includes("gmail") === false ? (
+          {user?.email.includes("@nsut.ac.in") === true ? (
             <div className="text-right">
               <EditIcon className="text-primary" onClick={handleOpenModal} />
             </div>
@@ -330,7 +329,7 @@ function Sidebar() {
             ""
           )}
 
-          {user?.email.includes("gmail") === true ? (
+          {user?.email.includes("@nsut.ac.in") === false ? (
             <h1 className="text-danger">Guest</h1>
           ) : (
             <>
@@ -376,7 +375,7 @@ function Sidebar() {
             >
               Logout
             </button>
-            {user.emailVerified===false ? (<VerifiedUserIcon onClick={handleVerification} />) : ("") }
+            {user.emailVerified===false ? (<VerifiedUserIcon style={{color:"red"}} onClick={handleVerification} />) : ("") }
 
           </div>
         </div>

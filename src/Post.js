@@ -187,7 +187,11 @@ function Post({
 
   const postComment = (event) => {
     event.preventDefault();
-    if (user?.email.includes("gmail") === false) {
+    if (user?.email.includes("@nsut.ac.in") === false) {
+      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
+    }else if(user?.emailVerified === false){
+      alert("Please verify your email id first!")
+    }else {
       db.collection("home").doc(postId).collection("comments").add({
         text: comment,
         username: user?.displayName,
@@ -195,8 +199,6 @@ function Post({
         url: user?.photoURL,
         uid: user?.uid,
       });
-    } else {
-      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
     }
 
     setComment("");

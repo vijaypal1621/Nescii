@@ -119,9 +119,15 @@ function SocietyMessageSender( {title, imageURL} ) {
     setOpen(true);
   };
 
+
+
   const handlePostSubmit = (e) => {
     e.preventDefault();
-    if (user?.email.includes("gmail") === false) {
+    if (user?.email.includes("@nsut.ac.in") === false) {
+      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
+    }else if(user?.emailVerified === false){
+      alert("Please verify your email id first!")
+    }else {
       if (videoURL !== null) {
         const uploadTask = storage.ref(`videos/${videoURL.name}`).put(videoURL);
         uploadTask.on(
@@ -250,8 +256,6 @@ function SocietyMessageSender( {title, imageURL} ) {
       else{
         alert('Post is empty !')
       }
-    } else {
-      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
     }
     setVideoURL(null);
     setVideo(null);

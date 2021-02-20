@@ -7,14 +7,18 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavLink } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
+import Popover from "@material-ui/core/Popover";
+import {Button,  Typography } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { auth } from "./firebase";
 import Notices from "./Notices";
 import { useHistory } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import {useStyles} from './Sidebar';
 
 function Header() {
+  const classes = useStyles();
   const history = useHistory();
   const check = () => {
     if(history.location.pathname.includes("societies")===true)
@@ -29,7 +33,13 @@ function Header() {
   const [menu, setMenu] = useState(null);
   const [profile, setProfile] = useState(false);
   const [notices, setNotices] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const handlePopClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   
   const toggleProfileDrawer = (open) => (event) => {
     if (
@@ -53,6 +63,9 @@ function Header() {
     setNotices(open);
   };
 
+  const handlePopLogout = ()=>{
+    auth.signOut();
+  }
   const handleClick = (event) => {
     setMenu(event.currentTarget);
   };
@@ -164,9 +177,32 @@ function Header() {
           </Menu>
         </div>
         <div className="header__right col-6 order-1 order-md-3 col-md-4">
+        <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handlePopClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            >
+              <Typography className={classes.typography}>
+                <Button
+                  style={{ color: "white", backgroundColor: "#16a596" }}
+                  onClick={handlePopLogout}
+                >
+                  Logout
+                </Button>
+              </Typography>
+            </Popover>
           <div className="header__info">
-            <Avatar src={user?.photoURL} alt={user?.displayName} />
-            <h4 className="d-none d-md-block">{user?.displayName}</h4>
+            <Avatar onClick={(event)=>setAnchorEl(event.currentTarget) }  src={user?.photoURL} alt={user?.displayName} />
+            <h4 onClick={(event)=>setAnchorEl(event.currentTarget) } className="d-none d-md-block">{user?.displayName}</h4>
           </div>
         </div>
       </div>

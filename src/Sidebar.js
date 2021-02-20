@@ -6,7 +6,7 @@ import { useStateValue } from "./StateProvider";
 import Popover from "@material-ui/core/Popover";
 import firebase from "firebase";
 import EditIcon from "@material-ui/icons/Edit";
-import { Button } from "@material-ui/core";
+import { Button,Tooltip } from "@material-ui/core";
 import { auth } from "./firebase";
 import { db, storage } from "./firebase";
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
@@ -68,10 +68,10 @@ function Sidebar() {
   const [profile, setProfile] = useState(null);
 
   const [photo, setPhoto] = useState(user?.photoURL);
-  const [branch, setBranch] = useState("");
-  const [year, setYear] = useState("");
-  const [section, setSection] = useState("");
-
+  const [branch, setBranch] = useState("Bio-Technology (BT)");
+  const [year, setYear] = useState("2021");
+  const [section, setSection] = useState("1");
+  
   const handlePopClick = (event) => {
     if (user?.email.includes("@nsut.ac.in") === true) {
       setAnchorEl(event.currentTarget);
@@ -82,7 +82,7 @@ function Sidebar() {
   };
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-
+  
   useEffect(() => {
     if (user?.email.includes("@nsut.ac.in") === true) {
       db.collection("users")
@@ -156,6 +156,7 @@ function Sidebar() {
 
   const handleUpdate = (e) => {
     // e.preventDefault();
+    console.log(year + branch + section)
     db.collection("users").doc(user?.uid).update({
       year: year,
       branch: branch,
@@ -172,7 +173,7 @@ function Sidebar() {
       <div className="">
         <div className="row">
           <label className="col-3" for="branch">
-            Branch :{" "}
+            Branch :
           </label>
           <select
             className="col-8 profile__update"
@@ -180,8 +181,8 @@ function Sidebar() {
             id="branch"
             onChange={(e) => setBranch(e.target.value)}
           >
-            <option selected value="Bio-Technology (BT) ">
-              Bio-Technology (BT){" "}
+            <option value="Bio-Technology (BT) ">
+              Bio-Technology (BT)
             </option>
             <option value="Computer Engineering (COE)">
               Computer Engineering (COE)
@@ -193,37 +194,37 @@ function Sidebar() {
               Computer Science and Engineering(CSDS)
             </option>
             <option value="Electronics and Communication Engineering (ECE) ">
-              Electronics and Communication Engineering (ECE){" "}
+              Electronics and Communication Engineering (ECE)
             </option>
             <option value="Electronics and Communication Engineering (EIOT) ">
-              Electronics and Communication Engineering (EIOT){" "}
+              Electronics and Communication Engineering (EIOT)
             </option>
             <option value="Electrical Engineering (EE) ">
-              Electrical Engineering (EE){" "}
+              Electrical Engineering (EE)
             </option>
             <option value="Information Technology (IT)">
               Information Technology (IT)
             </option>
             <option value="Information Technology (ITNS) ">
-              Information Technology (ITNS){" "}
+              Information Technology (ITNS)
             </option>
             <option value="Instrumentation and Control Engineering (ICE) ">
-              Instrumentation and Control Engineering (ICE){" "}
+              Instrumentation and Control Engineering (ICE)
             </option>
             <option value="Manufacturing Process and Automation Engineering (MPAE) ">
-              Manufacturing Process and Automation Engineering (MPAE){" "}
+              Manufacturing Process and Automation Engineering (MPAE)
             </option>
             <option value="Mathematics and Computing (MAC)">
               Mathematics and Computing (MAC)
             </option>
             <option value="Mechanical Engineering (ME) ">
-              Mechanical Engineering (ME){" "}
+              Mechanical Engineering (ME)
             </option>
           </select>
         </div>
         <div className="row">
           <label className="col-3" for="year">
-            Year of Graduation :{" "}
+            Year of Graduation :
           </label>
           <select
             className="col-8 profile__update"
@@ -241,7 +242,7 @@ function Sidebar() {
         </div>
         <div className="row">
           <label className="col-3" for="section">
-            Section :{" "}
+            Section :
           </label>
           <select
             className="col-8 profile__update"
@@ -249,7 +250,7 @@ function Sidebar() {
             id="section"
             onChange={(e) => setSection(e.target.value)}
           >
-            <option selected value="1">
+            <option value="1">
               1
             </option>
             <option value="2">2</option>
@@ -323,7 +324,7 @@ function Sidebar() {
           <h3 className="profile__name">{user?.displayName}</h3>
           {user?.email.includes("@nsut.ac.in") === true ? (
             <div className="text-right">
-              <EditIcon className="text-primary" onClick={handleOpenModal} />
+              <EditIcon className="text-primary" style={{cursor:"pointer"}}onClick={handleOpenModal} />
             </div>
           ) : (
             ""
@@ -375,7 +376,14 @@ function Sidebar() {
             >
               Logout
             </button>
-            {user.emailVerified===false ? (<VerifiedUserIcon style={{color:"red"}} onClick={handleVerification} />) : ("") }
+            {user.emailVerified===false ? (
+              <>
+            <Tooltip title="Verify Your Email Id here">
+                 <VerifiedUserIcon style={{color:"red",cursor:"pointer"}} onClick={handleVerification} />  
+            </Tooltip>
+            
+            </>
+            ) : ("") }
 
           </div>
         </div>

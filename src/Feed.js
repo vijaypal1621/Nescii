@@ -11,7 +11,7 @@ function DisplayPosts({ posts, isLoading, errMess }) {
   if (isLoading) {
     return (
       <center>
-        <Loading type={"spinningBubbles"} color={"#ff0000"} />
+        <Loading type={"spinningBubbles"} color={"white"} />
       </center>
     );
   } else if (errMess) {

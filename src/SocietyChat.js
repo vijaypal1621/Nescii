@@ -16,7 +16,7 @@ function DisplaySocPosts({ socPosts, isLoading, errMess }) {
   if (isLoading) {
     return (
       <center>
-        <Loading type={"spinningBubbles"} color={"#ff0000"} />
+        <Loading type={"spinningBubbles"} color={"#16A596"} />
       </center>
     );
   } else if (errMess) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { auth, provider } from "./firebase";
+import firebase from 'firebase';
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField } from "@material-ui/core";
@@ -80,6 +81,13 @@ function Login() {
         .createUserWithEmailAndPassword(email, password)
         .then((authUser) => {
           console.log(authUser.user);
+          authUser.user.sendEmailVerification().then(function() {
+            // Email sent.
+            alert("Verification email sent to your email id!");
+          }).catch(function(error) {
+            // An error happened.
+            alert("error "+ error.message);
+          });
           db.collection("users").doc(authUser.user.uid).set({
             branch: "",
             section: "",
@@ -90,8 +98,12 @@ function Login() {
           });
         })
         .catch((error) => alert(error.message));
-    }
 
+
+
+
+    }
+    
     setOpen(false);
   };
 
@@ -107,6 +119,7 @@ function Login() {
         });
       })
       .catch((error) => alert(error.message));
+      
   };
   // https://drive.google.com/file/d/1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo/view?usp=sharing
 

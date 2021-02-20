@@ -9,6 +9,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import { Button } from "@material-ui/core";
 import { auth } from "./firebase";
 import { db, storage } from "./firebase";
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -91,7 +92,7 @@ function Sidebar() {
         });
     }
   }, [user?.email, user?.uid]);
-
+  
   const handleOpenModal = () => {
     setOpenModal(true);
   };
@@ -141,6 +142,19 @@ function Sidebar() {
     );
     setAnchorEl(null);
   };
+
+  const handleVerification= ()=>{
+
+    var user = firebase.auth().currentUser;
+
+    user.sendEmailVerification().then(function() {
+      // Email sent.
+      alert("Verification email sent to your email id!");
+    }).catch(function(error) {
+      // An error happened.
+      alert("error "+ error.message);
+    });
+  }
 
   const handleUpdate = (e) => {
     // e.preventDefault();
@@ -354,14 +368,16 @@ function Sidebar() {
               </Modal>
             </>
           )}
-          <div className="pt-2">
+          <div className="pt-2" style={{display:"flex",justifyContent:"space-evenly"}}>
             <button
               onClick={() => auth.signOut()}
               type="button"
-              class="btn btn-dark"
+              className="btn btn-dark"
             >
               Logout
             </button>
+            {user.emailVerified===false ? (<VerifiedUserIcon onClick={handleVerification} />) : ("") }
+
           </div>
         </div>
       </div>

@@ -15,7 +15,10 @@ function Events() {
         .collection("events")
         .orderBy("timestamp", "asc")
         .onSnapshot((snapshot) =>
-          setEvents(snapshot.docs.map((doc) => doc.data()))
+          setEvents(snapshot.docs.map((doc) => ({
+            id: doc.id,
+            event: doc.data(),
+          }) ))
         );
     }
   }, [societyId]);
@@ -27,14 +30,15 @@ function Events() {
       </center>
       {!events
         ? "No events till now -_- "
-        : events.map(({ timestamp, description, place, title, url }) => (
+        : events.map(({ event,id }) => (
             <>
               <Event
-                url={url}
-                title={title}
-                timeline={timestamp}
-                place={place}
-                description={description}
+                id={id}
+                url={event.url}
+                title={event.title}
+                timeline={event.timestamp}
+                place={event.place}
+                description={event.description}
               />
               <br />
             </>

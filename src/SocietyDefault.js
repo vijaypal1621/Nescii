@@ -15,6 +15,29 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Instagram, Facebook, LinkedIn, Email } from "@material-ui/icons";
 import { useInView } from "react-intersection-observer";
 import {db} from './firebase';
+// swiperjs
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, {
+  EffectFlip,
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+  Zoom,
+  EffectFade,
+  EffectCube,
+} from "swiper";
+import "swiper/swiper.scss";
+import "swiper/components/effect-fade/effect-fade.scss";
+import "swiper/components/effect-flip/effect-flip.scss";
+import "swiper/components/effect-cube/effect-cube.less";
+import "swiper/components/navigation/navigation.scss";
+import "swiper/components/pagination/pagination.scss";
+import "swiper/components/scrollbar/scrollbar.scss";
+import "swiper/components/zoom/zoom.scss";
+SwiperCore.use([EffectFade,Autoplay ,Navigation, Pagination, Scrollbar, A11y, Zoom]);
+
 
 function SocietyDefault() {
   const [state, setState] = useState(false);
@@ -60,8 +83,17 @@ function SocietyDefault() {
       <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
         <SocietySidebar />
       </Drawer>
-      <Fade in={frontInView}>
-        <header
+      <Swiper
+          effect="fade"
+          navigation
+          autoplay={{ delay: 3000 }}
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          className="col-12"
+        >
+        <SwiperSlide>
+          <Fade in={frontInView}>
+          <header
           class="jumbotron jumbotron-fluid"
           ref={ref3}
           style={{
@@ -107,8 +139,10 @@ function SocietyDefault() {
             </div>
           </div>
         </header>
-      </Fade>
-      <Fade in={InView}>
+        </Fade>
+        </SwiperSlide>
+        <SwiperSlide>
+        <Fade in={InView}>
         <header
           ref={ref2}
           class="jumbotron jumbotron-fluid"
@@ -157,6 +191,13 @@ function SocietyDefault() {
           </div>
         </header>
       </Fade>
+        </SwiperSlide>
+        
+        </Swiper>
+
+
+      
+      
       <Grow in={socsInView} {...(socsInView ? { timeout: 1000 } : {})}>
         <div className="container-fluid p-2 m-0" ref={ref}>
           <div className="row m-0">

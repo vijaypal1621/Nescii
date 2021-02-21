@@ -86,13 +86,13 @@ function SocietyDefault() {
       <Swiper
           effect="fade"
           navigation
-          autoplay={{ delay: 2500 }}
+          autoplay={{ delay: 3000 }}
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
           className="col-12"
         >
         <SwiperSlide>
-          {/* <Fade in={frontInView}> */}
+          <Fade in={frontInView}>
           <header
           class="jumbotron jumbotron-fluid"
           ref={ref3}
@@ -139,10 +139,10 @@ function SocietyDefault() {
             </div>
           </div>
         </header>
-        {/* </Fade> */}
+        </Fade>
         </SwiperSlide>
         <SwiperSlide>
-        {/* <Fade in={InView}> */}
+        <Fade in={InView}>
         <header
           ref={ref2}
           class="jumbotron jumbotron-fluid"
@@ -190,7 +190,7 @@ function SocietyDefault() {
             </div>
           </div>
         </header>
-      {/* </Fade> */}
+      </Fade>
         </SwiperSlide>
         
         </Swiper>

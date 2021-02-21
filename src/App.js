@@ -1,6 +1,7 @@
 import "./App.css";
 import Header from "./Header";
 import Home from "./Home";
+import Resources from './Resources';
 import Society from "./Society";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { ConfigureStore } from "./redux/configureStore";
@@ -26,6 +27,7 @@ function App() {
                 <Switch>
                   <Route path="/home" component={Home} />
                   <Route path="/societies" component={Society} />
+                  <Route path="/resources" component={Resources} />
                   <Redirect to="/home" />
                 </Switch>
               </div>

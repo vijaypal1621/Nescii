@@ -36,9 +36,11 @@ function Login() {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
+  const [lostOpen, setLostOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [lostEmail, setLostEmail] = useState("");
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -121,6 +123,26 @@ function Login() {
       .catch((error) => alert(error.message));
       
   };
+
+  const lostPassword = (event)=>{
+    event.preventDefault();
+    if(lostEmail.includes("@nsut.ac.in") === true){
+      var auth = firebase.auth();
+      auth.sendPasswordResetEmail(lostEmail).then(function() {
+        // Email sent.
+        alert("Password Reset Email sent!")
+      }).catch(function(error) {
+        // An error happened.
+        alert("Error: " + error.message);
+      });
+    }else{
+      alert("Not a valid NSUT email id");
+    }
+    setLostEmail("");
+    setLostOpen(false);
+
+  }
+
   // https://drive.google.com/file/d/1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo/view?usp=sharing
 
   return (
@@ -176,6 +198,35 @@ function Login() {
               </form>
             </div>
           </Modal>
+
+          <Modal open={lostOpen} onClose={() => setLostOpen(false)}>
+            <div style={modalStyle} className={classes.paper}>
+              <form className="app__signup">
+                <center>
+                  <img
+                    className="login__photo"
+                    src="https://drive.google.com/thumbnail?id=1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo"
+                    alt="dd"
+                  />
+                </center>
+                <TextField
+                  style={{ width: "90%" }}
+                  placeholder="Email"
+                  type="text"
+                  value={lostEmail}
+                  onChange={(e) => setLostEmail(e.target.value)}
+                  margin="normal"
+                />
+                <Button
+                  style={{ outlineWidth: "0", width: "99%" }}
+                  type="submit"
+                  onClick={lostPassword}
+                >
+                  Submit
+                </Button>
+              </form>
+            </div>
+          </Modal>
           {/* <h1>Sign in to Nescii</h1> */}
           <div>
             <form className="app__signup">
@@ -199,6 +250,14 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <br />
+              <h6
+                variant="contained"
+                style={{ cursor:"pointer",textAlign:"left", width:"90%",color:"#16a596", fontSize:"0.9rem",padding:"0px"}}
+                type="submit"
+                onClick={() => setLostOpen(true)}
+              >
+                Forgot password?
+              </h6>
               <br />
 
               <Button

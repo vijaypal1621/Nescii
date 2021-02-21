@@ -85,10 +85,10 @@ function SocietyDefault() {
       </Drawer>
       <Swiper
           effect="fade"
-          navigation
+          // navigation
           autoplay={{ delay: 3000 }}
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
+          // pagination={{ clickable: true }}
+          // scrollbar={{ draggable: true }}
           className="col-12"
         >
         <SwiperSlide>

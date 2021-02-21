@@ -158,7 +158,6 @@ function Sidebar() {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log(year + branch + section);
     db.collection("users").doc(user?.uid).update({
       year: year,
       branch: branch,

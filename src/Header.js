@@ -21,9 +21,12 @@ function Header() {
   const classes = useStyles();
   const history = useHistory();
   const check = () => {
-    if(history.location.pathname.includes("societies")===true)
+    var path=history.location.pathname;
+    if(path.includes("societies")===true)
         return "societies";
-    else 
+    else if(path.includes("resources")===true)
+        return "resources";
+    else
         return "home";
   }
   const [current, setCurrent] = useState( check() )

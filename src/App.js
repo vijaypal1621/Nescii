@@ -1,13 +1,13 @@
 import "./App.css";
 import Header from "./Header";
 import Home from "./Home";
+import Resources from './Resources';
 import Society from "./Society";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { ConfigureStore } from "./redux/configureStore";
 import { Provider } from "react-redux";
 import { useStateValue } from "./StateProvider";
 import Login from "./Login";
-import Resources from "./Resources";
 
 const store = ConfigureStore();
 

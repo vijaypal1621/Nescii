@@ -200,9 +200,9 @@ function Header() {
                 </Button>
               </Typography>
             </Popover>
-          <div className="header__info">
-            <Avatar onClick={(event)=>setAnchorEl(event.currentTarget) }  src={user?.photoURL} alt={user?.displayName} />
-            <h4 onClick={(event)=>setAnchorEl(event.currentTarget) } className="d-none d-md-block">{user?.displayName}</h4>
+          <div className="header__info" style={{cursor:"pointer"}} onClick={(event)=>setAnchorEl(event.currentTarget) } >
+            <Avatar  src={user?.photoURL} alt={user?.displayName} />
+            <h4  className="d-none d-md-block">{user?.displayName}</h4>
           </div>
         </div>
       </div>

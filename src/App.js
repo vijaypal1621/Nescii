@@ -7,6 +7,7 @@ import { ConfigureStore } from "./redux/configureStore";
 import { Provider } from "react-redux";
 import { useStateValue } from "./StateProvider";
 import Login from "./Login";
+import Resources from "./Resources";
 
 const store = ConfigureStore();
 
@@ -26,6 +27,7 @@ function App() {
                 <Switch>
                   <Route path="/home" component={Home} />
                   <Route path="/societies" component={Society} />
+                  <Route path="/resources" component={Resources} />
                   <Redirect to="/home" />
                 </Switch>
               </div>

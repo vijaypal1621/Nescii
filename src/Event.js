@@ -1,10 +1,14 @@
-import React from "react";
+import React ,{useEffect}from "react";
 import "./Event.css";
 import { IconButton, Typography } from "@material-ui/core";
 import TodayIcon from '@material-ui/icons/Today';
+import firebase from 'firebase';
+import {useParams} from 'react-router-dom';
+import {db} from './firebase';
 import Calendar from "./googleCalendar";
 
-function Event({ url, title, timeline, place, description }) {
+function Event({ id,url, title, timeline, place, description }) {
+  const societyId= useParams();
   const handleClick = ({ url, title, timeline, place, description }) => {
     var gapi = window.gapi;
     gapi.load("client:auth2", () => {
@@ -55,6 +59,28 @@ function Event({ url, title, timeline, place, description }) {
         });
     });
   };
+
+  useEffect(() => {
+    
+    var x=new Date(timeline?.toDate())
+    var y=new Date();
+    if(x < y && societyId.societyId !== null){
+      db.collection("societies")
+        .doc(societyId.societyId)
+        .collection("events")
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log("Event successfully deleted!");
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+    }
+
+
+
+  }, [])
 
   return (
     <div

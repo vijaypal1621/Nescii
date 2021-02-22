@@ -201,9 +201,14 @@ function SocietyPost({
     ) {
       return (
         <>
-          <div className="post__image row justify-content-center">
-            <img src={images[0]} alt="" />
-          </div>
+          <div className="post__image col-12 justify-content-center" style={{padding:"0px"}}>
+          <img style={{
+                    objectFit: "contain",
+                    height: "300px",
+                    padding: "0px 0px 0px 0px",
+                    width: "100%",
+                  }} src={images[0]} alt="" />
+        </div>
         </>
       );
     } else if (images === undefined && video !== undefined) {

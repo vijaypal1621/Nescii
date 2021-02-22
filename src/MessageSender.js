@@ -52,7 +52,6 @@ function MessageSender() {
   const [photosURL, setPhotosURL] = useState([]);
   const [videoURL, setVideoURL] = useState(null);
   const [progress, setProgress] = useState(0);
-
   const [{ user }] = useStateValue();
 
   const handleOpen = () => {

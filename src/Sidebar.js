@@ -372,7 +372,7 @@ function Sidebar() {
               ref={ref}
               className={classes.large}
               aria-describedby={id}
-              variant="contained"
+              variant="circular"
               color="primary"
               onClick={handlePopClick}
               // onClick={handlePhoto}

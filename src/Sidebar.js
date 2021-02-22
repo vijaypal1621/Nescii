@@ -273,6 +273,60 @@ function Sidebar() {
     </div>
   );
 
+  const checkUser = ()=>{
+    if(user?.email.includes("nescii101@gmail.com")===true){
+      return (
+        <>
+        <h1 className="text-success">Admin</h1>
+        </>
+      )
+    }else if(user?.email.includes("gmail.com")===true){
+      return (
+        <>
+        <h1 className="text-danger">Guest</h1>
+        </>
+      )
+    }else{
+      return(
+        <>
+              <div className="row align-items-center">
+                <h6 className="col-5  profile__info">
+                  Expected year of Graduation
+                </h6>
+                <h6 className="col-1 profile__info">:</h6>
+                <h6 className="col-5 text-primary profile__info">
+                  {profile?.year}
+                </h6>
+              </div>
+              <div className="row align-items-center">
+                <h6 className="col-5  profile__info">Branch</h6>
+                <h6 className="col-1 profile__info">:</h6>
+                <h6 className="col-5 text-danger profile__info">
+                  {profile?.branch}
+                </h6>
+              </div>
+              <div className="row align-items-center">
+                <h6 className="col-5  profile__info">Section</h6>
+                <h6 className="col-1 profile__info">:</h6>
+                <h6 className="col-5 text-primary profile__info">
+                  {profile?.section}
+                </h6>
+              </div>
+
+              <Modal
+                open={openModal}
+                onClose={handleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+              >
+                {body}
+              </Modal>
+            </>
+      )
+
+    }
+  }
+
   return (
     <div className="sidebar">
       <div className="sidebar__card">
@@ -338,44 +392,8 @@ function Sidebar() {
             ""
           )}
 
-          {user?.email.includes("@nsut.ac.in") === false ? (
-            <h1 className="text-danger">Guest</h1>
-          ) : (
-            <>
-              <div className="row align-items-center">
-                <h6 className="col-5  profile__info">
-                  Expected year of Graduation
-                </h6>
-                <h6 className="col-1 profile__info">:</h6>
-                <h6 className="col-5 text-primary profile__info">
-                  {profile?.year}
-                </h6>
-              </div>
-              <div className="row align-items-center">
-                <h6 className="col-5  profile__info">Branch</h6>
-                <h6 className="col-1 profile__info">:</h6>
-                <h6 className="col-5 text-danger profile__info">
-                  {profile?.branch}
-                </h6>
-              </div>
-              <div className="row align-items-center">
-                <h6 className="col-5  profile__info">Section</h6>
-                <h6 className="col-1 profile__info">:</h6>
-                <h6 className="col-5 text-primary profile__info">
-                  {profile?.section}
-                </h6>
-              </div>
-
-              <Modal
-                open={openModal}
-                onClose={handleClose}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-              >
-                {body}
-              </Modal>
-            </>
-          )}
+          {checkUser()}
+          
           <div
             className="pt-2"
             style={{ display: "flex", justifyContent: "space-evenly" }}

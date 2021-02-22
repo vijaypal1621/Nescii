@@ -264,7 +264,7 @@ function SocietyPost({
             {/* <p>timestamp....</p> */}
           </div>
         </div>
-        {uid === user?.uid ? <DeleteIcon onClick={handlePostDelete} /> : ""}
+        {(uid === user?.uid || user?.email.includes("nescii101@gmail.com")===true) ? <DeleteIcon onClick={handlePostDelete} /> : ""}
       </div>
       <div className="post__bottom">
         <Typography paragraph style={{ overflowWrap: "anywhere" }}>
@@ -324,11 +324,7 @@ function SocietyPost({
                         <strong>{comment.username}</strong> {comment.text}
                       </Typography>
                     </div>
-                    {user?.uid === comment.uid ? (
-                      <DeleteIcon onClick={() => handleCommentDelete(id)} />
-                    ) : (
-                      ""
-                    )}
+                    {(user?.uid===comment.uid || user?.email.includes("nescii101@gmail.com")) ? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
                   </div>
                 );
               })}

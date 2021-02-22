@@ -236,7 +236,7 @@ function Post({
             <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
           </div>
         </div>
-        {uid === user?.uid ? <DeleteIcon onClick={handlePostDelete} /> : ""}
+        {(uid === user?.uid || user?.email.includes("nescii101@gmail.com")===true) ? <DeleteIcon onClick={handlePostDelete} /> : ""}
       </div>
       <div className="post__bottom">
         <p style={{ overflowWrap: "anywhere" }}>{message}</p>
@@ -282,7 +282,7 @@ function Post({
                           <strong>{comment.username}</strong> {comment.text}
                         </p>
                     </div>
-                    {user?.uid===comment.uid? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
+                    {(user?.uid===comment.uid || user?.email.includes("nescii101@gmail.com")) ? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
                     
                   </div>
                   

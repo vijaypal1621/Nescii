@@ -1,7 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Notices } from "./notices";
 import thunk from "redux-thunk";
-import logger from "redux-logger";
 import { Posts } from "./posts";
 import { SocPosts } from "./socPosts";
 
@@ -12,7 +11,7 @@ export const ConfigureStore = () => {
       posts: Posts,
       socPosts: SocPosts,
     }),
-    applyMiddleware(thunk, logger)
+    applyMiddleware(thunk)
   );
 
   return store;

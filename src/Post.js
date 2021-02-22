@@ -17,7 +17,6 @@ import SwiperCore, {
   Zoom,
 } from "swiper";
 import "swiper/swiper.scss";
-import "swiper/components/effect-fade/effect-fade.scss";
 import "swiper/components/effect-flip/effect-flip.scss";
 import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";

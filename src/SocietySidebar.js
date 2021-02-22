@@ -128,7 +128,7 @@ function SocietySidebar() {
                     template.logo = url;
                   })
                   .catch((error) => {
-                    console.log(error);
+                    // console.log(error);
                   });
 
               const adminLetterDataUrl = (file) =>
@@ -142,7 +142,7 @@ function SocietySidebar() {
                     template.adminLetter = url;
                   })
                   .catch((error) => {
-                    console.log(error);
+                    // console.log(error);
                   });
 
               var template = {
@@ -165,11 +165,11 @@ function SocietySidebar() {
                 )
                 .then(
                   function (response) {
-                    console.log("SUCCESS!", response.status, response.text);
+                    // console.log("SUCCESS!", response.status, response.text);
                     setSuccessfulSnackOpen(true);
                   },
                   function (error) {
-                    console.log("FAILED...", error);
+                    // console.log("FAILED...", error);
                     setUnsuccessfulSnackOpen(true);
                   }
                 );
@@ -328,8 +328,8 @@ function SocietySidebar() {
       </Modal>
       <List className="society-sidebar">
         <ListItem key="add">
-          <ListItemIcon style={{width:"96%"}}>
-            <IconButton style={{ marginLeft:"auto",marginRight:"auto" }}>
+          <ListItemIcon style={{ width: "96%" }}>
+            <IconButton style={{ marginLeft: "auto", marginRight: "auto" }}>
               <AddIcon className="add__button" onClick={handleOpen} />
             </IconButton>
           </ListItemIcon>

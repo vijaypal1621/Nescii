@@ -10,7 +10,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
-  EffectFade,
   EffectFlip,
   Navigation,
   Pagination,
@@ -82,13 +81,13 @@ function SocietyPost({
           likes: likes,
         })
         .then(function () {
-          console.log(message + " Likes updated Successfully!");
+          // console.log(message + " Likes updated Successfully!");
         })
         .catch(function (error) {
           // The document probably doesn't exist.
           console.error("Error updating document: ", error);
         });
-      console.log(liked);
+      // console.log(liked);
     }
   }, [postId, societyId, liked]);
 
@@ -101,7 +100,7 @@ function SocietyPost({
       .doc(commentId)
       .delete()
       .then(() => {
-        console.log("Document successfully deleted!");
+        // Document successfully deleted!
       })
       .catch((error) => {
         console.error("Error removing document: ", error);
@@ -111,10 +110,10 @@ function SocietyPost({
   const societyPostComment = (event) => {
     event.preventDefault();
     if (user?.email.includes("@nsut.ac.in") === false) {
-      alert("Not a NSUT student! Please sign in with NSUT id to continue."); 
-    } else if(user?.emailVerified === false){
-      alert("Please verify your email id first!")
-    }else {
+      alert("Not a NSUT student! Please sign in with NSUT id to continue.");
+    } else if (user?.emailVerified === false) {
+      alert("Please verify your email id first!");
+    } else {
       db.collection("societies")
         .doc(societyId)
         .collection("posts")
@@ -138,7 +137,7 @@ function SocietyPost({
       .doc(postId)
       .delete()
       .then(() => {
-        console.log("Document successfully deleted!");
+        // Document successfully deleted!
       })
       .catch((error) => {
         console.error("Error removing document: ", error);
@@ -201,14 +200,21 @@ function SocietyPost({
     ) {
       return (
         <>
-          <div className="post__image col-12 justify-content-center" style={{padding:"0px"}}>
-          <img style={{
-                    objectFit: "contain",
-                    height: "300px",
-                    padding: "0px 0px 0px 0px",
-                    width: "100%",
-                  }} src={images[0]} alt="" />
-        </div>
+          <div
+            className="post__image col-12 justify-content-center"
+            style={{ padding: "0px" }}
+          >
+            <img
+              style={{
+                objectFit: "contain",
+                height: "300px",
+                padding: "0px 0px 0px 0px",
+                width: "100%",
+              }}
+              src={images[0]}
+              alt=""
+            />
+          </div>
         </>
       );
     } else if (images === undefined && video !== undefined) {
@@ -264,7 +270,12 @@ function SocietyPost({
             {/* <p>timestamp....</p> */}
           </div>
         </div>
-        {(uid === user?.uid || user?.email.includes("nescii101@gmail.com")===true) ? <DeleteIcon onClick={handlePostDelete} /> : ""}
+        {uid === user?.uid ||
+        user?.email.includes("nescii101@gmail.com") === true ? (
+          <DeleteIcon onClick={handlePostDelete} />
+        ) : (
+          ""
+        )}
       </div>
       <div className="post__bottom">
         <Typography paragraph style={{ overflowWrap: "anywhere" }}>
@@ -324,7 +335,12 @@ function SocietyPost({
                         <strong>{comment.username}</strong> {comment.text}
                       </Typography>
                     </div>
-                    {(user?.uid===comment.uid || user?.email.includes("nescii101@gmail.com")) ? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
+                    {user?.uid === comment.uid ||
+                    user?.email.includes("nescii101@gmail.com") ? (
+                      <DeleteIcon onClick={() => handleCommentDelete(id)} />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 );
               })}

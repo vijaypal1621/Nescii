@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./SocietyMessageSender.css";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SocietyMessageSender( {title, imageURL} ) {
+function SocietyMessageSender({ title, imageURL }) {
   const classes = useStyles();
   const [{ user }] = useStateValue();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -67,19 +67,16 @@ function SocietyMessageSender( {title, imageURL} ) {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [token, setToken] = useState("");
-  const [tokens,setTokens] =useState({});
+  const [tokens, setTokens] = useState({});
   const [eventPhoto, setEventPhoto] = useState(null);
   const { societyId } = useParams();
 
   //for token collection
   useEffect(() => {
-      db.collection("token")
-        .doc("token@nescii-101")
-        .onSnapshot((snapshot) => setTokens(snapshot.data())); 
-      
-  },[title]);
-
-
+    db.collection("token")
+      .doc("token@nescii-101")
+      .onSnapshot((snapshot) => setTokens(snapshot.data()));
+  }, [title]);
 
   const handleEventModalOpen = () => {
     setEventModal(true);
@@ -119,15 +116,13 @@ function SocietyMessageSender( {title, imageURL} ) {
     setOpen(true);
   };
 
-
-
   const handlePostSubmit = (e) => {
     e.preventDefault();
     if (user?.email.includes("@nsut.ac.in") === false) {
       alert("Not a NSUT student! Please sign in with NSUT id to continue.");
-    }else if(user?.emailVerified === false){
-      alert("Please verify your email id first!")
-    }else {
+    } else if (user?.emailVerified === false) {
+      alert("Please verify your email id first!");
+    } else {
       if (videoURL !== null) {
         const uploadTask = storage.ref(`videos/${videoURL.name}`).put(videoURL);
         uploadTask.on(
@@ -160,9 +155,9 @@ function SocietyMessageSender( {title, imageURL} ) {
                     message: caption,
                     profilePic: user?.photoURL,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    username:user?.displayName,
-                    video:url,
-                    uid:user?.uid,
+                    username: user?.displayName,
+                    video: url,
+                    uid: user?.uid,
                   })
                   .then((docRef) => {
                     if (photosURL.length !== 0) {
@@ -187,7 +182,7 @@ function SocietyMessageSender( {title, imageURL} ) {
                               images: fileDownloadUrls,
                             })
                             .then(function () {
-                              console.log("Post Successfully Submitted!");
+                              // Post Successfully Submitted!
                             })
                             .catch(function (error) {
                               // The document probably doesn't exist.
@@ -221,9 +216,9 @@ function SocietyMessageSender( {title, imageURL} ) {
                 message: caption,
                 profilePic: user?.photoURL,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                username:user?.displayName,
-                images:fileDownloadUrls,
-                uid:user?.uid,
+                username: user?.displayName,
+                images: fileDownloadUrls,
+                uid: user?.uid,
               })
               .then(function () {
                 // console.log("Post Successfully Submitted!");
@@ -236,25 +231,24 @@ function SocietyMessageSender( {title, imageURL} ) {
           .catch((err) => console.log(err));
       } else if (caption !== "") {
         db.collection("societies")
-        .doc(societyId)
-        .collection('posts')
-        .add({
-          message: caption,
-          profilePic:user?.photoURL,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          username:user?.displayName,
-          uid:user?.uid,
-        })
-        .then(function () {
-          console.log("Post Successfully Submitted!");
-        })
-        .catch(function (error) {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
-        }); 
-      }
-      else{
-        alert('Post is empty !')
+          .doc(societyId)
+          .collection("posts")
+          .add({
+            message: caption,
+            profilePic: user?.photoURL,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            username: user?.displayName,
+            uid: user?.uid,
+          })
+          .then(function () {
+            // Post Successfully Submitted!
+          })
+          .catch(function (error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+          });
+      } else {
+        alert("Post is empty !");
       }
     }
     setVideoURL(null);
@@ -300,54 +294,31 @@ function SocietyMessageSender( {title, imageURL} ) {
   const handleEventSubmit = (e) => {
     e.preventDefault();
     if (token === tokens.society[title]) {
-      console.log(societyId);
+      // console.log(societyId);
       if (societyId) {
-        if(eventPhoto !== null){
+        if (eventPhoto !== null) {
           const uploadTask = storage
-          .ref(`eventImages/${eventPhoto?.name}`)
-          .put(eventPhoto);
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            // progress function
-          },
-          (error) => {
-            // error function...
-            console.log(error);
-            alert(error.message);
-          },
-          () => {
-            // complete function
-            storage
-              .ref("eventImages")
-              .child(eventPhoto.name)
-              .getDownloadURL()
-              .then((url) => {
-                //post image inside db
-                db.collection("societies")
-                  .doc(societyId)
-                  .collection("events")
-                  .add({
-                    description: eventDescription,
-                    message: caption,
-                    timestamp: date,
-                    place: place,
-                    title: eventTitle,
-                    url: url,
-                    uid:user?.uid,
-                  })
-                  .then(function () {
-                    console.log("Document successfully updated!");
-                  })
-                  .catch(function (error) {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                  });
-              });
-          }
-        );
-        }else{
-          db.collection("societies")
+            .ref(`eventImages/${eventPhoto?.name}`)
+            .put(eventPhoto);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // progress function
+            },
+            (error) => {
+              // error function...
+              // console.log(error);
+              alert(error.message);
+            },
+            () => {
+              // complete function
+              storage
+                .ref("eventImages")
+                .child(eventPhoto.name)
+                .getDownloadURL()
+                .then((url) => {
+                  //post image inside db
+                  db.collection("societies")
                     .doc(societyId)
                     .collection("events")
                     .add({
@@ -356,22 +327,45 @@ function SocietyMessageSender( {title, imageURL} ) {
                       timestamp: date,
                       place: place,
                       title: eventTitle,
-                      url: imageURL,
-                      uid:user?.uid,
+                      url: url,
+                      uid: user?.uid,
                     })
                     .then(function () {
-                      console.log("Document successfully updated!");
+                      // Document successfully updated!
                     })
                     .catch(function (error) {
                       // The document probably doesn't exist.
                       console.error("Error updating document: ", error);
                     });
+                });
+            }
+          );
+        } else {
+          db.collection("societies")
+            .doc(societyId)
+            .collection("events")
+            .add({
+              description: eventDescription,
+              message: caption,
+              timestamp: date,
+              place: place,
+              title: eventTitle,
+              url: imageURL,
+              uid: user?.uid,
+            })
+            .then(function () {
+              // Document successfully updated!
+            })
+            .catch(function (error) {
+              // The document probably doesn't exist.
+              console.error("Error updating document: ", error);
+            });
         }
-        
       }
-    }
-    else{
-      alert(`Society Token did not match! Please contact ${title} Society head.   `)
+    } else {
+      alert(
+        `Society Token did not match! Please contact ${title} Society head.   `
+      );
     }
     handleEventModalClose();
   };

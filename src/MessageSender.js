@@ -50,8 +50,6 @@ function MessageSender() {
   const [photo, setPhoto] = useState([]);
   const [video, setVideo] = useState(null);
   const [photosURL, setPhotosURL] = useState([]);
-  const [finalVideo, setFinalVideo] = useState(null);
-  const [finalPhotos, setFinalPhotos] = useState([]);
   const [videoURL, setVideoURL] = useState(null);
   const [progress, setProgress] = useState(0);
 
@@ -200,8 +198,6 @@ function MessageSender() {
     setVideo(null);
     setCaption("");
     setOpen(false);
-    setFinalPhotos([]);
-    setFinalVideo(null);
     setPhotosURL([]);
     setPhoto([]);
   };

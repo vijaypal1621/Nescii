@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./Events.css";
 import Event from "./Event";
 import { useParams } from "react-router-dom";
 import { db } from "./firebase";
@@ -15,10 +14,12 @@ function Events() {
         .collection("events")
         .orderBy("timestamp", "asc")
         .onSnapshot((snapshot) =>
-          setEvents(snapshot.docs.map((doc) => ({
-            id: doc.id,
-            event: doc.data(),
-          }) ))
+          setEvents(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              event: doc.data(),
+            }))
+          )
         );
     }
   }, [societyId]);
@@ -30,7 +31,7 @@ function Events() {
       </center>
       {!events
         ? "No events till now -_- "
-        : events.map(({ event,id }) => (
+        : events.map(({ event, id }) => (
             <>
               <Event
                 id={id}

@@ -1,18 +1,16 @@
-import React ,{useEffect}from "react";
-import "./Event.css";
+import React, { useEffect } from "react";
 import { IconButton, Typography } from "@material-ui/core";
-import TodayIcon from '@material-ui/icons/Today';
-import firebase from 'firebase';
-import {useParams} from 'react-router-dom';
-import {db} from './firebase';
+import TodayIcon from "@material-ui/icons/Today";
+import { useParams } from "react-router-dom";
+import { db } from "./firebase";
 import Calendar from "./googleCalendar";
 
-function Event({ id,url, title, timeline, place, description }) {
-  const societyId= useParams();
+function Event({ id, url, title, timeline, place, description }) {
+  const societyId = useParams();
   const handleClick = ({ url, title, timeline, place, description }) => {
     var gapi = window.gapi;
     gapi.load("client:auth2", () => {
-      console.log("loaded client");
+      // loaded client
       gapi.client.init({
         apiKey: Calendar.api_key,
         clientId: Calendar.client_id,
@@ -20,7 +18,7 @@ function Event({ id,url, title, timeline, place, description }) {
         scope: Calendar.scopes,
       });
       gapi.client.load("calendar", "v3", () => {
-        console.log("calendar loaded");
+        // calendar loaded
       });
       gapi.auth2
         .getAuthInstance()
@@ -61,26 +59,22 @@ function Event({ id,url, title, timeline, place, description }) {
   };
 
   useEffect(() => {
-    
-    var x=new Date(timeline?.toDate())
-    var y=new Date();
-    if(x < y && societyId.societyId !== null){
+    var x = new Date(timeline?.toDate());
+    var y = new Date();
+    if (x < y && societyId.societyId !== null) {
       db.collection("societies")
         .doc(societyId.societyId)
         .collection("events")
         .doc(id)
         .delete()
         .then(() => {
-          console.log("Event successfully deleted!");
+          // Event successfully deleted!
         })
         .catch((error) => {
           console.error("Error removing document: ", error);
         });
     }
-
-
-
-  }, [])
+  }, []);
 
   return (
     <div
@@ -99,14 +93,13 @@ function Event({ id,url, title, timeline, place, description }) {
           />
         </div>
         <div className="col-8 p-0">
-          <div className="card-body" style={{padding:"4px 0px 4px 4px"}}>
+          <div className="card-body" style={{ padding: "4px 0px 4px 4px" }}>
             <Typography
               variant="subtitle1"
               color="secondary"
               className="card-text pr-4"
             >
               {new Date(timeline?.toDate()).toUTCString()}
-              
             </Typography>
             <Typography variant="subtitle2" className="card-text">
               {place}
@@ -114,17 +107,17 @@ function Event({ id,url, title, timeline, place, description }) {
             <Typography paragraph className="card-text mb-0">
               {description}
             </Typography>
-            
           </div>
         </div>
-        <div className="col-1" style={{padding:"0px"}}>
-        <IconButton style={{padding:"0px", color:"blue"}}
-              onClick={() => {
-                handleClick({ url, title, timeline, place, description });
-              }}
-            >
-              <TodayIcon  />
-            </IconButton>
+        <div className="col-1" style={{ padding: "0px" }}>
+          <IconButton
+            style={{ padding: "0px", color: "blue" }}
+            onClick={() => {
+              handleClick({ url, title, timeline, place, description });
+            }}
+          >
+            <TodayIcon />
+          </IconButton>
         </div>
       </div>
     </div>

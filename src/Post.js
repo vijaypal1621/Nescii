@@ -1,4 +1,4 @@
-import { Avatar, Button, Typography } from "@material-ui/core";
+import { Avatar, Button } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import "./Post.css";
 import firebase from "firebase";
@@ -94,7 +94,7 @@ function Post({
       .doc(postId)
       .delete()
       .then(() => {
-        console.log("Document successfully deleted!");
+        // Document successfully deleted!
       })
       .catch((error) => {
         console.error("Error removing document: ", error);
@@ -110,13 +110,20 @@ function Post({
       images.length === 1
     ) {
       return (
-        <div className="post__image col-12 justify-content-center" style={{padding:"0px"}}>
-          <img style={{
-                    objectFit: "contain",
-                    height: "300px",
-                    padding: "0px 0px 0px 0px",
-                    width: "100%",
-                  }} src={images[0]} alt="" />
+        <div
+          className="post__image col-12 justify-content-center"
+          style={{ padding: "0px" }}
+        >
+          <img
+            style={{
+              objectFit: "contain",
+              height: "300px",
+              padding: "0px 0px 0px 0px",
+              width: "100%",
+            }}
+            src={images[0]}
+            alt=""
+          />
         </div>
       );
     } else if (images === undefined && video !== undefined) {
@@ -148,30 +155,27 @@ function Post({
           );
         });
 
-        for(let i=0;i<likes?.length;i++)
-        {
-           if(user?.uid === likes[i]){
-              setLiked(true);
-           }
+      for (let i = 0; i < likes?.length; i++) {
+        if (user?.uid === likes[i]) {
+          setLiked(true);
         }
-        if(likes===undefined){
-          likes=[];
-        }
-        db.collection("home")
-          .doc(postId)
-          .update({
-            likes:likes,
-          })
-          .then(function () {
-            console.log("Post Successfully Submitted!");
-          })
-          .catch(function (error) {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-          });
-        console.log(liked);
-
-      
+      }
+      if (likes === undefined) {
+        likes = [];
+      }
+      db.collection("home")
+        .doc(postId)
+        .update({
+          likes: likes,
+        })
+        .then(function () {
+          // Post Successfully Submitted!
+        })
+        .catch(function (error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        });
+      // console.log(liked);
     }
   }, [postId, user?.uid, liked]);
 
@@ -194,9 +198,9 @@ function Post({
     event.preventDefault();
     if (user?.email.includes("@nsut.ac.in") === false) {
       alert("Not a NSUT student! Please sign in with NSUT id to continue.");
-    }else if(user?.emailVerified === false){
-      alert("Please verify your email id first!")
-    }else {
+    } else if (user?.emailVerified === false) {
+      alert("Please verify your email id first!");
+    } else {
       db.collection("home").doc(postId).collection("comments").add({
         text: comment,
         username: user?.displayName,
@@ -215,7 +219,7 @@ function Post({
       .doc(commentId)
       .delete()
       .then(() => {
-        console.log("Document successfully deleted!");
+        // Document successfully deleted!
       })
       .catch((error) => {
         console.error("Error removing document: ", error);
@@ -236,7 +240,12 @@ function Post({
             <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
           </div>
         </div>
-        {(uid === user?.uid || user?.email.includes("nescii101@gmail.com")===true) ? <DeleteIcon onClick={handlePostDelete} /> : ""}
+        {uid === user?.uid ||
+        user?.email.includes("nescii101@gmail.com") === true ? (
+          <DeleteIcon onClick={handlePostDelete} />
+        ) : (
+          ""
+        )}
       </div>
       <div className="post__bottom">
         <p style={{ overflowWrap: "anywhere" }}>{message}</p>
@@ -271,21 +280,24 @@ function Post({
           </Button>
         </form>
         <div className="post__comments">
-        {!comments
+          {!comments
             ? ""
             : comments.map(({ comment, id }) => {
                 return (
                   <div className="comment__div__container">
                     <div className="comment__div">
-                        <Avatar src={comment.url} alt="" />
-                        <p>
-                          <strong>{comment.username}</strong> {comment.text}
-                        </p>
+                      <Avatar src={comment.url} alt="" />
+                      <p>
+                        <strong>{comment.username}</strong> {comment.text}
+                      </p>
                     </div>
-                    {(user?.uid===comment.uid || user?.email.includes("nescii101@gmail.com")) ? (<DeleteIcon onClick={()=>handleCommentDelete(id)} />):("") }
-                    
+                    {user?.uid === comment.uid ||
+                    user?.email.includes("nescii101@gmail.com") ? (
+                      <DeleteIcon onClick={() => handleCommentDelete(id)} />
+                    ) : (
+                      ""
+                    )}
                   </div>
-                  
                 );
               })}
         </div>

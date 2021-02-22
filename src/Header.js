@@ -8,31 +8,26 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { NavLink } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 import Popover from "@material-ui/core/Popover";
-import {Button,  Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { auth } from "./firebase";
 import Notices from "./Notices";
 import { useHistory } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import {useStyles} from './Sidebar';
+import { useStyles } from "./Sidebar";
 
 function Header() {
   const classes = useStyles();
   const history = useHistory();
   const check = () => {
-    var path=history.location.pathname;
-    if(path.includes("societies")===true)
-        return "societies";
-    else if(path.includes("resources")===true)
-        return "resources";
-    else
-        return "home";
-  }
-  const [current, setCurrent] = useState( check() )
-      
-  
-  
+    var path = history.location.pathname;
+    if (path.includes("societies") === true) return "societies";
+    else if (path.includes("resources") === true) return "resources";
+    else return "home";
+  };
+  const [current, setCurrent] = useState(check());
+
   const [menu, setMenu] = useState(null);
   const [profile, setProfile] = useState(false);
   const [notices, setNotices] = useState(false);
@@ -43,7 +38,7 @@ function Header() {
   };
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  
+
   const toggleProfileDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -66,9 +61,9 @@ function Header() {
     setNotices(open);
   };
 
-  const handlePopLogout = ()=>{
+  const handlePopLogout = () => {
     auth.signOut();
-  }
+  };
   const handleClick = (event) => {
     setMenu(event.currentTarget);
   };
@@ -82,9 +77,8 @@ function Header() {
   useEffect(() => {
     const currentPage = document.getElementById(current);
     currentPage.classList.add("header__option--active");
-  
-    console.log(current);
-    
+
+    // console.log(current);
   }, [current]);
 
   return (
@@ -180,32 +174,36 @@ function Header() {
           </Menu>
         </div>
         <div className="header__right col-6 order-1 order-md-3 col-md-4">
-        <Popover
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handlePopClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "center",
-              }}
-            >
-              <Typography className={classes.typography}>
-                <Button
-                  style={{ color: "white", backgroundColor: "#16a596" }}
-                  onClick={handlePopLogout}
-                >
-                  Logout
-                </Button>
-              </Typography>
-            </Popover>
-          <div className="header__info" style={{cursor:"pointer"}} onClick={(event)=>setAnchorEl(event.currentTarget) } >
-            <Avatar  src={user?.photoURL} alt={user?.displayName} />
-            <h4  className="d-none d-md-block">{user?.displayName}</h4>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handlePopClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+          >
+            <Typography className={classes.typography}>
+              <Button
+                style={{ color: "white", backgroundColor: "#16a596" }}
+                onClick={handlePopLogout}
+              >
+                Logout
+              </Button>
+            </Typography>
+          </Popover>
+          <div
+            className="header__info"
+            style={{ cursor: "pointer" }}
+            onClick={(event) => setAnchorEl(event.currentTarget)}
+          >
+            <Avatar src={user?.photoURL} alt={user?.displayName} />
+            <h4 className="d-none d-md-block">{user?.displayName}</h4>
           </div>
         </div>
       </div>

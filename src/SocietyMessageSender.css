@@ -95,12 +95,6 @@
   /* border-radius: 20px; */
   /* background-size: 60px 60px; */
 }
-.video__input {
-  background: url("./video__input.png");
-}
-.photo__input {
-  background: url("./photo.png");
-}
 
 .modal__input__photo {
   width: 80%;

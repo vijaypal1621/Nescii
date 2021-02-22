@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { auth, provider } from "./firebase";
-import firebase from 'firebase';
+import firebase from "firebase";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField } from "@material-ui/core";
@@ -47,7 +47,7 @@ function Login() {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         //user has logged in..
-        console.log(authUser.uid);
+        // console.log(authUser.uid);
         setUser(authUser); // helps in persistence
       } else {
         //user has logged out..
@@ -64,7 +64,7 @@ function Login() {
     auth
       .signInWithPopup(provider)
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         dispatch({
           type: SET_USER,
           user: result.user,
@@ -82,14 +82,17 @@ function Login() {
       auth
         .createUserWithEmailAndPassword(email, password)
         .then((authUser) => {
-          console.log(authUser.user);
-          authUser.user.sendEmailVerification().then(function() {
-            // Email sent.
-            alert("Verification email sent to your email id!");
-          }).catch(function(error) {
-            // An error happened.
-            alert("error "+ error.message);
-          });
+          // console.log(authUser.user);
+          authUser.user
+            .sendEmailVerification()
+            .then(function () {
+              // Email sent.
+              alert("Verification email sent to your email id!");
+            })
+            .catch(function (error) {
+              // An error happened.
+              alert("error " + error.message);
+            });
           db.collection("users").doc(authUser.user.uid).set({
             branch: "",
             section: "",
@@ -100,12 +103,8 @@ function Login() {
           });
         })
         .catch((error) => alert(error.message));
-
-
-
-
     }
-    
+
     setOpen(false);
   };
 
@@ -114,34 +113,35 @@ function Login() {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         dispatch({
           type: SET_USER,
           user: result.user,
         });
       })
       .catch((error) => alert(error.message));
-      
   };
 
-  const lostPassword = (event)=>{
+  const lostPassword = (event) => {
     event.preventDefault();
-    if(lostEmail.includes("@nsut.ac.in") === true){
+    if (lostEmail.includes("@nsut.ac.in") === true) {
       var auth = firebase.auth();
-      auth.sendPasswordResetEmail(lostEmail).then(function() {
-        // Email sent.
-        alert("Password Reset Email sent!")
-      }).catch(function(error) {
-        // An error happened.
-        alert("Error: " + error.message);
-      });
-    }else{
+      auth
+        .sendPasswordResetEmail(lostEmail)
+        .then(function () {
+          // Email sent.
+          alert("Password Reset Email sent!");
+        })
+        .catch(function (error) {
+          // An error happened.
+          alert("Error: " + error.message);
+        });
+    } else {
       alert("Not a valid NSUT email id");
     }
     setLostEmail("");
     setLostOpen(false);
-
-  }
+  };
 
   // https://drive.google.com/file/d/1lol0E4WlbCtPf4ZsczNcL8COq4srRSdo/view?usp=sharing
 
@@ -252,7 +252,14 @@ function Login() {
               <br />
               <h6
                 variant="contained"
-                style={{ cursor:"pointer",textAlign:"left", width:"90%",color:"#16a596", fontSize:"0.9rem",padding:"0px"}}
+                style={{
+                  cursor: "pointer",
+                  textAlign: "left",
+                  width: "90%",
+                  color: "#16a596",
+                  fontSize: "0.9rem",
+                  padding: "0px",
+                }}
                 type="submit"
                 onClick={() => setLostOpen(true)}
               >

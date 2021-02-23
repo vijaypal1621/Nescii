@@ -7,7 +7,7 @@ function Home() {
   return (
     <div
       className="home row"
-      style={{ backgroundColor: "#00af91", margin: "0" }}
+      style={{ backgroundColor: "#00af91", margin: "0",minHeight:"91vh" }}
     >
       <div className="d-none d-md-block pr-0 col-md-3 col-xl-2 pt-3">
         <Sidebar />

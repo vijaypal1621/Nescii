@@ -76,7 +76,7 @@ function Login() {
   const signUp = (event) => {
     event.preventDefault();
 
-    if (email.includes("@nsut.ac.in") === false) {
+    if (email.includes("abc@nsut.ac.in") === false) {
       alert("Not a valid NSUT Id! Please SignUp using a valid NSUT id");
     } else {
       auth
@@ -124,7 +124,7 @@ function Login() {
 
   const lostPassword = (event) => {
     event.preventDefault();
-    if (lostEmail.includes("@nsut.ac.in") === true) {
+    if (lostEmail.includes("abc@nsut.ac.in") === true) {
       var auth = firebase.auth();
       auth
         .sendPasswordResetEmail(lostEmail)
@@ -174,7 +174,7 @@ function Login() {
                 />
                 <TextField
                   style={{ width: "90%" }}
-                  placeholder="Email"
+                  placeholder="abc@nsut.ac.in"
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -211,7 +211,7 @@ function Login() {
                 </center>
                 <TextField
                   style={{ width: "90%" }}
-                  placeholder="Email"
+                  placeholder="abc@nsut.ac.in"
                   type="text"
                   value={lostEmail}
                   onChange={(e) => setLostEmail(e.target.value)}
@@ -232,7 +232,7 @@ function Login() {
             <form className="app__signup">
               <TextField
                 style={{ width: "90%" }}
-                placeholder="Email"
+                placeholder="abc@nsut.ac.in"
                 type="text"
                 value={email}
                 required

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Event from "./Event";
 import { useParams } from "react-router-dom";
 import { db } from "./firebase";
-
+import EventBusyIcon from '@material-ui/icons/EventBusy';
 function Events() {
   const { societyId } = useParams();
   const [events, setEvents] = useState([]);
@@ -29,8 +29,15 @@ function Events() {
       <center>
         <h2 className="p-2">Upcoming events</h2>
       </center>
-      {!events
-        ? "No events till now -_- "
+      {events?.length===0
+        ? (
+          <>
+           <div style={{textAlign:"center"}}>
+             <img style={{width:"30%", height:"30%",color:"gray", marginBottom:"22px", borderRadius:"20px"}}src="https://cdn.onlinewebfonts.com/svg/img_375010.png" alt="no events till now -_-" />
+             {/* <EventBusyIcon /> */}
+           </div>
+          </>
+        )
         : events.map(({ event, id }) => (
             <>
               <Event

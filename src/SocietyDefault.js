@@ -311,15 +311,15 @@ function SocietyDefault() {
               <center>
                 <Typography variant="h5">Made with ❤ by
                 <br/>
-                <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/aaryan-raj-sarda-8983781b1/" > Aaryan</a>  and
-                <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/vijay-pal-b40950197/" > Vijay</a> (Team__OOC)</Typography>
+                <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/aaryan-raj-sarda-8983781b1/" > Aaryan</a>  and
+                <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/vijay-pal-b40950197/" > Vijay</a> (Team__OOC)</Typography>
               </center>
             </div>
             <div className="col-md-4 col-12 my-auto  p-2">
               <center>
-              <a target="_blank" rel="noopener" style={{color:"black"}} href="https://www.instagram.com/vijay._.pal/" > <Instagram style={{ fontSize: "3rem" }} /></a>
-              <a target="_blank" rel="noopener" style={{color:"black"}} href="https://www.facebook.com/aaryanraj.sarda" > <Facebook style={{ fontSize: "3rem" }} /></a>
-              <a target="_blank" rel="noopener" style={{color:"black"}} href="https://www.linkedin.com/in/aaryan-raj-sarda-8983781b1/" > <LinkedIn style={{ fontSize: "3rem" }} /></a>
+              <a target="_blank" rel="noreferrer" style={{color:"black"}} href="https://www.instagram.com/vijay._.pal/" > <Instagram style={{ fontSize: "3rem" }} /></a>
+              <a target="_blank" rel="noreferrer" style={{color:"black"}} href="https://www.facebook.com/aaryanraj.sarda" > <Facebook style={{ fontSize: "3rem" }} /></a>
+              <a target="_blank" rel="noreferrer" style={{color:"black"}} href="https://www.linkedin.com/in/aaryan-raj-sarda-8983781b1/" > <LinkedIn style={{ fontSize: "3rem" }} /></a>
               <a href="mailto:nescii101@gmail.com"style={{color:"black"}} ><Email style={{ fontSize: "3rem" }} /></a>
                 
                 

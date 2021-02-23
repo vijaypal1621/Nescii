@@ -76,8 +76,8 @@ function Login() {
   const signUp = (event) => {
     event.preventDefault();
 
-    if (email.includes("abc@nsut.ac.in") === false) {
-      alert("Not a valid NSUT Id! Please SignUp using a valid NSUT id");
+    if (email.includes("@nsut.ac.in") === false) {
+      alert("Not a valid NSUT Id! Please SignUp using a valid id");
     } else {
       auth
         .createUserWithEmailAndPassword(email, password)
@@ -124,7 +124,7 @@ function Login() {
 
   const lostPassword = (event) => {
     event.preventDefault();
-    if (lostEmail.includes("abc@nsut.ac.in") === true) {
+    if (lostEmail.includes("@nsut.ac.in") === true) {
       var auth = firebase.auth();
       auth
         .sendPasswordResetEmail(lostEmail)

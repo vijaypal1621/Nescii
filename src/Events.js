@@ -27,13 +27,13 @@ function Events() {
   return (
     <div className="events">
       <center>
-        <h2 className="p-2">Upcoming events</h2>
+        <h2 className="p-2" style={{color:"#00af91"}}>Upcoming events</h2>
       </center>
       {events?.length===0
         ? (
           <>
            <div style={{textAlign:"center"}}>
-             <img style={{width:"30%", height:"30%",color:"gray", marginBottom:"22px", borderRadius:"20px"}}src="https://cdn.onlinewebfonts.com/svg/img_375010.png" alt="no events till now -_-" />
+             <img style={{width:"20%", height:"30%",color:"gray", marginBottom:"22px", borderRadius:"10px"}}src="https://cdn.onlinewebfonts.com/svg/img_375010.png" alt="no events till now -_-" />
              {/* <EventBusyIcon /> */}
            </div>
           </>

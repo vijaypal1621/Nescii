@@ -6,6 +6,8 @@ body {
   --nescii : #16a596;
   width: 100%;
   overflow-x: hidden;
+  font-family: 'Montserrat', 'Roboto', sans-serif;
+  font-weight: 500;
 }
 p {
   overflow-wrap: "anywhere";

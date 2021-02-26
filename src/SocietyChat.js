@@ -183,7 +183,7 @@ function SocietyChat() {
               </div>
             </div>
           </div>
-          <div className="col-md-4 d-none d-md-block">
+          <div className="col-md-4 d-none d-md-block" style={{border:"3px solid #00af91" , borderRadius:"10px"}}>
             <Widgets society={socPosts?.societyDetails} />
           </div>
         </div>

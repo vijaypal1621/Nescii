@@ -3,8 +3,8 @@ import { Card, CardContent, Grow, Typography } from "@material-ui/core";
 
 function WidgetAbout({ society }) {
   return (
-    <Grow in={true} timeout={1000}>
-      <Card>
+    <Grow in={true} timeout={1000} >
+      <Card style={{border:"3px solid #00af91", borderRadius:"10px"}}>
         <CardContent>
           <Typography variant="h4">About</Typography>
           <br />

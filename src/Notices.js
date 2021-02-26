@@ -67,7 +67,7 @@ function DisplayNotices({ notices, isLoading, errMess }) {
   if (isLoading) {
     return (
       <center>
-        <Loading type={"bubbles"} color={"#ff0000"} />
+        <Loading type={"bubbles"} color={"whitesmoke"} />
       </center>
     );
   } else if (errMess) {
@@ -96,7 +96,7 @@ class Notices extends Component {
     return (
       <div className="notice">
         <h1>
-          <center>Notices</center>
+          <center style={{color:"white"}}>Notices</center>
         </h1>
         <List component="ul">
           <DisplayNotices

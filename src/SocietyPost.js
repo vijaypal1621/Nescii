@@ -172,11 +172,10 @@ function SocietyPost({
             );
           })}
           {video !== undefined ? (
-            <SwiperSlide className="col-12 ">
+            <SwiperSlide className="col-12 " style={{ paddingLeft:"20px" }}>
               <ReactPlayer
                 url={video}
-                // width="250px"
-                objectFit="cover"
+                objectFit="contain"
                 style={{ height: "300px", padding: "0px 0px 30px 0px" }}
                 controls={true}
                 className="col-12 "

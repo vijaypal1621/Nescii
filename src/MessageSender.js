@@ -370,7 +370,7 @@ function MessageSender() {
       <div className="message">
         <div className="messageSender__top">
           <Avatar src={user?.photoURL} alt={user?.displayName} />
-          <button type="button" className="p-2" onClick={handleOpen}>
+          <button type="button" className="p-2" onClick={handleOpen}style={{fontWeight:"500"}}>
             What's on Your Mind?
           </button>
           <Modal

@@ -77,7 +77,7 @@ function Login() {
     event.preventDefault();
 
     if (email.includes("@nsut.ac.in") === false) {
-      alert("Not a valid NSUT Id! Please SignUp using a valid NSUT id");
+      alert("Not a valid NSUT Id! Please SignUp using a valid id");
     } else {
       auth
         .createUserWithEmailAndPassword(email, password)
@@ -174,7 +174,7 @@ function Login() {
                 />
                 <TextField
                   style={{ width: "90%" }}
-                  placeholder="Email"
+                  placeholder="abc@nsut.ac.in"
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -211,7 +211,7 @@ function Login() {
                 </center>
                 <TextField
                   style={{ width: "90%" }}
-                  placeholder="Email"
+                  placeholder="abc@nsut.ac.in"
                   type="text"
                   value={lostEmail}
                   onChange={(e) => setLostEmail(e.target.value)}
@@ -232,7 +232,7 @@ function Login() {
             <form className="app__signup">
               <TextField
                 style={{ width: "90%" }}
-                placeholder="Email"
+                placeholder="abc@nsut.ac.in"
                 type="text"
                 value={email}
                 required

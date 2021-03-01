@@ -392,14 +392,14 @@ function SocietyMessageSender({ title, imageURL }) {
         }}
       >
         <textarea
-          className="modal__input pl-2"
+          className="modal__input"
           value={caption}
           onChange={(e) => {
             setCaption(e.target.value);
           }}
           rows="5"
           cols="20"
-          style={{ width: "100%" }}
+          style={{ width: "100%",paddingLeft:"8px" }}
           placeholder=" Whats on your mind?"
         />
         <div className="modal__input__photo">
@@ -620,9 +620,9 @@ function SocietyMessageSender({ title, imageURL }) {
                 }}
               />
               <label htmlFor="EventImage">
-                <h5 style={{ color: "gray", fontWeight: "500" }}>
+                <h6 style={{ color: "gray", fontWeight: "300" }}>
                   Event Image
-                </h5>
+                </h6>
               </label>
               <input
                 accept="image/*"
@@ -647,7 +647,7 @@ function SocietyMessageSender({ title, imageURL }) {
       <div className="message">
         <div className="messageSender__top">
           <Avatar src={user?.photoURL} alt={user?.displayName} />
-          <button type="button" onClick={handleOpen}>
+          <button type="button" className="p-2" onClick={handleOpen} style={{fontWeight:"500"}}>
             What's on Your Mind?
           </button>
           <Modal

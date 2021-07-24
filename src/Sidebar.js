@@ -280,7 +280,7 @@ function Sidebar() {
           <h1 className="text-success">Admin</h1>
         </>
       );
-    } else if (user?.email.includes("gmail.com") === true) {
+    } else if (user?.email.includes("@nsut.ac.in") === false) {
       return (
         <>
           <h1 className="text-danger">Guest</h1>

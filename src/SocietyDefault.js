@@ -79,7 +79,7 @@ function SocietyDefault() {
           <header
             class="jumbotron jumbotron-fluid"
             style={{
-              backgroundImage: `url(https://scontent.fdel17-1.fna.fbcdn.net/v/t1.0-9/74228915_410870179579729_1615985920475922432_o.jpg?_nc_cat=111&ccb=3&_nc_sid=730e14&_nc_ohc=ypWr6LU6q6YAX-GyI3p&_nc_ht=scontent.fdel17-1.fna&oh=46e4a9be06b6b4f2c412d5f7ff8f4663&oe=6057AEE9)`,
+              backgroundImage: `url(https://scontent.fdel5-2.fna.fbcdn.net/v/t1.6435-9/141558050_4007765662579931_2622715158557132963_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=0debeb&_nc_ohc=IOxIQi_YC0EAX_hoZW4&_nc_ht=scontent.fdel5-2.fna&oh=bcf3271d693ce41be31c0b5f3dac791b&oe=6122A7C2)`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
               backgroundPosition: "center center",
@@ -224,7 +224,7 @@ function SocietyDefault() {
           <header
             class="jumbotron jumbotron-fluid"
             style={{
-              backgroundImage: `url(https://scontent.fdel17-1.fna.fbcdn.net/v/t1.0-9/52156568_2005858076149073_4842097725228974080_n.jpg?_nc_cat=109&ccb=3&_nc_sid=8bfeb9&_nc_ohc=ZJw8wryL20MAX_DsOI9&_nc_ht=scontent.fdel17-1.fna&oh=2c529616e811e7cba0519681c10aca3e&oe=60597423)`,
+              backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/nescii-1o1.appspot.com/o/backgroundImages%2FnsutBg.jpg?alt=media&token=9c17172e-9c14-47fa-a41f-ec645ab248fa)`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
               backgroundPosition: "center center",
@@ -276,7 +276,7 @@ function SocietyDefault() {
             {channels.map(({ category, imageURL }) => {
               return (
                 <div className="col-md-2 col-6 mb-3 hover">
-                  <img className="img-fluid" alt="Junoon" src={imageURL} />
+                  <img className="img-fluid" alt={category} src={imageURL} />
                   <div class="overlay">
                     <div class="text">
                       <p>{category}</p>
